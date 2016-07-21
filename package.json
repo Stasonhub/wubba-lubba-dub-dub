@@ -1,0 +1,15 @@
+{
+  "name": "airent",
+  "version": "0.0.0",
+  "description": "Airent - renting service without realtors",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://aidarbariev@bitbucket.org/aidarbariev/airent.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause"
+}
