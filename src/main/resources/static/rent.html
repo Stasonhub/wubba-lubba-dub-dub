@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="css/flexslider.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap-select.css">
+    <link rel="stylesheet" href="css/bootstrap-slider.css">
 
     <script src="js/modernizr-2.6.2.min.js"></script>
     <!-- FOR IE9 below -->
@@ -76,8 +77,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <select class="selectpicker">
+                <div class="col-md-12">
+                    <label class="search-label">Выберите район:&nbsp</label>
+                    <select class="selectpicker" multiple>
                         <option>Все районы</option>
                         <option>Вахитовский</option>
                         <option>Кировский</option>
@@ -85,16 +87,21 @@
                         <option>Советский</option>
                         <option>Приволжский</option>
                     </select>
-                </div>
-                <div class="col-md-4">
+
+                    <label class="search-label">Количество комнат:&nbsp</label>
                     <div class="btn-group" data-toggle="buttons-checkbox">
                         <button type="button" class="btn">1</button>
                         <button type="button" class="btn">2</button>
                         <button type="button" class="btn">3+</button>
                     </div>
+
+                    <span id="search-price">Цена от: <span id="search-price-from">3</span></span>
+                    <input id="search-price-range" type="text"/>
+                    <span id="search-price-end"> до <span id="search-price-to">6</span></span>
+
+                    <input class="search-submit" type="submit" value="Найти объявления"/>
                 </div>
-                <input type="submit" value="Найти объявления"/>
-                </div>
+            </div>
         </div>
     </div>
     <div id="best-deal">
@@ -455,7 +462,6 @@
     </footer>
 </div>
 
-
 <!-- jQuery -->
 <script src="js/jquery.min.js"></script>
 <!-- jQuery Easing -->
@@ -468,9 +474,18 @@
 <script src="js/jquery.flexslider-min.js"></script>
 
 <script src="js/bootstrap-select.js"></script>
+<script src="js/bootstrap-slider.js"></script>
 <!-- MAIN JS -->
 <script src="js/main.js"></script>
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#search-price-range").slider({min: 2000, max: 140000, value: [2000, 140000], step: 1000, focus: true, tooltip: 'always'});
+        $("#search-price-range").on("slide", function(slideEvt) {
+            $("#search-price-from").text(slideEvt.value[0]);
+            $("#search-price-to").text(slideEvt.value[1]);
+        });
+    });
+</script>
 </body>
 </html>
 
