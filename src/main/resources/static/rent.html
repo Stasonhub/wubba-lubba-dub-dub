@@ -73,32 +73,31 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 animate-box">
-                    <h1><span class="colored">Снять квартиру</span> без посредников</h1>
-                </div>
+                    <h1 class="header-title"><span class="colored">Снять квартиру</span> без посредников</h1>
+                    <div class="nav-container">
+                        <span class="search-label">Район:&nbsp</span>
+                        <select class="search-select selectpicker" multiple>
+                            <option>Все районы</option>
+                            <option>Вахитовский</option>
+                            <option>Кировский</option>
+                            <option>Московский</option>
+                            <option>Советский</option>
+                            <option>Приволжский</option>
+                        </select>
 
-                <div class="row search-bar col-md-12 navbar-fixed-bottom">
-                    <span class="search-label">Район:&nbsp</span>
-                    <select class="search-select selectpicker" multiple>
-                        <option>Все районы</option>
-                        <option>Вахитовский</option>
-                        <option>Кировский</option>
-                        <option>Московский</option>
-                        <option>Советский</option>
-                        <option>Приволжский</option>
-                    </select>
+                        <span class="search-label">Комнат:&nbsp</span>
+                        <div class="search-button-group btn-group" data-toggle="buttons-checkbox">
+                            <button type="button" class="btn">1</button>
+                            <button type="button" class="btn">2</button>
+                            <button type="button" class="btn">3+</button>
+                        </div>
 
-                    <span class="search-label">Комнат:&nbsp</span>
-                    <div class="search-button-group btn-group" data-toggle="buttons-checkbox">
-                        <button type="button" class="btn">1</button>
-                        <button type="button" class="btn">2</button>
-                        <button type="button" class="btn">3+</button>
+                        <span id="search-price">Цена от: <span id="search-price-from">3</span>&nbsp&nbsp</span>
+                        <input id="search-price-range" type="text"/>
+                        <span id="search-price-end">&nbsp&nbspдо <span id="search-price-to">6</span></span>
+
+                        <input class="search-submit" type="submit" value="Найти объявления"/>
                     </div>
-
-                    <span id="search-price">Цена от: <span id="search-price-from">3</span>&nbsp&nbsp</span>
-                    <input id="search-price-range" type="text"/>
-                    <span id="search-price-end">&nbsp&nbspдо <span id="search-price-to">6</span></span>
-
-                    <input class="search-submit" type="submit" value="Найти объявления"/>
                 </div>
             </div>
         </div>
