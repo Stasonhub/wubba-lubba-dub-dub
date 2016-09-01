@@ -28,15 +28,13 @@
     <meta name="twitter:url" content=""/>
     <meta name="twitter:card" content=""/>
 
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link rel="shortcut icon" href="favicon.ico">
     <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
     <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700' rel='stylesheet' type='text/css'> -->
 
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/icomoon.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/flexslider.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap-select.css">
     <link rel="stylesheet" href="css/bootstrap-slider.css">
@@ -76,27 +74,28 @@
                     <h1 class="header-title"><span class="colored">Снять квартиру</span> без посредников</h1>
                     <div class="nav-container">
                         <span class="search-label">Район</span>
-                        <select class="search-select selectpicker" multiple>
-                            <option>Все районы</option>
-                            <option>Вахитовский</option>
-                            <option>Кировский</option>
-                            <option>Московский</option>
-                            <option>Советский</option>
-                            <option>Приволжский</option>
+                        <select class="selectpicker" multiple data-style="btn-default"
+                                title="Выберите район...">
+                            <option selected>Вахитовский</option>
+                            <option selected>Кировский</option>
+                            <option selected>Московский</option>
+                            <option selected>Советский</option>
+                            <option selected>Приволжский</option>
                         </select>
-
                         <span class="search-label">Комнат</span>
-                        <div class="search-button-group btn-group" data-toggle="buttons-checkbox">
-                            <button type="button" class="btn">1</button>
-                            <button type="button" class="btn">2</button>
-                            <button type="button" class="btn">3+</button>
+                        <div class="btn-group" data-toggle="buttons-checkbox">
+                            <button id="tgl-btn1" type="button" class="btn btn-default nohover">1&nbsp</button>
+                            <button id="tgl-btn2" type="button" class="btn btn-default">2&nbsp</button>
+                            <button id="tgl-btn3" type="button" class="btn btn-default">3+</button>
                         </div>
 
-                        <span id="search-price">Цена от: <span id="search-price-from">3</span>&nbsp&nbsp</span>
+                        <span id="search-price">Цена от: <span id="search-price-from">3</span><sup>000</sup></span>
                         <input id="search-price-range" type="text"/>
-                        <span id="search-price-end">&nbsp&nbspдо <span id="search-price-to">6</span></span>
+                        <span id="search-price-end">до <span id="search-price-to">6</span><sup>000</sup></span>
 
-                        <input class="search-submit" type="submit" value="Найти объявления"/>
+                        <button class="btn btn-primary">
+                            <span class="glyphicon glyphicon-search"></span> Найти объявления
+                        </button>
                     </div>
                 </div>
             </div>
@@ -481,7 +480,7 @@
 <!-- jQuery Easing -->
 <script src="js/jquery.easing.1.3.js"></script>
 <!-- Bootstrap -->
-<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.js"></script>
 <!-- Waypoints -->
 <script src="js/jquery.waypoints.min.js"></script>
 <!-- Flexslider -->
@@ -494,10 +493,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#search-price-range").slider({
-            min: 2000,
-            max: 140000,
-            value: [2000, 140000],
-            step: 1000,
+            min: 2,
+            max: 140,
+            value: [2, 140],
+            step: 1,
             focus: true,
             tooltip: 'hide'
         });
@@ -505,6 +504,15 @@
             $("#search-price-from").text(slideEvt.value[0]);
             $("#search-price-to").text(slideEvt.value[1]);
         });
+        document.getElementById("tgl-btn1").onfocus = function () {
+            this.blur();
+        };
+        document.getElementById("tgl-btn2").onfocus = function () {
+            this.blur();
+        };
+        document.getElementById("tgl-btn3").onfocus = function () {
+            this.blur();
+        };
     });
 </script>
 </body>

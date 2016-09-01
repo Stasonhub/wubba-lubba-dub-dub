@@ -7,6 +7,16 @@
 }
 
 @font-face {
+    font-family: "GloberBold";
+    src: url("../fonts/custom/GloberBold/GloberBold.eot");
+    src: url("../fonts/custom/GloberBold/GloberBold.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/custom/GloberBold/GloberBold.woff") format("woff"),
+    url("../fonts/custom/GloberBold/GloberBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
     font-family: "GloberThin";
     src: url("../fonts/custom/GloberThin/GloberThin.eot");
     src: url("../fonts/custom/GloberThin/GloberThin.eot?#iefix") format("embedded-opentype"),
@@ -14,6 +24,27 @@
     url("../fonts/custom/GloberThin/GloberThin.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
+}
+
+@font-face {
+    font-family: "Glyphicons Halflings";
+    src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot");
+    src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"),
+    url("../fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"),
+    url("../fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: "Glyphicons Halflings";
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .search-bar {
@@ -37,35 +68,21 @@
 }
 
 .nav-container {
-    padding: 5px;
-    height: 50px;
+
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-.btn {
-    font-family: "GloberThin", Arial, sans-serif;
-    font-size: 14px;
-    -webkit-transition: 0.5s;
-    -o-transition: 0.5s;
-    transition: 0.5s;
+.nav-container .btn:focus {
+    outline: none;
 }
 
 /* ================================== template ======================*/
 
 /* font-family: "GloberBold"; */
-@font-face {
-    font-family: "GloberBold";
-    src: url("../fonts/custom/GloberBold/GloberBold.eot");
-    src: url("../fonts/custom/GloberBold/GloberBold.eot?#iefix") format("embedded-opentype"),
-    url("../fonts/custom/GloberBold/GloberBold.woff") format("woff"),
-    url("../fonts/custom/GloberBold/GloberBold.ttf") format("truetype");
-    font-style: normal;
-    font-weight: normal;
-}
 
 /* =======================================================
 *
-* 	Template Style 
+* 	Template Style
 *	Edit this section
 *
 * ======================================================= */
@@ -300,10 +317,6 @@ h1, h2, h3, h4, h5, h6, figure {
 
 #fh5co-header h1 a {
     color: white;
-}
-
-#fh5co-header h1 a > span {
-    color: #118DF0;
 }
 
 #fh5co-header h1 a:hover, #fh5co-header h1 a:active, #fh5co-header h1 a:focus {
@@ -1338,10 +1351,6 @@ h1, h2, h3, h4, h5, h6, figure {
     margin-bottom: 0;
 }
 
-.fh5co-cta .btn, .fh5co-page-title .btn {
-    color: #fff;
-}
-
 .fh5co-page-title {
     padding: 10em 0 5em 0 !important;
 }
@@ -1379,10 +1388,6 @@ h1, h2, h3, h4, h5, h6, figure {
 
 #fh5co-footer [class*="col"] {
     padding-bottom: 30px;
-}
-
-#fh5co-footer .btn {
-    color: #fff;
 }
 
 #fh5co-footer .float {
@@ -1731,18 +1736,8 @@ h1, h2, h3, h4, h5, h6, figure {
     position: relative;
 }
 
-.fh5co-pricing .price-box.popular .btn-select-plan {
-    background: #118DF0;
-}
-
 .fh5co-pricing .price-box.popular .price {
     color: #118DF0;
-}
-
-.fh5co-pricing .price-box .btn-select-plan {
-    padding: 10px 20px;
-    background: #5bc0de;
-    color: #fff;
 }
 
 .fh5co-pricing .pricing-plan {

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-select.css">
+
+</head>
+<body>
+<span class="glyphicon glyphicon-home"></span>
+<select class="selectpicker" multiple data-style="btn-default"
+        title="Выберите район...">
+    <option selected>Main 1</option>
+    <option selected>Main 2</option>
+    <option selected>Main 3</option>
+</select>
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap-select.js"></script>
+<!-- MAIN JS -->
+<script src="js/main.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#search-price-range").slider({
+            min: 2,
+            max: 140,
+            value: [2, 140],
+            step: 1,
+            focus: true,
+            tooltip: 'hide'
+        });
+        $("#search-price-range").on("slide", function (slideEvt) {
+            $("#search-price-from").text(slideEvt.value[0]);
+            $("#search-price-to").text(slideEvt.value[1]);
+        });
+    });
+</script>
+
+</body>
+</html>
