@@ -64,13 +64,33 @@
 }
 
 .nav-container {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(244, 244, 253, 0.11);
+    border-color: #3e8f3e;
+    border: hidden;
+    color: #dddddd;
 }
 
 .nav-container .btn:focus {
     outline: none;
 }
 
+.distinct-select, .nav-search-button, .rooms-button, .search-label {
+    font-size: 16px;
+}
+
+.search-label {
+    padding: 5px 5px;
+}
+
+.price-label {
+    display: inline-block;
+    width: 3ch;
+    text-align: right;
+}
+
+.blue-label {
+    color: #265a88;
+}
 /* ================================== template ======================*/
 
 /* font-family: "GloberBold"; */
