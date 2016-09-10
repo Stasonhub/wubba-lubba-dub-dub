@@ -7,7 +7,7 @@ public class Advert {
 
     private User user;
     private Address address;
-    private Distinct distinct;
+    private Distinct district;
     private int price;
 
     private int conditions;
@@ -49,12 +49,12 @@ public class Advert {
         return this;
     }
 
-    public Distinct getDistinct() {
-        return distinct;
+    public Distinct getDistrict() {
+        return district;
     }
 
-    public Advert setDistinct(Distinct distinct) {
-        this.distinct = distinct;
+    public Advert setDistrict(Distinct district) {
+        this.district = district;
         return this;
     }
 
