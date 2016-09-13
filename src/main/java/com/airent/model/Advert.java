@@ -6,8 +6,12 @@ public class Advert {
     private long publicationDate;
 
     private User user;
-    private Address address;
     private Distinct district;
+    private String address;
+    private int floor;
+    private int maxFloor;
+    private int rooms;
+    private int sq;
     private int price;
 
     private int conditions;
@@ -40,15 +44,6 @@ public class Advert {
         return this;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public Advert setAddress(Address address) {
-        this.address = address;
-        return this;
-    }
-
     public Distinct getDistrict() {
         return district;
     }
@@ -56,6 +51,46 @@ public class Advert {
     public Advert setDistrict(Distinct district) {
         this.district = district;
         return this;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getFloor() {
+        return floor;
+    }
+
+    public void setFloor(int floor) {
+        this.floor = floor;
+    }
+
+    public int getMaxFloor() {
+        return maxFloor;
+    }
+
+    public void setMaxFloor(int maxFloor) {
+        this.maxFloor = maxFloor;
+    }
+
+    public int getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(int rooms) {
+        this.rooms = rooms;
+    }
+
+    public int getSq() {
+        return sq;
+    }
+
+    public void setSq(int sq) {
+        this.sq = sq;
     }
 
     public int getPrice() {

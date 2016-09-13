@@ -1,10 +1,3 @@
-CREATE TABLE address (
-  id     BIGINT PRIMARY KEY AUTO_INCREMENT,
-  street VARCHAR,
-  house  VARCHAR,
-  flat   VARCHAR
-);
-
 CREATE TABLE user (
   id    BIGINT PRIMARY KEY AUTO_INCREMENT,
   phone BIGINT,
@@ -13,11 +6,16 @@ CREATE TABLE user (
 
 CREATE TABLE advert (
   id              BIGINT PRIMARY KEY AUTO_INCREMENT,
---   userId          BIGINT,
---   addressId       BIGINT,
+  user            BIGINT,
   publicationDate BIGINT,
   district        CHAR(3),
+  address         VARCHAR,
+  floor           INT,
+  maxFloor        INT,
+  rooms           INT,
+  sq              INT,
   price           INT,
   conditions      INT,
-  description     VARCHAR
+  description     VARCHAR,
+  FOREIGN KEY (user) REFERENCES user (id)
 );

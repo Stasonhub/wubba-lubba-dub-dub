@@ -21,15 +21,19 @@ public class DbTests {
     private AdvertMapper advertMapper;
 
     @Test
-    public void testInsertSelectAdvert() {
+    public void testCreateSelectAdvert() {
         Advert advert = new Advert();
         advert.setPublicationDate(2L);
         advert.setConditions(2);
         advert.setDescription("Advert");
         advert.setDistrict(Distinct.KR);
+        advert.setAddress("st. First,12");
+        advert.setFloor(5);
+        advert.setMaxFloor(10);
+        advert.setSq(32);
         advert.setPrice(42);
 
-        advertMapper.insertAdvert(advert);
+        advertMapper.createAdvert(advert);
 
         Advert selectedAdvert = advertMapper.findById(advert.getId());
 
@@ -38,7 +42,13 @@ public class DbTests {
         assertEquals(advert.getConditions(), selectedAdvert.getConditions());
         assertEquals(advert.getDescription(), selectedAdvert.getDescription());
         assertEquals(advert.getDistrict(), selectedAdvert.getDistrict());
+        assertEquals(advert.getAddress(), selectedAdvert.getAddress());
         assertEquals(advert.getPrice(), selectedAdvert.getPrice());
+    }
+
+    @Test
+    public void testCreateAdvertWithUserAndAddress() {
+
     }
 
 }
