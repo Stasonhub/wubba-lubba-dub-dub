@@ -1,21 +1,22 @@
 CREATE TABLE user (
   id    BIGINT PRIMARY KEY AUTO_INCREMENT,
-  phone BIGINT,
-  name  VARCHAR
+  phone BIGINT  NOT NULL,
+  name  VARCHAR NOT NULL
 );
 
 CREATE TABLE advert (
   id              BIGINT PRIMARY KEY AUTO_INCREMENT,
-  user            BIGINT,
-  publicationDate BIGINT,
-  district        CHAR(3),
-  address         VARCHAR,
-  floor           INT,
-  maxFloor        INT,
-  rooms           INT,
-  sq              INT,
-  price           INT,
-  conditions      INT,
-  description     VARCHAR,
-  FOREIGN KEY (user) REFERENCES user (id)
+  userId          BIGINT     NOT NULL,
+  publicationDate BIGINT     NOT NULL,
+  district        VARCHAR(3) NOT NULL,
+  address         VARCHAR    NOT NULL,
+  floor           INT        NOT NULL,
+  maxFloor        INT        NOT NULL,
+  rooms           INT        NOT NULL,
+  sq              INT        NOT NULL,
+  price           INT        NOT NULL,
+  conditions      INT        NOT NULL,
+  description     VARCHAR    NOT NULL,
+  mainPhotoUrl    VARCHAR    NOT NULL,
+  FOREIGN KEY (userId) REFERENCES user (id)
 );

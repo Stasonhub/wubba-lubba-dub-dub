@@ -2,8 +2,10 @@ package com.airent;
 
 
 import com.airent.mapper.AdvertMapper;
+import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.Distinct;
+import com.airent.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,19 @@ import static org.junit.Assert.assertNotNull;
 public class DbTests {
 
     @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
     private AdvertMapper advertMapper;
 
     @Test
     public void testCreateSelectAdvert() {
+        User user = new User();
+        user.setName("Aidar");
+        user.setPhone(12345);
+
+        userMapper.createUser(user);
+
         Advert advert = new Advert();
         advert.setPublicationDate(2L);
         advert.setConditions(2);
@@ -32,6 +43,10 @@ public class DbTests {
         advert.setMaxFloor(10);
         advert.setSq(32);
         advert.setPrice(42);
+        advert.setDescription("Bla bla bla");
+        advert.setMainPhotoUrl("images/blblba.jpg");
+
+        advert.setUserId(user.getId());
 
         advertMapper.createAdvert(advert);
 

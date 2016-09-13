@@ -3,9 +3,9 @@ package com.airent.model;
 public class Advert {
 
     private long id;
+    private long userId;
     private long publicationDate;
 
-    private User user;
     private Distinct district;
     private String address;
     private int floor;
@@ -16,6 +16,7 @@ public class Advert {
 
     private int conditions;
     private String description;
+    private String mainPhotoUrl;
 
     public long getId() {
         return id;
@@ -26,21 +27,21 @@ public class Advert {
         return this;
     }
 
+    public long getUserId() {
+        return userId;
+    }
+
+    public Advert setUserId(long userId) {
+        this.userId = userId;
+        return this;
+    }
+
     public long getPublicationDate() {
         return publicationDate;
     }
 
     public Advert setPublicationDate(long publicationDate) {
         this.publicationDate = publicationDate;
-        return this;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Advert setUser(User user) {
-        this.user = user;
         return this;
     }
 
@@ -117,6 +118,15 @@ public class Advert {
 
     public Advert setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public String getMainPhotoUrl() {
+        return mainPhotoUrl;
+    }
+
+    public Advert setMainPhotoUrl(String mainPhotoUrl) {
+        this.mainPhotoUrl = mainPhotoUrl;
         return this;
     }
 }
