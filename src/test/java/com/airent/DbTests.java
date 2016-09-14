@@ -2,9 +2,11 @@ package com.airent;
 
 
 import com.airent.mapper.AdvertMapper;
+import com.airent.mapper.PhotoMapper;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.Distinct;
+import com.airent.model.Photo;
 import com.airent.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,8 +27,11 @@ public class DbTests {
     @Autowired
     private AdvertMapper advertMapper;
 
+    @Autowired
+    private PhotoMapper photoMapper;
+
     @Test
-    public void testCreateSelectAdvert() {
+    public void testCreateAdvertWithPhotos() {
         User user = new User();
         user.setName("Aidar");
         user.setPhone(12345);
@@ -59,6 +64,11 @@ public class DbTests {
         assertEquals(advert.getDistrict(), selectedAdvert.getDistrict());
         assertEquals(advert.getAddress(), selectedAdvert.getAddress());
         assertEquals(advert.getPrice(), selectedAdvert.getPrice());
+
+        Photo photo = new Photo();
+        photo.setPath("/path/to/photo.jpg");
+        photo.setAdvertId(advert.getId());
+        photoMapper.createPhoto(photo);
     }
 
     @Test

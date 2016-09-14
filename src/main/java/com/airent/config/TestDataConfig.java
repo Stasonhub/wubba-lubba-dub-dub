@@ -5,12 +5,16 @@ import com.airent.mapper.PhotoMapper;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.Distinct;
+import com.airent.model.Photo;
 import com.airent.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
-//@Configuration
+@Configuration
 public class TestDataConfig {
 
     @Autowired
@@ -32,6 +36,9 @@ public class TestDataConfig {
                 Advert testAdvert = createTestAdvert(j);
                 testAdvert.setUserId(user.getId());
                 advertMapper.createAdvert(testAdvert);
+
+                List<Photo> photos = createPhotos(testAdvert);
+                photos.forEach(v -> photoMapper.createPhoto(v));
             }
         }
     }
@@ -54,12 +61,19 @@ public class TestDataConfig {
         advert.setSq(32);
         advert.setPrice(42);
         advert.setDescription("Сдается однокомнатная уютная квартира на длительный срок. Квартира готова к проживанию. Огороженная территория, вид из окон на лес. В квартире есть все необходимое для проживания. Коммунальные платежи включены в стоимость проживания.");
-        advert.setMainPhotoUrl("images/test/test_image.jpg");
+        advert.setMainPhotoUrl("images/test/test_image_1.jpg");
         return advert;
     }
 
-    private void createTheSamePhotos(Advert advert) {
-
+    private List<Photo> createPhotos(Advert advert) {
+        List<Photo> photos = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            Photo photo = new Photo();
+            photo.setAdvertId(advert.getId());
+            photo.setPath("images/test/test_image_" + i + ".jpg");
+            photos.add(photo);
+        }
+        return photos;
     }
 
 }

@@ -20,3 +20,10 @@ CREATE TABLE advert (
   mainPhotoUrl    VARCHAR    NOT NULL,
   FOREIGN KEY (userId) REFERENCES user (id)
 );
+
+CREATE TABLE photo (
+  id       BIGINT PRIMARY KEY AUTO_INCREMENT,
+  advertId BIGINT  NOT NULL,
+  path     VARCHAR NOT NULL,
+  FOREIGN KEY (advertId) REFERENCES advert (id)
+);
