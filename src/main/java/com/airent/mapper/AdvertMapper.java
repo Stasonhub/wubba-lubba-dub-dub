@@ -1,10 +1,7 @@
 package com.airent.mapper;
 
 import com.airent.model.Advert;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -19,7 +16,7 @@ public interface AdvertMapper {
     Advert findById(long id);
 
     @Select("SELECT * FROM advert WHERE publicationDate < #{timestamp} ORDER BY publicationDate DESC limit #{limit}")
-    List<Advert> getNextAdvertsBeforeTime(long timestamp, int limit);
+    List<Advert> getNextAdvertsBeforeTime(@Param("timestamp") long timestamp, @Param("limit") int limit);
 
     @Delete("DELETE advert WHERE id=#{id}")
     void deleteAdvert(long id);
