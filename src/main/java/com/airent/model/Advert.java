@@ -13,6 +13,7 @@ public class Advert {
     private int rooms;
     private int sq;
     private int price;
+    private boolean withPublicServices;
 
     private int conditions;
     private String description;
@@ -101,6 +102,14 @@ public class Advert {
     public Advert setPrice(int price) {
         this.price = price;
         return this;
+    }
+
+    public boolean isWithPublicServices() {
+        return withPublicServices;
+    }
+
+    public void setWithPublicServices(boolean withPublicServices) {
+        this.withPublicServices = withPublicServices;
     }
 
     public int getConditions() {

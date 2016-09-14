@@ -47,7 +47,8 @@ public class DbTests {
         advert.setFloor(5);
         advert.setMaxFloor(10);
         advert.setSq(32);
-        advert.setPrice(42);
+        advert.setPrice(42_000);
+        advert.setWithPublicServices(true);
         advert.setDescription("Bla bla bla");
         advert.setMainPhotoUrl("images/blblba.jpg");
 

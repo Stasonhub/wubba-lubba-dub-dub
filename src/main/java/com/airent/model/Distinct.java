@@ -1,5 +1,21 @@
 package com.airent.model;
 
 public enum Distinct {
-    AV, VH, KR, MS, NS, PV, CV;
+    AV("Авиастроительный"),
+    VH("Вахитовский"),
+    KR("Кировский"),
+    MS("Московский"),
+    NS("Ново-Савиновский"),
+    PV("Приволжский"),
+    CV("Советский");
+
+    private String desc;
+
+    private Distinct(String desc) {
+        this.desc = desc;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
 }

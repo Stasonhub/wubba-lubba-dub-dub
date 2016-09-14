@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface AdvertMapper {
 
-    @Insert("INSERT INTO advert (userId, publicationDate, district, address, floor, maxFloor, rooms, sq, price, conditions, description, mainPhotoUrl) " +
-            "VALUES (#{userId}, #{publicationDate}, #{district}, #{address}, #{floor}, #{maxFloor}, #{rooms}, #{sq}, #{price}, #{conditions}, #{description}, #{mainPhotoUrl})")
+    @Insert("INSERT INTO advert (userId, publicationDate, district, address, floor, maxFloor, rooms, sq, price, withPublicServices, conditions, description, mainPhotoUrl) " +
+            "VALUES (#{userId}, #{publicationDate}, #{district}, #{address}, #{floor}, #{maxFloor}, #{rooms}, #{sq}, #{price}, #{withPublicServices}, #{conditions}, #{description}, #{mainPhotoUrl})")
     @SelectKey(statement = "call identity()", keyProperty = "id", before = false, resultType = Integer.class)
     void createAdvert(Advert advert);
 
