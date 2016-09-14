@@ -28,6 +28,8 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.thymeleaf:thymeleaf-spring4:3.0.1.RELEASE'
+    compile 'org.thymeleaf:thymeleaf:3.0.1.RELEASE'
+
     compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.1.1'
     runtime 'com.h2database:h2:1.4.192'
 

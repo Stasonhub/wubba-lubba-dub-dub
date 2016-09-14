@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfigurati
 @MapperScan("com.airent.mapper")
 public class Application {
 
-    //https://github.com/spring-projects/spring-boot/issues/4393
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
