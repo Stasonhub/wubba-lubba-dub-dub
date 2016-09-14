@@ -33,7 +33,7 @@ public class TestDataConfig {
             userMapper.createUser(user);
 
             for (int j = 0; j < 3; j++) {
-                Advert testAdvert = createTestAdvert(j);
+                Advert testAdvert = createTestAdvert(i, j);
                 testAdvert.setUserId(user.getId());
                 advertMapper.createAdvert(testAdvert);
 
@@ -50,18 +50,18 @@ public class TestDataConfig {
         return user;
     }
 
-    private Advert createTestAdvert(int i) {
+    private Advert createTestAdvert(int i, int j) {
         Advert advert = new Advert();
         advert.setPublicationDate(System.currentTimeMillis());
         advert.setConditions(2);
         advert.setDistrict(Distinct.VH);
-        advert.setAddress("ул. К.Маркса, 12");
-        advert.setFloor(5);
-        advert.setMaxFloor(10);
-        advert.setSq(32);
-        advert.setPrice(42);
+        advert.setAddress("ул. К.Маркса, " + (i * j) % 12 + 3);
+        advert.setFloor((i * j) % 5 + 3);
+        advert.setMaxFloor((i * j) % 10 + 3);
+        advert.setSq((i * j) % 32 + 3);
+        advert.setPrice(((i * j) % 20 + 3) * 1000);
         advert.setDescription("Сдается однокомнатная уютная квартира на длительный срок. Квартира готова к проживанию. Огороженная территория, вид из окон на лес. В квартире есть все необходимое для проживания. Коммунальные платежи включены в стоимость проживания.");
-        advert.setMainPhotoUrl("images/test/test_image_1.jpg");
+        advert.setMainPhotoUrl("images/test/test_image_" + ((i * j) % 3 + 1) + ".jpg");
         return advert;
     }
 
