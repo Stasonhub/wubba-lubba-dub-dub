@@ -33,6 +33,7 @@ public class ThymeleafConfig {
         ClassLoaderTemplateResolver classLoaderTemplateResolver = new ClassLoaderTemplateResolver();
         classLoaderTemplateResolver.setPrefix("templates/");
         classLoaderTemplateResolver.setSuffix(".html");
+        classLoaderTemplateResolver.setCacheable(false);
         return classLoaderTemplateResolver;
     }
 

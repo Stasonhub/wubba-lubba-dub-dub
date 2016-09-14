@@ -120,14 +120,17 @@
                     <div class="fh5co-property">
                         <figure>
                             <img th:src="${advert.mainPhotoUrl}" alt="Изображение квартиры" class="img-responsive">
-                            <a href="#" class="tag">42 000</a>
+                            <!--<a href="#" class="tag">42 000</a>-->
                         </figure>
                         <div class="fh5co-property-innter">
-                            <h3><a href="#">${advert.address}</a></h3>
+                            <h3><a href="#" th:text="${advert.address}"></a></h3>
                             <div class="price-status">
-                                <span class="price">${advert.price},000 <span class="per">/Месяц</span></span>
+                                <span class="price" th:text="${#numbers.formatDecimal(advert.price, 0, 3)}">
+                                    <span class="per">/Месяц</span>
+                                </span>
+
                             </div>
-                            <p>${advert.description}</p>
+                            <p th:text="${advert.description}"></p>
                         </div>
                         <p class="fh5co-property-specification">
                             <span><strong>3500</strong> Sq Ft</span> <span><strong>3</strong> Beds</span>
