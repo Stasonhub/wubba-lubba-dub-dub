@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+<div th:fragment="advertTitle (advert)" class="col-md-4 item-block animate-box" data-animate-effect="fadeIn">
+    <a th:href="'advert/'+${advert.id}">
+        <div class="fh5co-property">
+            <figure>
+                <img th:src="${advert.mainPhotoUrl}" alt="Изображение квартиры" class="img-responsive">
+                <span class="tag" th:inline="text">[[${advert.sq}]] м<sup>2</sup></span>
+            </figure>
+            <div class="fh5co-property-innter">
+                <h3><span class="street-span" th:text="${advert.address}"></span></h3>
+                <div class="price-status">
+                                <span class="price"
+                                      th:text="${#numbers.formatInteger(advert.price, 0, 'WHITESPACE')}+'&#8381;'"/>
+                    <span class="price" th:if="${!advert.withPublicServices}">+ к.у.</span>
+                </div>
+                <p th:text="${advert.description}"></p>
+            </div>
+            <p class="fh5co-property-specification">
+                <span><strong th:text="${advert.district.getDesc()}">Вахитовский</strong> район</span>
+                <span th:inline="text"><strong th:text="${advert.rooms}">3</strong> [[${T(com.airent.template.Utils).getRoomsText(advert.rooms)}]]</span>
+            </p>
+        </div>
+    </a>
+</div>
+</body>
+</html>

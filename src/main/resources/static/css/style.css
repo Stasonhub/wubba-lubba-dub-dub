@@ -858,6 +858,10 @@ h1, h2, h3, h4, h5, h6, figure {
     text-decoration: none;
 }
 
+.street-span {
+    color: #118DF0;
+}
+
 .fh5co-property .price-status {
     margin-bottom: 20px;
 }
