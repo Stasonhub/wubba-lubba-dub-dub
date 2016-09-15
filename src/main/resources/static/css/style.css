@@ -91,6 +91,7 @@
 .blue-label {
     color: #265a88;
 }
+
 /* ================================== template ======================*/
 
 /* font-family: "GloberBold"; */
@@ -840,6 +841,9 @@ h1, h2, h3, h4, h5, h6, figure {
 
 .fh5co-property .fh5co-property-innter p {
     color: #96a0ae;
+    font-size: 14px;
+    height: 8.5em;
+    overflow: hidden;
 }
 
 .fh5co-property .fh5co-property-innter p:last-child {
