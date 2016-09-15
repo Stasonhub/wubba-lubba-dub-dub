@@ -211,5 +211,37 @@
 		contentWayPoint();
 	});
 
+	$(document).ready(function () {
+		$("#search-price-range").slider({
+			min: 2,
+			max: 140,
+			value: [6, 86],
+			step: 1,
+			focus: true,
+			tooltip: 'hide'
+		});
+		$("#search-price-range").on("slide", function (slideEvt) {
+			$("#search-price-from").text(slideEvt.value[0]);
+			$("#search-price-to").text(slideEvt.value[1]);
+		});
+		document.getElementById("tgl-btn1").onfocus = function () {
+			this.blur();
+		};
+		document.getElementById("tgl-btn2").onfocus = function () {
+			this.blur();
+		};
+		document.getElementById("tgl-btn3").onfocus = function () {
+			this.blur();
+		};
+	});
+	$('#loadMore').on('click', function () {
+		var $btn = $(this).button('loading')
+		var url = '/loadMore?timestampUntil=20000000000000';
+		$.get(url, function (html) {
+			$("#resultsBlock").append(html);
+			contentWayPoint();
+			$btn.button('reset')
+		});
+	})
 
 }());

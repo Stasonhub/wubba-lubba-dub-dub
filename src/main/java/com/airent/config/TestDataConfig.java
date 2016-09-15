@@ -63,7 +63,7 @@ public class TestDataConfig {
         advert.setPublicationDate(System.currentTimeMillis());
         advert.setConditions(2);
         advert.setDistrict(Distinct.VH);
-        advert.setAddress("ул. К.Маркса, " + (i * j) % 12 + 3);
+        advert.setAddress(getStreetText(i * j / 15) + (i * j) % 12 + 3);
         advert.setFloor((i * j) % 5 + 3);
         advert.setMaxFloor((i * j) % 10 + 3);
         advert.setRooms(i * j % 3 + 1);
@@ -84,6 +84,21 @@ public class TestDataConfig {
             photos.add(photo);
         }
         return photos;
+    }
+
+    private String getStreetText(int number) {
+        switch (number) {
+            case 0:
+                return "ул. К.Маркса, ";
+            case 1:
+                return "ул. Х.Такташа, ";
+            case 2:
+                return "ул. Ленина, ";
+            case 3:
+                return "ул. Баумана, ";
+            default:
+                return "ул. А.Алиша, ";
+        }
     }
 
 }

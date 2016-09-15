@@ -19,4 +19,8 @@ public class AdvertService {
         return advertMapper.getNextAdvertsBeforeTime(System.currentTimeMillis(), ADVERTS_PER_REQUEST);
     }
 
+    public List<Advert> getAdvertsForMainPageFrom(long timestamp) {
+        return advertMapper.getNextAdvertsBeforeTime(timestamp, ADVERTS_PER_REQUEST);
+    }
+
 }
