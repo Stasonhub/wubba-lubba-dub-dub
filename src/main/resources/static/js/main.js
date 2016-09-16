@@ -232,16 +232,23 @@
             this.blur();
         };
     });
+
+    function get_last_timestamp() {
+        return $("#resultsBlock").children().last().children().last().attr("timestamp");
+    }
+
     $('#loadMore').on('click', function () {
         var $btn = $(this).button('loading')
-        var resultsBlock = $("#resultsBlock");
-        var lastTimestamp = resultsBlock.children().last().children().last().attr("timestamp");
-        var url = '/loadMore?timestampUntil=' + lastTimestamp;
-
+        var url = '/loadMore?timestampUntil=' + get_last_timestamp();
         $.get(url, function (html) {
-            resultsBlock.append(html);
+            $("#resultsBlock").append(html);
             contentWayPoint();
-            $btn.button('reset')
+
+            if (get_last_timestamp() == undefined) {
+                $btn.hide();
+            } else {
+                $btn.button('reset')
+            }
         });
     })
 

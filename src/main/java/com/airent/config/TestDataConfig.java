@@ -62,7 +62,7 @@ public class TestDataConfig {
 
     private Advert createTestAdvert(int i, int j) {
         Advert advert = new Advert();
-        advert.setPublicationDate(timestamp + (i * j) * 3600_000);
+        advert.setPublicationDate(timestamp - (i * 10 + j) * 50_000);
         advert.setConditions(2);
         advert.setDistrict(Distinct.VH);
         advert.setAddress(getStreetText(i * j / 15) + (i * j) % 12 + 3);
