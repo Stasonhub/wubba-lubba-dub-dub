@@ -34,6 +34,8 @@ public class TestDataConfig {
     @Autowired
     private PhotoMapper photoMapper;
 
+    private long timestamp = System.currentTimeMillis();
+
     @PostConstruct
     public void init() {
         for (int i = 0; i < 47; i++) {
@@ -60,7 +62,7 @@ public class TestDataConfig {
 
     private Advert createTestAdvert(int i, int j) {
         Advert advert = new Advert();
-        advert.setPublicationDate(System.currentTimeMillis());
+        advert.setPublicationDate(timestamp + (i * j) * 3600_000);
         advert.setConditions(2);
         advert.setDistrict(Distinct.VH);
         advert.setAddress(getStreetText(i * j / 15) + (i * j) % 12 + 3);
