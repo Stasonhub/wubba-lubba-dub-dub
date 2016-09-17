@@ -74,6 +74,18 @@
     outline: none;
 }
 
+.nav-container .btn-group .btn:focus.active {
+    outline: none;
+    background-color: #e0e0e0;
+    border-color: #dbdbdb;
+}
+
+.nav-container .btn-group .btn:focus {
+    background-color: #fff;
+    border-color: #ccc;
+    background-position: 0;
+}
+
 .distinct-select, .nav-search-button, .rooms-button, .search-label {
     font-size: 16px;
 }

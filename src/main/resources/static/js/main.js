@@ -222,15 +222,6 @@
             $("#search-price-from").text(slideEvt.value[0]);
             $("#search-price-to").text(slideEvt.value[1]);
         });
-        document.getElementById("tgl-btn1").onfocus = function () {
-            this.blur();
-        };
-        document.getElementById("tgl-btn2").onfocus = function () {
-            this.blur();
-        };
-        document.getElementById("tgl-btn3").onfocus = function () {
-            this.blur();
-        };
     });
 
     function get_last_timestamp() {
@@ -251,5 +242,36 @@
             }
         });
     })
+
+
+    var districtSelect = $('#district-select');
+    var roomsButton1 = $('#rooms-btn1');
+    var roomsButton2 = $('#rooms-btn2');
+    var roomsButton3 = $('#rooms-btn3');
+    var searchPriceRange = $('#search-price-range');
+
+    var blurer = function () {
+        $(this).blur();
+    };
+    roomsButton1.onfocus = blurer();
+    roomsButton2.onfocus = blurer();
+    roomsButton3.onfocus = blurer();
+
+    var searchJsonCreator = function () {
+        return {
+            "districts[]": districtSelect.val(),
+            "rooms1": roomsButton1.attr("aria-pressed"),
+            "rooms2": roomsButton2.attr("aria-pressed"),
+            "rooms3": roomsButton3.attr("aria-pressed"),
+            "priceRange": searchPriceRange.slider('getValue')
+        }
+    };
+
+    $('#search-button').on('click', function () {
+        var searchJson = searchJsonCreator();
+        $.post("/search", searchJson, function (html) {
+
+        });
+    });
 
 }());
