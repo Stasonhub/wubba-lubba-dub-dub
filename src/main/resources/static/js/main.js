@@ -259,17 +259,23 @@
 
     var searchJsonCreator = function () {
         return {
-            "districts[]": districtSelect.val(),
-            "rooms1": roomsButton1.attr("aria-pressed"),
-            "rooms2": roomsButton2.attr("aria-pressed"),
-            "rooms3": roomsButton3.attr("aria-pressed"),
-            "priceRange": searchPriceRange.slider('getValue')
+            districts: districtSelect.val(),
+            rooms1: roomsButton1.attr("aria-pressed"),
+            rooms2: roomsButton2.attr("aria-pressed"),
+            rooms3: roomsButton3.attr("aria-pressed"),
+            priceRange: searchPriceRange.slider('getValue')
         }
     };
 
     $('#search-button').on('click', function () {
         var searchJson = searchJsonCreator();
-        $.post("/search", searchJson, function (html) {
+        $.ajax({
+            method: "POST",
+            url: "/search",
+            data: JSON.stringify(searchJson),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(function (msg) {
 
         });
     });

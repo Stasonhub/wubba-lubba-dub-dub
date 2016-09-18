@@ -4,7 +4,7 @@ import com.airent.mapper.AdvertMapper;
 import com.airent.mapper.PhotoMapper;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
-import com.airent.model.Distinct;
+import com.airent.model.District;
 import com.airent.model.Photo;
 import com.airent.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +64,7 @@ public class TestDataConfig {
         Advert advert = new Advert();
         advert.setPublicationDate(timestamp - (i * 10 + j) * 50_000);
         advert.setConditions(2);
-        advert.setDistrict(Distinct.VH);
+        advert.setDistrict(District.VH);
         advert.setAddress(getStreetText(i * j / 15) + (i * j) % 12 + 3);
         advert.setFloor((i * j) % 5 + 3);
         advert.setMaxFloor((i * j) % 10 + 3);

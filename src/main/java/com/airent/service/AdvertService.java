@@ -2,10 +2,12 @@ package com.airent.service;
 
 import com.airent.mapper.AdvertMapper;
 import com.airent.model.Advert;
+import com.airent.model.District;
+import com.airent.model.rest.SearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AdvertService {
@@ -22,5 +24,39 @@ public class AdvertService {
     public List<Advert> getAdvertsForMainPageFrom(long timestamp) {
         return advertMapper.getNextAdvertsBeforeTime(timestamp, ADVERTS_PER_REQUEST);
     }
+
+    public List<Advert> searchAdvertsUntilTime(SearchRequest searchRequest, long timestamp) {
+        Objects.requireNonNull(searchRequest.getPriceRange());
+        if (searchRequest.getPriceRange().size() != 2) {
+            throw new IllegalStateException("Incorrect price range");
+        }
+
+        Collection<District> districts = searchRequest.getDistricts();
+        if (districts == null || districts.isEmpty()) {
+            districts = EnumSet.allOf(District.class);
+        }
+
+        int priceFrom = searchRequest.getPriceRange().get(0) * 1000;
+        int priceTo = searchRequest.getPriceRange().get(1) * 1000;
+
+        List<String> rooms = new ArrayList<>();
+        if (searchRequest.isRooms1()) {
+            rooms.add("1");
+        }
+        if (searchRequest.isRooms2()) {
+            rooms.add("2");
+        }
+        if (searchRequest.isRooms3()) {
+            rooms.add("3");
+        }
+        if (!searchRequest.isRooms1() && !searchRequest.isRooms2() && !searchRequest.isRooms3()) {
+            rooms.add("1");
+            rooms.add("2");
+            rooms.add("3");
+        }
+
+        return advertMapper.searchNextAdvertsBeforeTime(districts, priceFrom, priceTo, rooms, timestamp, ADVERTS_PER_REQUEST);
+    }
+
 
 }

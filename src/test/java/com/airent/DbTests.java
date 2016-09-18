@@ -5,7 +5,7 @@ import com.airent.mapper.AdvertMapper;
 import com.airent.mapper.PhotoMapper;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
-import com.airent.model.Distinct;
+import com.airent.model.District;
 import com.airent.model.Photo;
 import com.airent.model.User;
 import org.junit.Test;
@@ -14,8 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,8 +34,7 @@ public class DbTests {
     @Autowired
     private PhotoMapper photoMapper;
 
-    @Test
-    public void testCreateAdvertWithPhotos() {
+    private Advert createAdvert() {
         User user = new User();
         user.setName("Aidar");
         user.setPhone(12345);
@@ -42,7 +45,7 @@ public class DbTests {
         advert.setPublicationDate(2L);
         advert.setConditions(2);
         advert.setDescription("Advert");
-        advert.setDistrict(Distinct.KR);
+        advert.setDistrict(District.KR);
         advert.setAddress("st. First,12");
         advert.setFloor(5);
         advert.setMaxFloor(10);
@@ -55,6 +58,12 @@ public class DbTests {
         advert.setUserId(user.getId());
 
         advertMapper.createAdvert(advert);
+        return advert;
+    }
+
+    @Test
+    public void testCreateAdvertWithPhotos() {
+        Advert advert = createAdvert();
 
         Advert selectedAdvert = advertMapper.findById(advert.getId());
 
@@ -73,8 +82,16 @@ public class DbTests {
     }
 
     @Test
-    public void testCreateAdvertWithUserAndAddress() {
+    public void testSearchAdvert() {
+        Advert advert = createAdvert();
 
+        List<District> districtList = Collections.singletonList(advert.getDistrict());
+        List<String> rooms = Collections.singletonList("1");
+        List<Advert> adverts = advertMapper.searchNextAdvertsBeforeTime(districtList, 6_000, 45_000, rooms, System.currentTimeMillis(), 10);
+
+        assertNotNull(adverts);
+        assertEquals(1, adverts.size());
+        assertEquals(advert.getId(), adverts.get(0).getId());
     }
 
 }

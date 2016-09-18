@@ -6,7 +6,7 @@ public class Advert {
     private long userId;
     private long publicationDate;
 
-    private Distinct district;
+    private District district;
     private String address;
     private int floor;
     private int maxFloor;
@@ -46,11 +46,11 @@ public class Advert {
         return this;
     }
 
-    public Distinct getDistrict() {
+    public District getDistrict() {
         return district;
     }
 
-    public Advert setDistrict(Distinct district) {
+    public Advert setDistrict(District district) {
         this.district = district;
         return this;
     }

@@ -1,6 +1,6 @@
 package com.airent.model;
 
-public enum Distinct {
+public enum District {
     AV("Авиастроительный"),
     VH("Вахитовский"),
     KR("Кировский"),
@@ -11,7 +11,7 @@ public enum Distinct {
 
     private String desc;
 
-    private Distinct(String desc) {
+    private District(String desc) {
         this.desc = desc;
     }
 
