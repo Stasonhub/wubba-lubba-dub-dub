@@ -16,7 +16,7 @@
                     <h3><span class="street-span" th:text="${advert.address}"></span></h3>
                     <div class="price-status">
                                 <span class="price"
-                                      th:text="${#numbers.formatInteger(advert.price, 0, 'WHITESPACE')}+'&#8381;'"/>
+                                      th:text="${#numbers.formatInteger(advert.price, 0, 'WHITESPACE')}+'Р'"/>
                         <span class="price" th:if="${!advert.withPublicServices}">+ к.у.</span>
                     </div>
                     <p th:text="${advert.description}"></p>
