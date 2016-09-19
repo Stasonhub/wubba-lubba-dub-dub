@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airent.mapper.PhotoMapper">
+  <insert id="createPhoto" keyProperty="id" useGeneratedKeys="true">
+      INSERT INTO photo (advertId, path)
+      VALUES (#{advertId}, #{path})
+    </insert>
+
+  <delete id="deletePhoto">
+    DELETE FROM photo
+    WHERE id=#{id}
+  </delete>
+
+</mapper>
