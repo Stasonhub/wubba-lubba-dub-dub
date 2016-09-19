@@ -28,8 +28,14 @@ public class AdvertController {
         return "fragments/advert :: advertsForm";
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/search")
-    public String searchAdverts(@RequestBody SearchRequest searchRequest, Model model) {
+    @RequestMapping(method = RequestMethod.GET, path = "/search")
+    public String searchAdverts(SearchRequest searchRequest, Model model) {
+        model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, System.currentTimeMillis()));
+        return "search";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/search/loadMore")
+    public String searchLoadMoreAdverts(@RequestBody SearchRequest searchRequest, Model model) {
         model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, System.currentTimeMillis()));
         return "fragments/advert :: advertsForm";
     }

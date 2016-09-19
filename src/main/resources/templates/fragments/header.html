@@ -3,50 +3,21 @@
 <head>
 </head>
 <body>
-<div th:fragment="searchBox" class="fh5co-page-title" style="background-image: url(images/slide_6.jpg);">
-    <div class="overlay"></div>
+<header th:fragment="header" id="fh5co-header" role="banner">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 animate-box">
-                <h1 class="header-title"><span class="colored">Снять квартиру</span> без посредников</h1>
-                <div class="panel panel-default nav-container">
-                    <div class="panel-body">
-                        <span class="search-label">Район</span>
-                        <select id="district-select" class="selectpicker" multiple
-                                data-style="district-select btn-default"
-                                title="Выберите район...">
-                            <option selected value="AV">Авиастроительный</option>
-                            <option selected value="VH">Вахитовский</option>
-                            <option selected value="KR">Кировский</option>
-                            <option selected value="MS">Московский</option>
-                            <option selected value="NS">Ново-Савиновский</option>
-                            <option selected value="PV">Приволжский</option>
-                            <option selected value="CV">Советский</option>
-                        </select>
-                        <span class="search-label">Комнат</span>
-                        <div class="btn-group" data-toggle="buttons-checkbox">
-                            <button id="rooms-btn1" type="button" class="rooms-button btn btn-default">1&nbsp
-                            </button>
-                            <button id="rooms-btn2" type="button" class="rooms-button btn btn-default">2&nbsp
-                            </button>
-                            <button id="rooms-btn3" type="button" class="rooms-button btn btn-default">3+</button>
-                        </div>
-
-                            <span id="search-price" class="search-label">Цена от <span
-                                    id="search-price-from" class="price-label">6</span><sup>000</sup>&nbsp;</span>
-                        <input id="search-price-range" type="text"/>
-                            <span id="search-price-end" class="search-label">&nbsp;до <span
-                                    id="search-price-to" class="price-label">86</span><sup>000</sup></span>
-
-                        <button id="search-button" class="btn btn-primary nav-search-button">
-                            <span class="glyphicon glyphicon-search"></span> Найти объявления
-                        </button>
-                    </div>
-                </div>
+            <div class="header-inner">
+                <h1><a href="/">Airent<span class="blue-label">.</span></a></h1>
+                <nav role="navigation">
+                    <ul>
+                        <li class="active"><a href="rent.html">Войти</a></li>
+                        <li><a href="properties.html">Регистрация</a></li>
+                        <li class="cta"><a href="contact.html">+ Сдать квартиру</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
-
-</div>
+</header>
 </body>
 </html>
