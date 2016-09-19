@@ -29,12 +29,15 @@
     FROM advert
     WHERE
     district in
-    <foreach item="item" index="index" collection="districts" open="(" separator="," close=")">
-      #{item}
+    <foreach item="district" index="index" collection="districts" open="(" separator="," close=")">
+      '${district}'
     </foreach>
     AND price >= #{priceFrom}
     AND #{priceTo} >= price
-    AND rooms in (#{rooms})
+    AND rooms in
+    <foreach item="room" index="index" collection="rooms" open="(" separator="," close=")">
+      ${room}
+    </foreach>
     AND #{timestamp} > publicationDate
     ORDER BY publicationDate
     DESC limit #{limit}

@@ -39,20 +39,20 @@ public class AdvertService {
         int priceFrom = searchRequest.getPriceRange().get(0) * 1000;
         int priceTo = searchRequest.getPriceRange().get(1) * 1000;
 
-        List<String> rooms = new ArrayList<>();
+        List<Integer> rooms = new ArrayList<>();
         if (searchRequest.isRooms1()) {
-            rooms.add("1");
+            rooms.add(1);
         }
         if (searchRequest.isRooms2()) {
-            rooms.add("2");
+            rooms.add(2);
         }
         if (searchRequest.isRooms3()) {
-            rooms.add("3");
+            rooms.add(3);
         }
         if (!searchRequest.isRooms1() && !searchRequest.isRooms2() && !searchRequest.isRooms3()) {
-            rooms.add("1");
-            rooms.add("2");
-            rooms.add("3");
+            rooms.add(1);
+            rooms.add(2);
+            rooms.add(3);
         }
 
         return advertMapper.searchNextAdvertsBeforeTime(districts, priceFrom, priceTo, rooms, timestamp, ADVERTS_PER_REQUEST);

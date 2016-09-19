@@ -19,7 +19,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -51,6 +50,7 @@ public class DbTests {
         advert.setMaxFloor(10);
         advert.setSq(32);
         advert.setPrice(42_000);
+        advert.setRooms(1);
         advert.setWithPublicServices(true);
         advert.setDescription("Bla bla bla");
         advert.setMainPhotoUrl("images/blblba.jpg");
@@ -86,7 +86,7 @@ public class DbTests {
         Advert advert = createAdvert();
 
         List<District> districtList = Collections.singletonList(advert.getDistrict());
-        List<String> rooms = Collections.singletonList("1");
+        List<Integer> rooms = Collections.singletonList(advert.getRooms());
         List<Advert> adverts = advertMapper.searchNextAdvertsBeforeTime(districtList, 6_000, 45_000, rooms, System.currentTimeMillis(), 10);
 
         assertNotNull(adverts);
