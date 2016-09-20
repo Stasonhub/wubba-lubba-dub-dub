@@ -15,21 +15,44 @@
                         <select id="district-select" class="selectpicker" multiple
                                 data-style="district-select btn-default"
                                 title="Выберите район...">
-                            <option selected value="AV">Авиастроительный</option>
-                            <option selected value="VH">Вахитовский</option>
-                            <option selected value="KR">Кировский</option>
-                            <option selected value="MS">Московский</option>
-                            <option selected value="NS">Ново-Савиновский</option>
-                            <option selected value="PV">Приволжский</option>
-                            <option selected value="CV">Советский</option>
+                            <option th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).AV)}"
+                                    value="AV">
+                                Авиастроительный
+                            </option>
+                            <option th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).VH)}"
+                                    value="VH">Вахитовский
+                            </option>
+                            <option th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).KR)}"
+                                    value="KR">Кировский
+                            </option>
+                            <option th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).MS)}"
+                                    value="MS">Московский
+                            </option>
+                            <option th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).NS)}"
+                                    value="NS">Ново-Савиновский
+                            </option>
+                            <option th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).PV)}"
+                                    value="PV">Приволжский
+                            </option>
+                            <option th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).CV)}"
+                                    value="CV">Советский
+                            </option>
                         </select>
                         <span class="search-label">Комнат</span>
                         <div class="btn-group" data-toggle="buttons-checkbox">
-                            <button id="rooms-btn1" type="button" class="rooms-button btn btn-default">1&nbsp
+                            <button id="rooms-btn1" type="button"
+                                    th:class="'rooms-button btn btn-default '+${searchRequest.rooms1 ? 'active' : ''}"
+                                    th:aria-pressed="${searchRequest.rooms1}">1&nbsp
                             </button>
-                            <button id="rooms-btn2" type="button" class="rooms-button btn btn-default">2&nbsp
+                            <button id="rooms-btn2" type="button"
+                                    th:class="'rooms-button btn btn-default '+${searchRequest.rooms2 ? 'active' : ''}"
+                                    th:aria-pressed="${searchRequest.rooms1}">2&nbsp
                             </button>
-                            <button id="rooms-btn3" type="button" class="rooms-button btn btn-default">3+</button>
+                            <button id="rooms-btn3" type="button"
+                                    th:class="'rooms-button btn btn-default '+${searchRequest.rooms3 ? 'active' : ''}"
+                                    th:aria-pressed="${searchRequest.rooms1}">
+                                3+
+                            </button>
                         </div>
 
                             <span id="search-price" class="search-label">Цена от <span

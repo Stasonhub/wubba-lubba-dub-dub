@@ -31,6 +31,7 @@ public class AdvertController {
     @RequestMapping(method = RequestMethod.GET, path = "/search")
     public String searchAdverts(SearchRequest searchRequest, Model model) {
         model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, System.currentTimeMillis()));
+        model.addAttribute("searchRequest", searchRequest);
         return "search";
     }
 
