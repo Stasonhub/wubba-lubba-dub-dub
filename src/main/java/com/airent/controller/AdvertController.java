@@ -1,6 +1,8 @@
 package com.airent.controller;
 
+import com.airent.model.District;
 import com.airent.model.rest.SearchRequest;
+import com.airent.model.ui.SearchBoxState;
 import com.airent.service.AdvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ public class AdvertController {
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public String showMainPage(Model model) {
         model.addAttribute("adverts", advertService.getAdvertsForMainPage());
+        model.addAttribute("sb", getSearchBoxDefaultState());
         return "main";
     }
 
@@ -32,6 +35,7 @@ public class AdvertController {
     public String searchAdverts(SearchRequest searchRequest, Model model) {
         model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, System.currentTimeMillis()));
         model.addAttribute("searchRequest", searchRequest);
+        model.addAttribute("sb", getSearchBoxState(searchRequest));
         return "search";
     }
 
@@ -39,6 +43,37 @@ public class AdvertController {
     public String searchLoadMoreAdverts(@RequestBody SearchRequest searchRequest, Model model) {
         model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, System.currentTimeMillis()));
         return "fragments/advert :: advertsForm";
+    }
+
+    private SearchBoxState getSearchBoxDefaultState() {
+        SearchBoxState searchBoxState = new SearchBoxState();
+        searchBoxState.setAvSelected(true);
+        searchBoxState.setVhSelected(true);
+        searchBoxState.setKrSelected(true);
+        searchBoxState.setMsSelected(true);
+        searchBoxState.setNsSelected(true);
+        searchBoxState.setPvSelected(true);
+        searchBoxState.setCvSelected(true);
+        searchBoxState.setPriceFrom(5);
+        searchBoxState.setPriceTo(30);
+        return searchBoxState;
+    }
+
+    private SearchBoxState getSearchBoxState(SearchRequest searchRequest) {
+        SearchBoxState searchBoxState = new SearchBoxState();
+        searchBoxState.setAvSelected(searchRequest.getDistricts().contains(District.AV));
+        searchBoxState.setVhSelected(searchRequest.getDistricts().contains(District.VH));
+        searchBoxState.setKrSelected(searchRequest.getDistricts().contains(District.KR));
+        searchBoxState.setMsSelected(searchRequest.getDistricts().contains(District.MS));
+        searchBoxState.setNsSelected(searchRequest.getDistricts().contains(District.NS));
+        searchBoxState.setPvSelected(searchRequest.getDistricts().contains(District.PV));
+        searchBoxState.setCvSelected(searchRequest.getDistricts().contains(District.CV));
+        searchBoxState.setRooms1Pressed(searchRequest.isRooms1());
+        searchBoxState.setRooms2Pressed(searchRequest.isRooms2());
+        searchBoxState.setRooms3Pressed(searchRequest.isRooms3());
+        searchBoxState.setPriceFrom(searchRequest.getPriceRange().get(0));
+        searchBoxState.setPriceTo(searchRequest.getPriceRange().get(1));
+        return searchBoxState;
     }
 
 }

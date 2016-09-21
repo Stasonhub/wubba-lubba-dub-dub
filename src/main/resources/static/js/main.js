@@ -209,18 +209,21 @@
         contentWayPoint();
     });
 
+    var searchPriceFrom = $("#search-price-from");
+    var searchPriceTo = $("#search-price-to");
+
     $(document).ready(function () {
         $("#search-price-range").slider({
             min: 2,
             max: 140,
-            value: [6, 86],
+            value: [searchPriceFrom.innerText, searchPriceTo.innerText],
             step: 1,
             focus: true,
             tooltip: 'hide'
         });
         $("#search-price-range").on("slide", function (slideEvt) {
-            $("#search-price-from").text(slideEvt.value[0]);
-            $("#search-price-to").text(slideEvt.value[1]);
+            searchPriceFrom.text(slideEvt.value[0]);
+            searchPriceTo.text(slideEvt.value[1]);
         });
     });
 
