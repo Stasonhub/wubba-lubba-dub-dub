@@ -216,7 +216,7 @@
         $("#search-price-range").slider({
             min: 2,
             max: 140,
-            value: [searchPriceFrom.innerText, searchPriceTo.innerText],
+            value: [Number(searchPriceFrom.text()), Number(searchPriceTo.text())],
             step: 1,
             focus: true,
             tooltip: 'hide'
@@ -227,22 +227,27 @@
         });
     });
 
+    var loadMoreButton =  $('#loadMore');
+    var loadMoreButtonHider = function loadMoreButtonHider() {
+        var count = $("#resultsBlock").children().last().attr("count");
+        if (count < 15) {
+            loadMoreButton.hide();
+        }
+    };
+
+    loadMoreButtonHider();
+
     function get_last_timestamp() {
-        return $("#resultsBlock").children().last().children().last().attr("timestamp");
+        return $("#resultsBlock").children().last().attr("timestamp");
     }
 
-    $('#loadMore').on('click', function () {
-        var $btn = $(this).button('loading')
+    loadMoreButton.on('click', function () {
         var url = '/loadMore?timestampUntil=' + get_last_timestamp();
         $.get(url, function (html) {
             $("#resultsBlock").append(html);
             contentWayPoint();
-
-            if (get_last_timestamp() == undefined) {
-                $btn.hide();
-            } else {
-                $btn.button('reset')
-            }
+            loadMoreButton.button('reset')
+            loadMoreButtonHider();
         });
     })
 
@@ -265,7 +270,8 @@
         var rooms1 = roomsButton1.attr("aria-pressed")
         var rooms2 = roomsButton2.attr("aria-pressed")
         var rooms3 = roomsButton3.attr("aria-pressed")
-        var url = "/search/?districts=" + districtSelect.val();
+        var districts = districtSelect.val() == undefined ? '' : districtSelect.val();
+        var url = "/search/?districts=" + districts;
         if (rooms1 != undefined) url += "&rooms1=" + rooms1;
         if (rooms2 != undefined) url += "&rooms2=" + rooms2;
         if (rooms3 != undefined) url += "&rooms3=" + rooms3;
