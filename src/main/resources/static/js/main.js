@@ -209,74 +209,74 @@
         contentWayPoint();
     });
 
-    var searchPriceFrom = $("#search-price-from");
-    var searchPriceTo = $("#search-price-to");
 
     $(document).ready(function () {
-        $("#search-price-range").slider({
-            min: 2,
-            max: 140,
-            value: [Number(searchPriceFrom.text()), Number(searchPriceTo.text())],
-            step: 1,
-            focus: true,
-            tooltip: 'hide'
-        });
+        var searchPriceFrom = $("#search-price-from");
+        var searchPriceTo = $("#search-price-to");
+
+        $("#search-price-range").slider({});
         $("#search-price-range").on("slide", function (slideEvt) {
             searchPriceFrom.text(slideEvt.value[0]);
             searchPriceTo.text(slideEvt.value[1]);
         });
-    });
 
-    var loadMoreButton =  $('#loadMore');
-    var loadMoreButtonHider = function loadMoreButtonHider() {
-        var count = $("#resultsBlock").children().last().attr("count");
-        if (count < 15) {
-            loadMoreButton.hide();
+
+        var loadMoreButton = $('#loadMore');
+        var loadMoreButtonHider = function loadMoreButtonHider() {
+            var count = $("#resultsBlock").children().last().attr("count");
+            if (count < 15) {
+                loadMoreButton.hide();
+            }
+        };
+
+        loadMoreButtonHider();
+
+        function get_last_timestamp() {
+            return $("#resultsBlock").children().last().attr("timestamp");
         }
-    };
 
-    loadMoreButtonHider();
 
-    function get_last_timestamp() {
-        return $("#resultsBlock").children().last().attr("timestamp");
-    }
+        var districtSelect = $('#district-select');
+        var roomsButton1 = $('#rooms-btn1');
+        var roomsButton2 = $('#rooms-btn2');
+        var roomsButton3 = $('#rooms-btn3');
+        var searchPriceRange = $('#search-price-range');
 
-    loadMoreButton.on('click', function () {
-        var url = '/loadMore?timestampUntil=' + get_last_timestamp();
-        $.get(url, function (html) {
-            $("#resultsBlock").append(html);
-            contentWayPoint();
-            loadMoreButton.button('reset')
-            loadMoreButtonHider();
+        var blurer = function () {
+            $(this).blur();
+        };
+        roomsButton1.onfocus = blurer();
+        roomsButton2.onfocus = blurer();
+        roomsButton3.onfocus = blurer();
+
+        var searchParamsGetter = function () {
+            var rooms1 = roomsButton1.attr("aria-pressed")
+            var rooms2 = roomsButton2.attr("aria-pressed")
+            var rooms3 = roomsButton3.attr("aria-pressed")
+            var districts = districtSelect.val() == undefined ? '' : districtSelect.val();
+            var url = "?districts=" + districts;
+            if (rooms1 != undefined) url += "&rooms1=" + rooms1;
+            if (rooms2 != undefined) url += "&rooms2=" + rooms2;
+            if (rooms3 != undefined) url += "&rooms3=" + rooms3;
+            url += "&priceRange=" + searchPriceRange.slider('getValue');
+            return url;
+        };
+
+        $('#search-button').on('click', function () {
+            window.location.href = "/search/" + searchParamsGetter();
         });
-    })
 
-
-    var districtSelect = $('#district-select');
-    var roomsButton1 = $('#rooms-btn1');
-    var roomsButton2 = $('#rooms-btn2');
-    var roomsButton3 = $('#rooms-btn3');
-    var searchPriceRange = $('#search-price-range');
-
-    var blurer = function () {
-        $(this).blur();
-    };
-    roomsButton1.onfocus = blurer();
-    roomsButton2.onfocus = blurer();
-    roomsButton3.onfocus = blurer();
-
-
-    $('#search-button').on('click', function () {
-        var rooms1 = roomsButton1.attr("aria-pressed")
-        var rooms2 = roomsButton2.attr("aria-pressed")
-        var rooms3 = roomsButton3.attr("aria-pressed")
-        var districts = districtSelect.val() == undefined ? '' : districtSelect.val();
-        var url = "/search/?districts=" + districts;
-        if (rooms1 != undefined) url += "&rooms1=" + rooms1;
-        if (rooms2 != undefined) url += "&rooms2=" + rooms2;
-        if (rooms3 != undefined) url += "&rooms3=" + rooms3;
-        url += "&priceRange=" + searchPriceRange.slider('getValue');
-        window.location.href = url;
+        var initialSearchParams = searchParamsGetter();
+        var isInSearchPage = $('#load-more-container').attr('search-page');
+        loadMoreButton.on('click', function () {
+            var url = isInSearchPage == 'true' ? '/search/loadMore' + initialSearchParams + '&' : '/loadMore?';
+            url += 'timestampUntil=' + get_last_timestamp();
+            $.get(url, function (html) {
+                $("#resultsBlock").append(html);
+                contentWayPoint();
+                loadMoreButton.button('reset');
+                loadMoreButtonHider();
+            });
+        });
     });
-
 }());

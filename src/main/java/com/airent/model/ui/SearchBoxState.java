@@ -17,6 +17,9 @@ public class SearchBoxState {
     private int priceFrom;
     private int priceTo;
 
+    private int priceMin;
+    private int priceMax;
+
 
     public boolean isAvSelected() {
         return avSelected;
@@ -124,5 +127,21 @@ public class SearchBoxState {
     public SearchBoxState setPriceTo(int priceTo) {
         this.priceTo = priceTo;
         return this;
+    }
+
+    public int getPriceMin() {
+        return priceMin;
+    }
+
+    public void setPriceMin(int priceMin) {
+        this.priceMin = priceMin;
+    }
+
+    public int getPriceMax() {
+        return priceMax;
+    }
+
+    public void setPriceMax(int priceMax) {
+        this.priceMax = priceMax;
     }
 }

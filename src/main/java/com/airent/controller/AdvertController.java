@@ -1,5 +1,6 @@
 package com.airent.controller;
 
+import com.airent.model.AdvertPrices;
 import com.airent.model.District;
 import com.airent.model.rest.SearchRequest;
 import com.airent.model.ui.SearchBoxState;
@@ -21,7 +22,7 @@ public class AdvertController {
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public String showMainPage(Model model) {
         model.addAttribute("adverts", advertService.getAdvertsForMainPage());
-        model.addAttribute("sb", getSearchBoxDefaultState());
+        model.addAttribute("sb", getSearchBoxDefaultState(advertService.getAdvertPrices()));
         return "main";
     }
 
@@ -35,17 +36,17 @@ public class AdvertController {
     public String searchAdverts(SearchRequest searchRequest, Model model) {
         model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, System.currentTimeMillis()));
         model.addAttribute("searchRequest", searchRequest);
-        model.addAttribute("sb", getSearchBoxState(searchRequest));
+        model.addAttribute("sb", getSearchBoxState(searchRequest, advertService.getAdvertPrices()));
         return "search";
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/search/loadMore")
-    public String searchLoadMoreAdverts(@RequestBody SearchRequest searchRequest, Model model) {
-        model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, System.currentTimeMillis()));
+    @RequestMapping(method = RequestMethod.GET, path = "/search/loadMore")
+    public String searchLoadMoreAdverts(SearchRequest searchRequest, @RequestParam long timestampUntil, Model model) {
+        model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, timestampUntil));
         return "fragments/advert :: advertsForm";
     }
 
-    private SearchBoxState getSearchBoxDefaultState() {
+    private SearchBoxState getSearchBoxDefaultState(AdvertPrices advertPrices) {
         SearchBoxState searchBoxState = new SearchBoxState();
         searchBoxState.setAvSelected(true);
         searchBoxState.setVhSelected(true);
@@ -54,12 +55,14 @@ public class AdvertController {
         searchBoxState.setNsSelected(true);
         searchBoxState.setPvSelected(true);
         searchBoxState.setCvSelected(true);
-        searchBoxState.setPriceFrom(5);
-        searchBoxState.setPriceTo(30);
+        searchBoxState.setPriceMin(advertPrices.getPriceMin() / 1000);
+        searchBoxState.setPriceMax(advertPrices.getPriceMax() / 1000);
+        searchBoxState.setPriceFrom(searchBoxState.getPriceMin());
+        searchBoxState.setPriceTo(searchBoxState.getPriceMax());
         return searchBoxState;
     }
 
-    private SearchBoxState getSearchBoxState(SearchRequest searchRequest) {
+    private SearchBoxState getSearchBoxState(SearchRequest searchRequest, AdvertPrices advertPrices) {
         SearchBoxState searchBoxState = new SearchBoxState();
         searchBoxState.setAvSelected(searchRequest.getDistricts().contains(District.AV));
         searchBoxState.setVhSelected(searchRequest.getDistricts().contains(District.VH));
@@ -73,6 +76,8 @@ public class AdvertController {
         searchBoxState.setRooms3Pressed(searchRequest.isRooms3());
         searchBoxState.setPriceFrom(searchRequest.getPriceRange().get(0));
         searchBoxState.setPriceTo(searchRequest.getPriceRange().get(1));
+        searchBoxState.setPriceMin(advertPrices.getPriceMin() / 1000);
+        searchBoxState.setPriceMax(advertPrices.getPriceMax() / 1000);
         return searchBoxState;
     }
 

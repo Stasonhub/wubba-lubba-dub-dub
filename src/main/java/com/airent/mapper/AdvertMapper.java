@@ -1,6 +1,7 @@
 package com.airent.mapper;
 
 import com.airent.model.Advert;
+import com.airent.model.AdvertPrices;
 import com.airent.model.District;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,6 +23,9 @@ public interface AdvertMapper {
             @Param("rooms") List<Integer> rooms,
             @Param("timestamp") long timestamp,
             @Param("limit") int limit);
+
+
+    AdvertPrices getAdvertPrices();
 
     void deleteAdvert(long id);
 

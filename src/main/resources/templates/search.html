@@ -33,11 +33,11 @@
                     <div th:replace="fragments/advert :: advertsForm (adverts=${adverts})"/>
                 </div>
             </div>
-            <div class="row">
+            <div id="load-more-container" search-page="true" class="row">
                 <div th:replace="fragments/searchBox :: loadMoreButton"/>
             </div>
-            <div class="row">
-                <h2>По вашему запросу ничего не найдено</h2>
+            <div class="row" th:if="${adverts.isEmpty()}">
+                <h2 class="not-found">По вашему запросу ничего не найдено</h2>
             </div>
         </div>
     </div>

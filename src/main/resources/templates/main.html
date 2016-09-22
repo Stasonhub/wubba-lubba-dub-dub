@@ -40,11 +40,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 text-center animate-box" data-animate-effect="fadeIn">
-                    <button type="button" id="loadMore" data-loading-text="Загрузка..." class="btn btn-primary"
-                            autocomplete="off">
-                        Загрузить еще
-                    </button>
+                <div id="load-more-container" search-page="false" class="row">
+                    <div th:replace="fragments/searchBox :: loadMoreButton"/>
                 </div>
             </div>
         </div>

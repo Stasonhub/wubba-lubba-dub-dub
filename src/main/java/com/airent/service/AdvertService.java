@@ -2,6 +2,7 @@ package com.airent.service;
 
 import com.airent.mapper.AdvertMapper;
 import com.airent.model.Advert;
+import com.airent.model.AdvertPrices;
 import com.airent.model.District;
 import com.airent.model.rest.SearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,10 @@ public class AdvertService {
         }
 
         return advertMapper.searchNextAdvertsBeforeTime(districts, priceFrom, priceTo, rooms, timestamp, ADVERTS_PER_REQUEST);
+    }
+
+    public AdvertPrices getAdvertPrices() {
+        return advertMapper.getAdvertPrices();
     }
 
 

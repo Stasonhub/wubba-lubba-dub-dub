@@ -2,20 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airent.mapper.AdvertMapper">
-  <insert id="createAdvert" keyProperty="id" useGeneratedKeys="true">
+    <insert id="createAdvert" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO advert (userId, publicationDate, district, address, floor, maxFloor, rooms,
                      sq, price, withPublicServices, conditions, description, mainPhotoUrl)
         VALUES (#{userId}, #{publicationDate}, #{district}, #{address}, #{floor}, #{maxFloor}, #{rooms}, #{sq},
                  #{price}, #{withPublicServices}, #{conditions}, #{description}, #{mainPhotoUrl})
     </insert>
 
-  <select id="findById" resultType="com.airent.model.Advert">
+    <select id="findById" resultType="com.airent.model.Advert">
         SELECT *
         FROM advert
         WHERE id=#{id}
-    </select>
+  </select>
 
-  <select id="getNextAdvertsBeforeTime" resultType="com.airent.model.Advert">
+    <select id="getNextAdvertsBeforeTime" resultType="com.airent.model.Advert">
         SELECT *
         FROM advert
         WHERE #{timestamp} > publicationDate
@@ -24,33 +24,40 @@
   </select>
 
 
-  <select id="searchNextAdvertsBeforeTime" resultType="com.airent.model.Advert">
-    SELECT *
-    FROM advert
-    WHERE
-    district in
-    <foreach item="district" index="index" collection="districts" open="(" separator="," close=")">
-      '${district}'
-    </foreach>
-    AND price >= #{priceFrom}
-    AND #{priceTo} >= price
-    AND rooms in
-    <foreach item="room" index="index" collection="rooms" open="(" separator="," close=")">
-      ${room}
-    </foreach>
-    AND #{timestamp} > publicationDate
-    ORDER BY publicationDate
-    DESC limit #{limit}
-  </select>
+    <select id="searchNextAdvertsBeforeTime" resultType="com.airent.model.Advert">
+        SELECT *
+        FROM advert
+        WHERE
+        district in
+        <foreach item="district" index="index" collection="districts" open="(" separator="," close=")">
+            '${district}'
+        </foreach>
+        AND price >= #{priceFrom}
+        AND #{priceTo} >= price
+        AND rooms in
+        <foreach item="room" index="index" collection="rooms" open="(" separator="," close=")">
+            ${room}
+        </foreach>
+        AND #{timestamp} > publicationDate
+        ORDER BY publicationDate
+        DESC limit #{limit}
+    </select>
 
-  <delete id="deleteAdvert">
+    <delete id="deleteAdvert">
     DELETE FROM advert
     WHERE id=#{id}
   </delete>
 
-  <select id="getCount" resultType="java.lang.Integer">
+    <select id="getCount" resultType="java.lang.Integer">
     SELECT COUNT(*)
     FROM advert
+  </select>
+
+    <select id="getAdvertPrices" resultType="com.airent.model.AdvertPrices">
+        SELECT
+        min(price) as priceMin,
+        max(price) as priceMax
+        FROM advert
   </select>
 
 </mapper>
