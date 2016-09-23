@@ -8,7 +8,6 @@ import com.airent.service.AdvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -74,10 +73,10 @@ public class AdvertController {
         searchBoxState.setRooms1Pressed(searchRequest.isRooms1());
         searchBoxState.setRooms2Pressed(searchRequest.isRooms2());
         searchBoxState.setRooms3Pressed(searchRequest.isRooms3());
-        searchBoxState.setPriceFrom(searchRequest.getPriceRange().get(0));
-        searchBoxState.setPriceTo(searchRequest.getPriceRange().get(1));
         searchBoxState.setPriceMin(advertPrices.getPriceMin() / 1000);
         searchBoxState.setPriceMax(advertPrices.getPriceMax() / 1000);
+        searchBoxState.setPriceFrom(Math.max(searchBoxState.getPriceMin(), searchRequest.getPriceRange().get(0)));
+        searchBoxState.setPriceTo(Math.min(searchBoxState.getPriceMax(), searchRequest.getPriceRange().get(1)));
         return searchBoxState;
     }
 
