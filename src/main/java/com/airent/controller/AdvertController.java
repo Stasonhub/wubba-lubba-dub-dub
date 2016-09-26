@@ -8,6 +8,7 @@ import com.airent.service.AdvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +45,12 @@ public class AdvertController {
         model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, timestampUntil));
         return "fragments/advert :: advertsForm";
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/advert/{advertId}")
+    public String getAdvertDetails(@PathVariable String advertId, Model model) {
+        return "advert-detail";
+    }
+
 
     private SearchBoxState getSearchBoxDefaultState(AdvertPrices advertPrices) {
         SearchBoxState searchBoxState = new SearchBoxState();

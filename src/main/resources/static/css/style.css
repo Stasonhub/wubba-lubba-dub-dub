@@ -104,6 +104,18 @@
     color: #265a88;
 }
 
+#advert-carousel .owl-item div{
+    padding:5px;
+}
+#advert-carousel .owl-item img{
+    display: block;
+    width: 100%;
+    height: auto;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
 /* ================================== template ======================*/
 
 /* font-family: "GloberBold"; */
