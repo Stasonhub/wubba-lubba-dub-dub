@@ -1389,6 +1389,22 @@ h1, h2, h3, h4, h5, h6, figure {
     z-index: 1;
 }
 
+.page-title-advert {
+    height: 80px;
+    z-index: 2;
+}
+
+.page-title-advert .overlay-advert {
+    height: 80px;
+    background: rgba(0, 0, 0, 0.7);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    position: absolute;
+    z-index: 1;
+}
+
 .fh5co-cta .container, .fh5co-page-title .container {
     position: relative;
     z-index: 2;

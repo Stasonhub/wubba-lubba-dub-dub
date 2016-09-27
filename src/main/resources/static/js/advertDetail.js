@@ -9,8 +9,10 @@
             navigation: true,
             paginationSpeed: 1000,
             goToFirstSpeed: 2000,
-            singleItem: true,
-            autoHeight: true,
+            autoWidth: true,
+            loop: true,
+            margin: 10,
+            items: 3,
             transitionStyle: "fade"
         });
     });

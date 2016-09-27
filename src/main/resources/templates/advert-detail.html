@@ -27,17 +27,25 @@
 
 <div id="fh5co-page">
     <header th:replace="fragments/header :: header"/>
-    <div th:fragment="searchBox" class="fh5co-page-title" style="background-image: url(/images/slide_6.jpg);">
-        <div class="overlay"></div>
+    <div class="page-title-advert" style="background-image: url(/images/slide_6.jpg);">
+        <div class="overlay overlay-advert"></div>
     </div>
-    <div id="best-deal">
-        <div id="advert-carousel" class="advert-carousel">
-            <div><img src="/images/test/test_image_1.jpg"></div>
-            <div><img src="/images/test/test_image_2.jpg"></div>
-            <div><img src="/images/test/test_image_3.jpg"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="advert-carousel" class="advert-carousel">
+                    <div><img src="/images/test/test_image_1.jpg"></div>
+                    <div><img src="/images/test/test_image_2.jpg"></div>
+                    <div><img src="/images/test/test_image_3.jpg"></div>
+                </div>
+            </div>
         </div>
-
-
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Однокомнатная квартира на ул. Мира, 6</h1>
+                <span>12 000Р + ку</span>
+            </div>
+        </div>
     </div>
 
     <footer th:replace="fragments/footer :: footer"/>
