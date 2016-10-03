@@ -3,8 +3,8 @@
     'use strict';
 
     $(document).ready(function () {
-        $('#adverts-gallery').lightGallery({
-            selector: '.item'
+        $('#gal2').lightGallery({
+            selector: '.gallery-item'
         });
     });
 }());
