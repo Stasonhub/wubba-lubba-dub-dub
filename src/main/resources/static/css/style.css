@@ -113,6 +113,27 @@
 .adverts-gallery-link {
 }
 
+.adv-param-container {
+    text-align: center;
+}
+
+.adv-param-icon {
+    font-size: 1.7em;
+    align: center;
+}
+
+.adv-param-icon-text {
+    text-align: center;
+}
+
+.adv-param-container {
+    margin-top: 15px;
+}
+
+.adv-param-map-preview {
+    border-radius: 50%;
+}
+
 /* ================================== template ======================*/
 
 /* font-family: "GloberBold"; */
