@@ -191,6 +191,10 @@
     margin: 20px;
 }
 
+.adv-details-desc h4 {
+    margin-bottom: 5px;
+}
+
 /* ================================== template ======================*/
 
 /* font-family: "GloberBold"; */
