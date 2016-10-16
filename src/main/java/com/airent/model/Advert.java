@@ -1,5 +1,7 @@
 package com.airent.model;
 
+import java.util.List;
+
 public class Advert {
 
     private long id;
@@ -14,10 +16,13 @@ public class Advert {
     private int sq;
     private int price;
     private boolean withPublicServices;
+    private boolean withDeposit;
 
     private int conditions;
+    private String header="Однокомнатная квартира в центре хаха";
     private String description;
     private String mainPhotoUrl;
+    //private List<String> photoUrls;
 
     public long getId() {
         return id;
@@ -112,6 +117,14 @@ public class Advert {
         this.withPublicServices = withPublicServices;
     }
 
+    public boolean isWithDeposit() {
+        return withDeposit;
+    }
+
+    public void setWithDeposit(boolean withDeposit) {
+        this.withDeposit = withDeposit;
+    }
+
     public int getConditions() {
         return conditions;
     }
@@ -119,6 +132,14 @@ public class Advert {
     public Advert setConditions(int conditions) {
         this.conditions = conditions;
         return this;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 
     public String getDescription() {

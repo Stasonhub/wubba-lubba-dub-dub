@@ -59,6 +59,10 @@ public class AdvertService {
         return advertMapper.searchNextAdvertsBeforeTime(districts, priceFrom, priceTo, rooms, timestamp, ADVERTS_PER_REQUEST);
     }
 
+    public Advert getAdvert(long id) {
+        return advertMapper.findById(id);
+    }
+
     public AdvertPrices getAdvertPrices() {
         return advertMapper.getAdvertPrices();
     }

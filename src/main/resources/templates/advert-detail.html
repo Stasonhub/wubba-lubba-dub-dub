@@ -47,36 +47,36 @@
         <div class="adv-header-container">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-md-3">
                         <div class="sidebar-container row">
                             <div class="adv-price-container col-mg-12">
-                                <span>12 000Р + ку + залог</span>
+                                <span th:text="${#numbers.formatInteger(advert.price, 0, 'WHITESPACE') + 'Р' + (advert.withPublicServices ? ' + ку' : '') + (advert.withDeposit ? ' + депозит' : '')}">1</span>
                             </div>
                             <div class="sidebar-main-content">
                                 <div class="col-mg-12 sidebar-item">
-                                    <button type="button" class="center-block btn btn-danger btn-lg">
+                                    <button id="show-user" advertId="4" type="button" class="center-block btn btn-danger btn-lg">
                                         <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Телефон
                                         владельца
                                     </button>
                                 </div>
                                 <div class="col-mg-12 sidebar-item">
                                     <div class="adv-opt-container">
-                                        <img class="adv-param-map-preview" src="/images/map.png">
+                                        <div id="adv-detail-map"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9">
+                    <div class="col-md-9">
                         <div class="adv-param-container">
                             <div class="row">
-                                <h1 class="adv-param-header">Однокомнатная квартира в центре</h1>
-                                <h2 class="adv-param-address">г.Казань, ул. Мира, 6</h2>
+                                <h1 class="adv-param-header" th:text="${advert.header}"></h1>
+                                <h2 class="adv-param-address" th:text="${advert.address}">г.Казань, ул. Мира, 6</h2>
                             </div>
                             <div class="row adv-opt-row">
                                 <div class="col-sm-2 adv-opt-container">
                                     <span class="adv-param-icon glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                    <span class="adv-param-icon-text">2 комнаты</span>
+                                    <span class="adv-param-icon-text" th:text="${advert.rooms +' ' + T(com.airent.template.Utils).getRoomsText(advert.rooms)}">2 комнаты</span>
                                 </div>
                                 <div class="col-sm-2 adv-opt-container">
                                     <span class="adv-param-icon glyphicon glyphicon-resize-full"
@@ -97,33 +97,37 @@
         <div class="adv-details-container">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-3"></div>
-                    <div class="col-lg-9">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-9">
                         <div class="adv-details-desc">
-                            <h4>Об этом жилье</h4>
-                            <p>
+                            <h4>Описание</h4>
+                            <div class="adv-details-desc-group">
+                            <span>
                                 Сдается однокомнатная уютная квартира на длительный срок. Квартира готова к проживанию.
                                 Огороженная территория, вид из окон на лес. В квартире есть все необходимое для
                                 проживания. Коммунальные платежи включены в стоимость проживания.
-                            </p>
+                            </span>
+                            </div>
                             <h4>Жилье</h4>
-                            <div><span>Спальных мест: 2</span></div>
-                            <div><span>Количество кроватей: 1</span></div>
-                            <div><span>Балкон</span></div>
+                            <div class="adv-details-desc-group">
+                                <div><span>Спальных мест: 2</span></div>
+                                <div><span>Количество кроватей: 1</span></div>
+                                <div><span>Балкон</span></div>
+                            </div>
                             <h4>Удобства</h4>
-                            <p>
-                            <div><span>Стиральная машина</span></div>
-                            <div><span>Интернет</span></div>
-                            <div><span>Интернет</span></div>
-                            <div><span></span></div>
-                            <div><span></span></div>
-                            </p>
+                            <div class="adv-details-desc-group">
+                                <div><span>Стиральная машина</span></div>
+                                <div><span>Кондиционер</span></div>
+                                <div><span>Интернет</span></div>
+                                <div><span>Телевизор</span></div>
+                                <div><span>Холодильник</span></div>
+                            </div>
                             <h4>Можно</h4>
-                            <p>
-                            <div><span>C детьми</span></div>
-                            <div><span>Курить</span></div>
-                            <div><span>С детьми</span></div>
-                            </p>
+                            <div class="adv-details-desc-group">
+                                <div><span>C детьми</span></div>
+                                <div><span>Курить</span></div>
+                                <div><span>С животными</span></div>
+                            </div>
                         </div>
                     </div>
                     <!--<div class="adv-details-container">-->
@@ -146,6 +150,7 @@
 <script src="/js/jquery.mousewheel.min.js"></script>
 <script src="/js/lightgallery-all.min.js"></script>
 <script src="/js/picturefill.min.js"></script>
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 <script src="/js/advertDetail.js"></script>
 </body>
 </html>

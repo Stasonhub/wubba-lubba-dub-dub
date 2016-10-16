@@ -1,5 +1,6 @@
 package com.airent.controller;
 
+import com.airent.model.Advert;
 import com.airent.model.AdvertPrices;
 import com.airent.model.District;
 import com.airent.model.rest.SearchRequest;
@@ -47,10 +48,14 @@ public class AdvertController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/advert/{advertId}")
-    public String getAdvertDetails(@PathVariable String advertId, Model model) {
+    public String getAdvertDetails(@PathVariable long advertId, Model model) {
+        Advert advert = advertService.getAdvert(advertId);
+        if (advert == null) {
+            throw new IllegalArgumentException("Объявление не найдено");
+        }
+        model.addAttribute("advert", advert);
         return "advert-detail";
     }
-
 
     private SearchBoxState getSearchBoxDefaultState(AdvertPrices advertPrices) {
         SearchBoxState searchBoxState = new SearchBoxState();
