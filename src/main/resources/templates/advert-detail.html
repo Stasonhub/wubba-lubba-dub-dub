@@ -54,7 +54,8 @@
                             </div>
                             <div class="sidebar-main-content">
                                 <div class="col-mg-12 sidebar-item">
-                                    <button id="show-user" advertId="4" type="button" class="center-block btn btn-danger btn-lg">
+                                    <button id="show-user" advertId="4" type="button"
+                                            class="center-block btn btn-danger btn-lg">
                                         <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Телефон
                                         владельца
                                     </button>
@@ -76,17 +77,20 @@
                             <div class="row adv-opt-row">
                                 <div class="col-sm-2 adv-opt-container">
                                     <span class="adv-param-icon glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                    <span class="adv-param-icon-text" th:text="${advert.rooms +' ' + T(com.airent.template.Utils).getRoomsText(advert.rooms)}">2 комнаты</span>
+                                    <span class="adv-param-icon-text"
+                                          th:text="${advert.rooms +' ' + T(com.airent.template.Utils).getRoomsText(advert.rooms)}">2 комнаты</span>
                                 </div>
                                 <div class="col-sm-2 adv-opt-container">
                                     <span class="adv-param-icon glyphicon glyphicon-resize-full"
                                           aria-hidden="true"></span>
-                                    <span class="adv-param-icon-text">45м<sup>2</sup></span>
+                                    <span class="adv-param-icon-text"
+                                          th:inline="text">[[${advert.sq}]] м<sup>2</sup></span>
                                 </div>
                                 <div class="col-sm-2 adv-opt-container">
                                     <span class="adv-param-icon glyphicon glyphicon-export"
                                           aria-hidden="true"></span>
-                                    <span class="adv-param-icon-text">3/5 этаж</span>
+                                    <span class="adv-param-icon-text"
+                                          th:text="${advert.floor+'/'+advert.maxFloor+' этаж'}"></span>
                                 </div>
                             </div>
                         </div>
@@ -102,11 +106,7 @@
                         <div class="adv-details-desc">
                             <h4>Описание</h4>
                             <div class="adv-details-desc-group">
-                            <span>
-                                Сдается однокомнатная уютная квартира на длительный срок. Квартира готова к проживанию.
-                                Огороженная территория, вид из окон на лес. В квартире есть все необходимое для
-                                проживания. Коммунальные платежи включены в стоимость проживания.
-                            </span>
+                                <span th:text="${advert.description}"></span>
                             </div>
                             <h4>Жилье</h4>
                             <div class="adv-details-desc-group">
