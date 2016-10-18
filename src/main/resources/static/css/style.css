@@ -106,8 +106,12 @@
 
 .adverts-gallery {
     width: 100%;
-    height: 250px;
+    height: 300px;
     cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    -webkit-background-size: cover;
+    background-size: cover;
 }
 
 .adverts-gallery-link {
@@ -120,6 +124,7 @@
 .adv-param-icon {
     font-size: 1.7em;
     align: center;
+    display: block;
 }
 
 .adv-param-icon-text {
@@ -164,14 +169,14 @@
     position: static;
 }
 
-@media(min-width: 992px) {
+@media (min-width: 992px) {
     .sidebar-container {
         position: absolute;
         width: 248px;
     }
 }
 
-@media(min-width: 1200px) {
+@media (min-width: 1200px) {
     .sidebar-container {
         position: absolute;
         width: 300px;
@@ -209,6 +214,7 @@
     margin-top: 15px;
     margin-bottom: 5px;
 }
+
 .adv-details-desc-group {
     margin-left: 15px;
 }
@@ -218,7 +224,7 @@
     height: 300px;
 }
 
-    /* ================================== template ======================*/
+/* ================================== template ======================*/
 
 /* font-family: "GloberBold"; */
 

@@ -110,23 +110,34 @@
                             </div>
                             <h4>Жилье</h4>
                             <div class="adv-details-desc-group">
-                                <div><span>Спальных мест: 2</span></div>
-                                <div><span>Количество кроватей: 1</span></div>
-                                <div><span>Балкон</span></div>
+                                <div><span>Спальных мест: <span th:text="${advert.bedrooms}">2</span></span></div>
+                                <div><span>Количество кроватей: <span th:text="${advert.beds}">1</span></span></div>
+                                <div><span th:if="${T(com.airent.template.Utils).checkCondition(advert.conditions, 0)}">Балкон</span>
+                                </div>
                             </div>
-                            <h4>Удобства</h4>
+                            <h4 th:if="${T(com.airent.template.Utils).checkAtLeastOneCondition(advert.conditions, 1, 2, 3, 4, 5)}">
+                                Удобства</h4>
                             <div class="adv-details-desc-group">
-                                <div><span>Стиральная машина</span></div>
-                                <div><span>Кондиционер</span></div>
-                                <div><span>Интернет</span></div>
-                                <div><span>Телевизор</span></div>
-                                <div><span>Холодильник</span></div>
+                                <div><span th:if="${T(com.airent.template.Utils).checkCondition(advert.conditions, 1)}">Стиральная машина</span>
+                                </div>
+                                <div><span th:if="${T(com.airent.template.Utils).checkCondition(advert.conditions, 2)}">Кондиционер</span>
+                                </div>
+                                <div><span th:if="${T(com.airent.template.Utils).checkCondition(advert.conditions, 3)}">Интернет</span>
+                                </div>
+                                <div><span th:if="${T(com.airent.template.Utils).checkCondition(advert.conditions, 4)}">Телевизор</span>
+                                </div>
+                                <div><span th:if="${T(com.airent.template.Utils).checkCondition(advert.conditions, 5)}">Холодильник</span>
+                                </div>
                             </div>
-                            <h4>Можно</h4>
+                            <h4 th:if="${T(com.airent.template.Utils).checkAtLeastOneCondition(advert.conditions, 6, 7, 8)}">
+                                Можно</h4>
                             <div class="adv-details-desc-group">
-                                <div><span>C детьми</span></div>
-                                <div><span>Курить</span></div>
-                                <div><span>С животными</span></div>
+                                <div><span th:if="${T(com.airent.template.Utils).checkCondition(advert.conditions, 6)}">C детьми</span>
+                                </div>
+                                <div><span th:if="${T(com.airent.template.Utils).checkCondition(advert.conditions, 7)}">Курить</span>
+                                </div>
+                                <div><span th:if="${T(com.airent.template.Utils).checkCondition(advert.conditions, 8)}">С животными</span>
+                                </div>
                             </div>
                         </div>
                     </div>

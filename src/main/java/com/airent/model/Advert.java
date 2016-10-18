@@ -1,12 +1,13 @@
 package com.airent.model;
 
-import java.util.List;
-
 public class Advert {
 
     private long id;
     private long userId;
     private long publicationDate;
+
+    private String mainPhotoUrl;
+    //private List<String> photoUrls;
 
     private District district;
     private String address;
@@ -18,11 +19,12 @@ public class Advert {
     private boolean withPublicServices;
     private boolean withDeposit;
 
-    private int conditions;
-    private String header="Однокомнатная квартира в центре хаха";
+    private String header = "Однокомнатная квартира в центре хаха";
     private String description;
-    private String mainPhotoUrl;
-    //private List<String> photoUrls;
+
+    private int conditions;
+    private int bedrooms;
+    private int beds;
 
     public long getId() {
         return id;
@@ -51,6 +53,15 @@ public class Advert {
         return this;
     }
 
+    public String getMainPhotoUrl() {
+        return mainPhotoUrl;
+    }
+
+    public Advert setMainPhotoUrl(String mainPhotoUrl) {
+        this.mainPhotoUrl = mainPhotoUrl;
+        return this;
+    }
+
     public District getDistrict() {
         return district;
     }
@@ -64,40 +75,45 @@ public class Advert {
         return address;
     }
 
-    public void setAddress(String address) {
+    public Advert setAddress(String address) {
         this.address = address;
+        return this;
     }
 
     public int getFloor() {
         return floor;
     }
 
-    public void setFloor(int floor) {
+    public Advert setFloor(int floor) {
         this.floor = floor;
+        return this;
     }
 
     public int getMaxFloor() {
         return maxFloor;
     }
 
-    public void setMaxFloor(int maxFloor) {
+    public Advert setMaxFloor(int maxFloor) {
         this.maxFloor = maxFloor;
+        return this;
     }
 
     public int getRooms() {
         return rooms;
     }
 
-    public void setRooms(int rooms) {
+    public Advert setRooms(int rooms) {
         this.rooms = rooms;
+        return this;
     }
 
     public int getSq() {
         return sq;
     }
 
-    public void setSq(int sq) {
+    public Advert setSq(int sq) {
         this.sq = sq;
+        return this;
     }
 
     public int getPrice() {
@@ -113,24 +129,17 @@ public class Advert {
         return withPublicServices;
     }
 
-    public void setWithPublicServices(boolean withPublicServices) {
+    public Advert setWithPublicServices(boolean withPublicServices) {
         this.withPublicServices = withPublicServices;
+        return this;
     }
 
     public boolean isWithDeposit() {
         return withDeposit;
     }
 
-    public void setWithDeposit(boolean withDeposit) {
+    public Advert setWithDeposit(boolean withDeposit) {
         this.withDeposit = withDeposit;
-    }
-
-    public int getConditions() {
-        return conditions;
-    }
-
-    public Advert setConditions(int conditions) {
-        this.conditions = conditions;
         return this;
     }
 
@@ -138,8 +147,9 @@ public class Advert {
         return header;
     }
 
-    public void setHeader(String header) {
+    public Advert setHeader(String header) {
         this.header = header;
+        return this;
     }
 
     public String getDescription() {
@@ -151,12 +161,30 @@ public class Advert {
         return this;
     }
 
-    public String getMainPhotoUrl() {
-        return mainPhotoUrl;
+    public int getConditions() {
+        return conditions;
     }
 
-    public Advert setMainPhotoUrl(String mainPhotoUrl) {
-        this.mainPhotoUrl = mainPhotoUrl;
+    public Advert setConditions(int conditions) {
+        this.conditions = conditions;
+        return this;
+    }
+
+    public int getBedrooms() {
+        return bedrooms;
+    }
+
+    public Advert setBedrooms(int bedrooms) {
+        this.bedrooms = bedrooms;
+        return this;
+    }
+
+    public int getBeds() {
+        return beds;
+    }
+
+    public Advert setBeds(int beds) {
+        this.beds = beds;
         return this;
     }
 }
