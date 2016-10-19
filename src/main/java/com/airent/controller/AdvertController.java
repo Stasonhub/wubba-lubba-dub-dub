@@ -3,6 +3,7 @@ package com.airent.controller;
 import com.airent.model.Advert;
 import com.airent.model.AdvertPrices;
 import com.airent.model.District;
+import com.airent.model.Photo;
 import com.airent.model.rest.SearchRequest;
 import com.airent.model.ui.SearchBoxState;
 import com.airent.service.AdvertService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdvertController {
@@ -25,7 +27,6 @@ public class AdvertController {
 
     @Autowired
     private PhotoService photoService;
-
 
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public String showMainPage(Model model) {
@@ -68,7 +69,12 @@ public class AdvertController {
         if (advert == null) {
             throw new IllegalArgumentException("Объявление не найдено");
         }
+
+        List<Photo> photos = photoService.getPhotos(advert);
+
         model.addAttribute("advert", advert);
+        model.addAttribute("mainPhoto", photos.stream().filter(Photo::isMain).findFirst().get());
+        model.addAttribute("otherPhotos", photos.stream().filter(v -> !v.isMain()).collect(Collectors.toList()));
         return "advert-detail";
     }
 

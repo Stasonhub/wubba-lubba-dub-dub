@@ -78,11 +78,11 @@ public class TestDataConfig {
 
     private List<Photo> createPhotos(Advert advert) {
         List<Photo> photos = new ArrayList<>();
-        int mainIndex = (int) (Math.random() * 2 + 1);
-        for (int i = 1; i < 3; i++) {
+        int mainIndex = (int) (Math.random() * 6 + 1);
+        for (int i = 1; i < 7; i++) {
             Photo photo = new Photo();
             photo.setAdvertId(advert.getId());
-            photo.setPath("images/test/test_image_" + i + ".jpg");
+            photo.setPath("/images/test/test_image_" + i + ".jpg");
             photo.setMain(mainIndex == i);
             photos.add(photo);
         }

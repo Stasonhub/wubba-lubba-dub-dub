@@ -6,4 +6,6 @@ public interface UserMapper {
 
     void createUser(User user);
 
+    User findById(long id);
+
 }

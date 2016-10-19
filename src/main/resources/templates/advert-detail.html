@@ -33,14 +33,16 @@
             <div class="col-md-12">
                 <div id="gal2">
                     <div class="gallery-item adverts-gallery"
-                         style="background-image:  url(/images/test/test_image_1.jpg);"
-                         href="/images/test/test_image_1.jpg">
-                        <img src="/images/test/test_image_1.jpg" style="display: none;"/>
+                         th:style="${'background-image:  url('+mainPhoto.path+');'}"
+                         th:href="${mainPhoto.path}">
+                        <img th:src="${mainPhoto.path}" style="display: none;"/>
                     </div>
-                    <div class="gallery-item" href="/images/test/test_image_2.jpg" style="display: none;"><img
-                            src="/images/test/test_image_2.jpg"/></div>
-                    <div class="gallery-item" href="/images/test/test_image_3.jpg" style="display: none;"><img
-                            src="/images/test/test_image_3.jpg"/></div>
+                    <div th:each="otherPhoto : ${otherPhotos}"
+                         th:href="${otherPhoto.path}"
+                         class="gallery-item"
+                         style="display: none;">
+                        <img th:src="${otherPhoto.path}"/>
+                    </div>
                 </div>
             </div>
         </div>

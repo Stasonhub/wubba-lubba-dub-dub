@@ -16,6 +16,10 @@ public class PhotoService {
     @Autowired
     private PhotoMapper photoMapper;
 
+    public List<Photo> getPhotos(Advert advert) {
+        return photoMapper.getPhotos(advert.getId());
+    }
+
     public Map<Long, Photo> getMainPhotos(List<Advert> adverts) {
         return photoMapper.getMainPhotos(adverts
                 .stream()

@@ -9,7 +9,7 @@
         <a th:href="'/advert/'+${advert.id}">
             <div class="fh5co-property">
                 <figure>
-                    <img th:src="'/'+${mainPhotos.get(advert.getId()).getPath()}" alt="Изображение квартиры"
+                    <img th:src="${mainPhotos.get(advert.getId()).getPath()}" alt="Изображение квартиры"
                          class="img-responsive">
                     <span class="tag" th:inline="text">[[${advert.sq}]] м<sup>2</sup></span>
                 </figure>
