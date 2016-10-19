@@ -4,6 +4,7 @@ public class Photo {
 
     private long id;
     private long advertId;
+    private boolean main;
     private String path;
 
     public long getId() {
@@ -21,6 +22,15 @@ public class Photo {
 
     public Photo setAdvertId(long advertId) {
         this.advertId = advertId;
+        return this;
+    }
+
+    public boolean isMain() {
+        return main;
+    }
+
+    public Photo setMain(boolean main) {
+        this.main = main;
         return this;
     }
 

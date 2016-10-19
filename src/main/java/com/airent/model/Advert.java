@@ -6,9 +6,6 @@ public class Advert {
     private long userId;
     private long publicationDate;
 
-    private String mainPhotoUrl;
-    //private List<String> photoUrls;
-
     private District district;
     private String address;
     private int floor;
@@ -19,7 +16,7 @@ public class Advert {
     private boolean withPublicServices;
     private boolean withDeposit;
 
-    private String header = "Однокомнатная квартира в центре хаха";
+    private String header;
     private String description;
 
     private int conditions;
@@ -50,15 +47,6 @@ public class Advert {
 
     public Advert setPublicationDate(long publicationDate) {
         this.publicationDate = publicationDate;
-        return this;
-    }
-
-    public String getMainPhotoUrl() {
-        return mainPhotoUrl;
-    }
-
-    public Advert setMainPhotoUrl(String mainPhotoUrl) {
-        this.mainPhotoUrl = mainPhotoUrl;
         return this;
     }
 

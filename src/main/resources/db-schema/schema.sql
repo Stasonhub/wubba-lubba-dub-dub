@@ -18,7 +18,6 @@ CREATE TABLE advert (
   withPublicServices BOOLEAN      NOT NULL,
   conditions         INT          NOT NULL,
   description        VARCHAR(250) NOT NULL,
-  mainPhotoUrl       VARCHAR      NOT NULL,
   FOREIGN KEY (userId) REFERENCES user (id)
 );
 
@@ -26,5 +25,6 @@ CREATE TABLE photo (
   id       BIGINT PRIMARY KEY AUTO_INCREMENT,
   advertId BIGINT  NOT NULL,
   path     VARCHAR NOT NULL,
+  main     BOOLEAN NOT NULL,
   FOREIGN KEY (advertId) REFERENCES advert (id)
 );

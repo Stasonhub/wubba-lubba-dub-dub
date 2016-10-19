@@ -3,9 +3,31 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airent.mapper.PhotoMapper">
   <insert id="createPhoto" keyProperty="id" useGeneratedKeys="true">
-      INSERT INTO photo (advertId, path)
-      VALUES (#{advertId}, #{path})
-    </insert>
+      INSERT INTO photo (advertId, path, main)
+      VALUES (#{advertId}, #{path}, #{main})
+  </insert>
+
+  <select id="getMainPhoto" resultType="com.airent.model.Photo">
+    SELECT *
+    FROM photo
+    WHERE advertId=#{advertId} AND main='true'
+  </select>
+
+  <select id="getPhotos" resultType="com.airent.model.Photo">
+    SELECT *
+    FROM photo
+    WHERE advertId=#{advertId}
+  </select>
+
+  <select id="getMainPhotos" resultType="com.airent.model.Photo" parameterType="java.util.List">
+    SELECT *
+    FROM photo
+    WHERE advertId in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=") ">
+      #{item}
+    </foreach>
+    AND main='true'
+  </select>
 
   <delete id="deletePhoto">
     DELETE FROM photo

@@ -24,7 +24,6 @@ public interface AdvertMapper {
             @Param("timestamp") long timestamp,
             @Param("limit") int limit);
 
-
     AdvertPrices getAdvertPrices();
 
     void deleteAdvert(long id);

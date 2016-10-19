@@ -73,16 +73,17 @@ public class TestDataConfig {
         advert.setWithPublicServices(i * j % 2 == 0);
         advert.setPrice(((i * j) % 20 + 3) * 1000);
         advert.setDescription(TEXTS[i * j % 5]);
-        advert.setMainPhotoUrl("images/test/test_image_" + ((i * j) % 3 + 1) + ".jpg");
         return advert;
     }
 
     private List<Photo> createPhotos(Advert advert) {
         List<Photo> photos = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        int mainIndex = (int) (Math.random() * 2 + 1);
+        for (int i = 1; i < 3; i++) {
             Photo photo = new Photo();
             photo.setAdvertId(advert.getId());
             photo.setPath("images/test/test_image_" + i + ".jpg");
+            photo.setMain(mainIndex == i);
             photos.add(photo);
         }
         return photos;

@@ -6,6 +6,7 @@ import com.airent.model.District;
 import com.airent.model.rest.SearchRequest;
 import com.airent.model.ui.SearchBoxState;
 import com.airent.service.AdvertService;
+import com.airent.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,28 +15,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class AdvertController {
 
     @Autowired
     private AdvertService advertService;
 
+    @Autowired
+    private PhotoService photoService;
+
+
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public String showMainPage(Model model) {
-        model.addAttribute("adverts", advertService.getAdvertsForMainPage());
+        List<Advert> adverts = advertService.getAdvertsForMainPage();
+        model.addAttribute("adverts", adverts);
+        model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
         model.addAttribute("sb", getSearchBoxDefaultState(advertService.getAdvertPrices()));
         return "main";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/loadMore")
     public String loadMoreAdverts(@RequestParam long timestampUntil, Model model) {
-        model.addAttribute("adverts", advertService.getAdvertsForMainPageFrom(timestampUntil));
+        List<Advert> adverts = advertService.getAdvertsForMainPageFrom(timestampUntil);
+        model.addAttribute("adverts", adverts);
+        model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
         return "fragments/advert :: advertsForm";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/search")
     public String searchAdverts(SearchRequest searchRequest, Model model) {
-        model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, System.currentTimeMillis()));
+        List<Advert> adverts = advertService.searchAdvertsUntilTime(searchRequest, System.currentTimeMillis());
+        model.addAttribute("adverts", adverts);
+        model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
         model.addAttribute("searchRequest", searchRequest);
         model.addAttribute("sb", getSearchBoxState(searchRequest, advertService.getAdvertPrices()));
         return "search";
@@ -43,7 +56,9 @@ public class AdvertController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/search/loadMore")
     public String searchLoadMoreAdverts(SearchRequest searchRequest, @RequestParam long timestampUntil, Model model) {
-        model.addAttribute("adverts", advertService.searchAdvertsUntilTime(searchRequest, timestampUntil));
+        List<Advert> adverts = advertService.searchAdvertsUntilTime(searchRequest, timestampUntil);
+        model.addAttribute("adverts", adverts);
+        model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
         return "fragments/advert :: advertsForm";
     }
 

@@ -1,13 +1,9 @@
-package com.airent;
-
+package com.airent.db;
 
 import com.airent.mapper.AdvertMapper;
-import com.airent.mapper.PhotoMapper;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.District;
-import com.airent.model.Photo;
-import com.airent.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DbTests {
+public class AdvertTest {
 
     @Autowired
     private UserMapper userMapper;
@@ -30,40 +26,9 @@ public class DbTests {
     @Autowired
     private AdvertMapper advertMapper;
 
-    @Autowired
-    private PhotoMapper photoMapper;
-
-    private Advert createAdvert() {
-        User user = new User();
-        user.setName("Aidar");
-        user.setPhone(12345);
-
-        userMapper.createUser(user);
-
-        Advert advert = new Advert();
-        advert.setPublicationDate(2L);
-        advert.setConditions(2);
-        advert.setDescription("Advert");
-        advert.setDistrict(District.KR);
-        advert.setAddress("st. First,12");
-        advert.setFloor(5);
-        advert.setMaxFloor(10);
-        advert.setSq(32);
-        advert.setPrice(42_000);
-        advert.setRooms(1);
-        advert.setWithPublicServices(true);
-        advert.setDescription("Bla bla bla");
-        advert.setMainPhotoUrl("images/blblba.jpg");
-
-        advert.setUserId(user.getId());
-
-        advertMapper.createAdvert(advert);
-        return advert;
-    }
-
     @Test
     public void testCreateAdvertWithPhotos() {
-        Advert advert = createAdvert();
+        Advert advert = TestUtil.createAdvert(userMapper, advertMapper);
 
         Advert selectedAdvert = advertMapper.findById(advert.getId());
 
@@ -74,16 +39,11 @@ public class DbTests {
         assertEquals(advert.getDistrict(), selectedAdvert.getDistrict());
         assertEquals(advert.getAddress(), selectedAdvert.getAddress());
         assertEquals(advert.getPrice(), selectedAdvert.getPrice());
-
-        Photo photo = new Photo();
-        photo.setPath("/path/to/photo.jpg");
-        photo.setAdvertId(advert.getId());
-        photoMapper.createPhoto(photo);
     }
 
     @Test
     public void testSearchAdvert() {
-        Advert advert = createAdvert();
+        Advert advert = TestUtil.createAdvert(userMapper, advertMapper);
 
         List<District> districtList = Collections.singletonList(advert.getDistrict());
         List<Integer> rooms = Collections.singletonList(advert.getRooms());
@@ -93,5 +53,4 @@ public class DbTests {
         assertEquals(1, adverts.size());
         assertEquals(advert.getId(), adverts.get(0).getId());
     }
-
 }
