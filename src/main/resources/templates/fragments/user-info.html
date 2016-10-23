@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+<div th:fragment="userInfo (user)">
+    <div>
+        <span th:text="${user.name}"></span>
+    </div>
+    <div>
+        <span th:text="${user.phone}"></span>
+    </div>
+</div>
+</body>
+</html>

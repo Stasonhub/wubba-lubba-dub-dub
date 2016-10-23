@@ -14,11 +14,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{advertId}")
+    @RequestMapping(method = RequestMethod.GET, path = "/user/{advertId}")
     public String getUserForAdvert(@PathVariable long advertId, Model model) {
         model.addAttribute("user", userService.getUserForAdvert(advertId));
-        return "user-info";
+        return "fragments/user-info :: userInfo";
     }
-
 
 }
