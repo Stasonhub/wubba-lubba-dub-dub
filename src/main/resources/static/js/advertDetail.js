@@ -12,9 +12,12 @@
 
         var showUser = $('#show-user');
         showUser.on('click', function () {
-            var advertId = showUser.getAttribute('');
-
+            var advertId = showUser.attr('advertId');
+            $.get("/user/" + advertId, function (html) {
+                showUser.replaceWith(html);
+            });
         });
+
     });
 
     ymaps.ready(function () {

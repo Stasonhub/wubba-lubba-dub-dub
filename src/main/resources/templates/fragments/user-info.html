@@ -3,13 +3,9 @@
 <head>
 </head>
 <body>
-<div th:fragment="userInfo (user)">
-    <div>
-        <span th:text="${user.name}"></span>
-    </div>
-    <div>
-        <span th:text="${user.phone}"></span>
-    </div>
+<div th:fragment="userInfo (user)" class="user-info">
+    <div><span th:text="${user.name}"></span></div>
+    <div><span th:text="${user.phone}"></span></div>
 </div>
 </body>
 </html>

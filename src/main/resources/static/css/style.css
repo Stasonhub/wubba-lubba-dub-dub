@@ -224,6 +224,11 @@
     height: 300px;
 }
 
+.user-info {
+    text-align: center;
+    font-size: 18px;
+}
+
 /* ================================== template ======================*/
 
 /* font-family: "GloberBold"; */
