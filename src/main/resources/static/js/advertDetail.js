@@ -10,11 +10,16 @@
             selector: '.gallery-item'
         });
 
+
         var showUser = $('#show-user');
         showUser.on('click', function () {
             var advertId = showUser.attr('advertId');
-            $.get("/user/" + advertId, function (html) {
-                showUser.replaceWith(html);
+            $.post("/user", {"advertId": advertId}, function (data, status) {
+                showUser.replaceWith(data);
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = "/login";
+                }
             });
         });
 

@@ -22,12 +22,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/css/**", "/js/**", "/fonts/**", "/images/**").permitAll()
                 .antMatchers("/user/**").authenticated()
+               // .antMatchers("/advert/**").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll().and().csrf().disable();
     }
 }
