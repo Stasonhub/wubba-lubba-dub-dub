@@ -17,8 +17,11 @@
             $.post("/user", {"advertId": advertId}, function (data, status) {
                 showUser.replaceWith(data);
             }).fail(function (xhr, ajaxOptions, thrownError) {
-                if (xhr.status == 403) {
-                    window.location.href = "/login";
+                if (xhr.status == 401) {
+                    // show login page
+
+                    // after submit button perform previous post
+
                 }
             });
         });
