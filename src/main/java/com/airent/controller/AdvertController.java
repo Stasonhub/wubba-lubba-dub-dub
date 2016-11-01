@@ -7,8 +7,11 @@ import com.airent.model.Photo;
 import com.airent.model.rest.SearchRequest;
 import com.airent.model.ui.SearchBoxState;
 import com.airent.service.AdvertService;
+import com.airent.service.LoginService;
 import com.airent.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,12 +31,16 @@ public class AdvertController {
     @Autowired
     private PhotoService photoService;
 
+    @Autowired
+    private LoginService loginService;
+
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public String showMainPage(Model model) {
         List<Advert> adverts = advertService.getAdvertsForMainPage();
         model.addAttribute("adverts", adverts);
         model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
         model.addAttribute("sb", getSearchBoxDefaultState(advertService.getAdvertPrices()));
+        model.addAttribute("currentUser", loginService.getCurrentUser());
         return "main";
     }
 
@@ -52,6 +59,7 @@ public class AdvertController {
         model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
         model.addAttribute("searchRequest", searchRequest);
         model.addAttribute("sb", getSearchBoxState(searchRequest, advertService.getAdvertPrices()));
+        model.addAttribute("currentUser", loginService.getCurrentUser());
         return "search";
     }
 
@@ -75,6 +83,7 @@ public class AdvertController {
         model.addAttribute("advert", advert);
         model.addAttribute("mainPhoto", photos.stream().filter(Photo::isMain).findFirst().get());
         model.addAttribute("otherPhotos", photos.stream().filter(v -> !v.isMain()).collect(Collectors.toList()));
+        model.addAttribute("currentUser", loginService.getCurrentUser());
         return "advert-detail";
     }
 

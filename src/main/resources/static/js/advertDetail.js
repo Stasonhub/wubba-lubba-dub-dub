@@ -18,10 +18,7 @@
                 showUser.replaceWith(data);
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 if (xhr.status == 401) {
-                    // show login page
-
-                    // after submit button perform previous post
-
+                    $('#login-modal').modal('show');
                 }
             });
         });

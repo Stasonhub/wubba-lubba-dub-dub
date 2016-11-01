@@ -20,9 +20,10 @@
     <link rel="stylesheet" href="/css/lightgallery.min.css"/>
     <link rel="stylesheet" href="/css/lg-transitions.min.css"/>
     <link rel="stylesheet" href="/css/lg-fb-comment-box.min.css"/>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-
+<div th:replace="fragments/login-popup :: login-popup"/>
 <div id="fh5co-page">
     <header th:replace="fragments/header :: header"/>
     <div class="page-title-advert" style="background-image: url(/images/slide_6.jpg);">
@@ -163,6 +164,7 @@
 <script src="/js/picturefill.min.js"></script>
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 <script src="/js/advertDetail.js"></script>
+<script src="/js/login.js"></script>
 </body>
 </html>
 
