@@ -47,6 +47,9 @@ $(function () {
         return false;
     });
 
+    $("#login_username").mask("+7 (999) 999-9999");
+    $("#register_username").mask("+7 (999) 999-9999");
+
     $('#login_register_btn').click(function () {
         modalAnimate($formLogin, $formRegister)
     });
