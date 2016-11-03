@@ -1,7 +1,8 @@
 CREATE TABLE user (
-  id    BIGINT PRIMARY KEY AUTO_INCREMENT,
-  phone BIGINT  NOT NULL,
-  name  VARCHAR NOT NULL
+  id       BIGINT PRIMARY KEY AUTO_INCREMENT,
+  phone    BIGINT      NOT NULL,
+  name     VARCHAR(30) NOT NULL,
+  password VARCHAR     NOT NULL,
 );
 
 CREATE TABLE advert (
@@ -9,7 +10,7 @@ CREATE TABLE advert (
   userId             BIGINT       NOT NULL,
   publicationDate    BIGINT       NOT NULL,
   district           VARCHAR(3)   NOT NULL,
-  address            VARCHAR      NOT NULL,
+  address            VARCHAR(100) NOT NULL,
   floor              INT          NOT NULL,
   maxFloor           INT          NOT NULL,
   rooms              INT          NOT NULL,

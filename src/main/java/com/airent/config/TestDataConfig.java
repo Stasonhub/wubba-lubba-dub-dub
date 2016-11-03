@@ -9,6 +9,8 @@ import com.airent.model.Photo;
 import com.airent.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ public class TestDataConfig {
     @Autowired
     private PhotoMapper photoMapper;
 
+    private PasswordEncoder passwordEncoder = new StandardPasswordEncoder();
+
     private long timestamp = System.currentTimeMillis();
 
     @PostConstruct
@@ -56,7 +60,8 @@ public class TestDataConfig {
     private User createTestUser(int i) {
         User user = new User();
         user.setName("User " + i);
-        user.setPhone(927400000 + i);
+        user.setPhone(9274000000L + i);
+        user.setPassword(passwordEncoder.encode("aidar"));
         return user;
     }
 

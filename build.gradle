@@ -38,6 +38,8 @@ dependencies {
     compile 'org.mybatis:mybatis:3.4.1'
     runtime 'com.h2database:h2:1.4.192'
 
+    compile 'org.apache.commons:commons-lang3:3.5'
+
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 

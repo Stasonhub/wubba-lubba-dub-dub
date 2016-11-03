@@ -5,12 +5,16 @@ import com.airent.security.AuthFailureHandler;
 import com.airent.security.AuthSuccessHandler;
 import com.airent.security.HttpAuthenticationEntryPoint;
 import com.airent.security.HttpLogoutSuccessHandler;
+import com.airent.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -27,8 +31,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private HttpLogoutSuccessHandler logoutSuccessHandler;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("aidar").password("aidar").roles("AIDAR_ROLE");
+    public void configureGlobal(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder, LoginService loginService) throws Exception {
+        auth.userDetailsService(loginService).passwordEncoder(passwordEncoder);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new StandardPasswordEncoder();
     }
 
     @Override

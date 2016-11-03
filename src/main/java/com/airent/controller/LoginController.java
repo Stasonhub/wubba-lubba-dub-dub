@@ -26,18 +26,24 @@ public class LoginController {
         Objects.requireNonNull(phoneNumber);
         Objects.requireNonNull(userName);
 
-        boolean alreadyExists = loginService.registerNewUser(PhoneNumber.normalize(phoneNumber), userName);
-        if (alreadyExists) {
+        boolean created = loginService.registerNewUser(PhoneNumber.normalize(phoneNumber), userName);
+        if (!created) {
             response.setStatus(HttpServletResponse.SC_CONFLICT);
             return;
         }
-
-
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/rememberPassword")
-    public void sendNewPassword(String phoneNumber) {
+    public void sendNewPassword(HttpServletResponse response, String phoneNumber) {
         Objects.requireNonNull(phoneNumber);
+
+        boolean sent = loginService.sendNewPassword(PhoneNumber.normalize(phoneNumber));
+        if (!sent) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
 }
