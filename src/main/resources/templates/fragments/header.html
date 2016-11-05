@@ -8,13 +8,22 @@
         <div class="row">
             <div class="header-inner">
                 <h1><a href="/">Airent<span class="blue-label">.</span></a></h1>
-                <nav role="navigation">
-                    <ul>
-                        <!-- if has user show username/logout -->
-                        <li class="active"><a href="#" data-toggle="modal" data-target="#login-modal">Войти</a></li>
-                        <li class="cta"><a href="contact.html">+ Сдать квартиру</a></li>
-                    </ul>
-                </nav>
+                <div style="display: block; float: right;">
+                    <nav role="navigation">
+                        <ul>
+                            <li id="nav-username" th:style="${currentUser == null ? 'display: none' : ''}"
+                                th:text="${currentUser == null ? '' : currentUser.name}"></li>
+                            <li id="nav-logout" th:style="${currentUser == null ? 'display: none' : ''}"
+                                class="active">
+                                <a id="logout-link" href="http://google.ru">Выйти</a></li>
+                            <li id="nav-login" th:style="${currentUser != null ? 'display: none' : ''}" class="active">
+                                <a href="#" data-toggle="modal"
+                                   data-target="#login-modal">Войти</a>
+                            </li>
+                            <li class="cta"><a href="contact.html">+ Сдать квартиру</a></li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>

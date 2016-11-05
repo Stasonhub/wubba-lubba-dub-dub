@@ -1,5 +1,4 @@
 $(function () {
-
     var $formLogin = $('#login-form');
     var $formLost = $('#lost-form');
     var $formRegister = $('#register-form');
@@ -16,6 +15,10 @@ $(function () {
 
                 $.post("/login", {"user": $lg_username, "password": $lg_password}, function (data, status) {
                     $('#login-modal').modal('hide');
+                    $('#nav-username').setAttribute('style', '');
+                    $('#nav-username').text = 'Aidar 1';
+                    $('#nav-logout').setAttribute('style', '');
+                    $('#nav-login').setAttribute('style', 'display:none');
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Ошибка входа");
                 });
@@ -50,6 +53,12 @@ $(function () {
     $("#login_username").mask("+7 (999) 999-9999");
     $("#register_username").mask("+7 (999) 999-9999");
     $("#lost_email").mask("+7 (999) 999-9999");
+
+    $("#logout-link").click(function (event) {
+        event.preventDefault();
+
+        alert("aasdasd");
+    });
 
     $('#login_register_btn').click(function () {
         modalAnimate($formLogin, $formRegister)

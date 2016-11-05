@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Objects;
 
 @Service
@@ -35,8 +36,10 @@ public class LoginService implements UserDetailsService {
     public UserInfo getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            OwnUserDetails userDetails = (OwnUserDetails) authentication.getPrincipal();
+
             UserInfo userLogin = new UserInfo();
-            userLogin.setName(authentication.getName());
+            userLogin.setName(userDetails.getName());
             return userLogin;
         }
         return null;
@@ -85,11 +88,30 @@ public class LoginService implements UserDetailsService {
             Objects.requireNonNull(user);
 
             GrantedAuthority authority = new SimpleGrantedAuthority("BASIC");
-            UserDetails userDetails = new org.springframework.security.core.userdetails.User(String.valueOf(user.getPhone()),
+            OwnUserDetails userDetails = new OwnUserDetails(String.valueOf(user.getPhone()),
                     user.getPassword(), Arrays.asList(authority));
+            userDetails.setName(user.getName());
             return userDetails;
         } catch (Exception e) {
             throw new UsernameNotFoundException("Not found username " + username);
         }
     }
+
+    private class OwnUserDetails extends org.springframework.security.core.userdetails.User {
+
+        private String name;
+
+        public OwnUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+            super(username, password, authorities);
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
 }
