@@ -15,7 +15,7 @@
                                 th:text="${currentUser == null ? '' : currentUser.name}"></li>
                             <li id="nav-logout" th:style="${currentUser == null ? 'display: none' : ''}"
                                 class="active">
-                                <a id="logout-link" href="http://google.ru">Выйти</a></li>
+                                <a id="logout-link" class="logout-link" href="http://google.ru">Выйти</a></li>
                             <li id="nav-login" th:style="${currentUser != null ? 'display: none' : ''}" class="active">
                                 <a href="#" data-toggle="modal"
                                    data-target="#login-modal">Войти</a>

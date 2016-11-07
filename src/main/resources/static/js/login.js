@@ -54,10 +54,11 @@ $(function () {
     $("#register_username").mask("+7 (999) 999-9999");
     $("#lost_email").mask("+7 (999) 999-9999");
 
-    $("#logout-link").click(function (event) {
-        event.preventDefault();
-
-        alert("aasdasd");
+    $( document ).ready(function() {
+        $( ".logout-link" ).on( "click", function (event) {
+            alert("aasdasd");
+            event.preventDefault();
+        });
     });
 
     $('#login_register_btn').click(function () {
