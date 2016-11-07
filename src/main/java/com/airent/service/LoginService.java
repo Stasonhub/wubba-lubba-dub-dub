@@ -34,7 +34,10 @@ public class LoginService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     public UserInfo getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return getUser(SecurityContextHolder.getContext().getAuthentication());
+    }
+
+    public UserInfo getUser(Authentication authentication) {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             OwnUserDetails userDetails = (OwnUserDetails) authentication.getPrincipal();
 

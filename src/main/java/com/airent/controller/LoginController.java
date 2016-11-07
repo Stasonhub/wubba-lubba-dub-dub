@@ -21,6 +21,11 @@ public class LoginController {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
+    @RequestMapping(method = RequestMethod.POST, path = "/logout")
+    public void logout(HttpServletResponse response) {
+
+    }
+
     @RequestMapping(method = RequestMethod.POST, path = "/register")
     public void registerUser(HttpServletResponse response, String phoneNumber, String userName) {
         Objects.requireNonNull(phoneNumber);

@@ -10,15 +10,12 @@ $(function () {
     $("form").submit(function () {
         switch (this.id) {
             case "login-form":
-                var $lg_username = $('#login_username').val();
+                var $lg_phone = $('#login_phone').val();
                 var $lg_password = $('#login_password').val();
 
-                $.post("/login", {"user": $lg_username, "password": $lg_password}, function (data, status) {
+                $.post("/login", {"user": $lg_phone, "password": $lg_password}, function (data, status) {
                     $('#login-modal').modal('hide');
-                    $('#nav-username').setAttribute('style', '');
-                    $('#nav-username').text = 'Aidar 1';
-                    $('#nav-logout').setAttribute('style', '');
-                    $('#nav-login').setAttribute('style', 'display:none');
+                    showUserInfo(JSON.parse(data));
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Ошибка входа");
                 });
@@ -35,13 +32,16 @@ $(function () {
                 break;
             case "register-form":
                 var $rg_username = $('#register_username').val();
-                var $rg_email = $('#register_email').val();
-                var $rg_password = $('#register_password').val();
-                if ($rg_username == "ERROR") {
-                    msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "error", "glyphicon-remove", "Register error");
-                } else {
-                    msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Register OK");
-                }
+                var $rg_phone = $('#register_phone').val();
+                $.post("/register", {"userName": $rg_username, "phoneNumber": $rg_phone}, function (data, status) {
+                    msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Вы успешно зарегистрированы");
+                    // show login screen with filled username and tip to get password from sms
+                    $("#login_phone").text('+7 (927) 418-1281');
+                    $("#text-login-msg").text("Введите пароль, отправленный в виде смс сообщения: ");
+                    modalAnimate($formRegister, $formLogin);
+                }).fail(function (xhr, ajaxOptions, thrownError) {
+                    msgChange($('#div-register-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Ошибка регистрации пользователя");
+                });
                 return false;
                 break;
             default:
@@ -50,16 +50,36 @@ $(function () {
         return false;
     });
 
-    $("#login_username").mask("+7 (999) 999-9999");
-    $("#register_username").mask("+7 (999) 999-9999");
+    $("#login_phone").mask("+7 (999) 999-9999");
+    $("#register_phone").mask("+7 (999) 999-9999");
     $("#lost_email").mask("+7 (999) 999-9999");
 
-    $( document ).ready(function() {
-        $( ".logout-link" ).on( "click", function (event) {
-            alert("aasdasd");
+    function showUserInfo(userInfo) {
+        if (userInfo == null) {
+            $("#nav-username").hide();
+            $("#nav-logout").hide();
+            $("#nav-login").show();
+        } else {
+            $("#nav-username").show();
+            $("#nav-username").text(userInfo.name);
+            $("#nav-logout").show();
+            $("#nav-login").hide();
+        }
+    }
+
+    $(document).ready(function () {
+        $("#logout-link").on("click", function (event) {
+            $.ajax({
+                url: '/login',
+                type: 'DELETE',
+                success: function (result) {
+                    showUserInfo(null);
+                }
+            });
             event.preventDefault();
         });
     });
+
 
     $('#login_register_btn').click(function () {
         modalAnimate($formLogin, $formRegister)
