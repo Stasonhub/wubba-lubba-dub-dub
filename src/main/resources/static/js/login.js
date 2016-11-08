@@ -35,12 +35,12 @@ $(function () {
                 var $rg_phone = $('#register_phone').val();
                 $.post("/register", {"userName": $rg_username, "phoneNumber": $rg_phone}, function (data, status) {
                     msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Вы успешно зарегистрированы");
-                    // show login screen with filled username and tip to get password from sms
-                    $("#login_phone").text('+7 (927) 418-1281');
-                    $("#text-login-msg").text("Введите пароль, отправленный в виде смс сообщения: ");
                     modalAnimate($formRegister, $formLogin);
+                    $("#login_phone").val($rg_phone);
+                    $("#text-login-msg").text("Введите пароль из смс сообщения:");
+                    $('#login_password').focus();
                 }).fail(function (xhr, ajaxOptions, thrownError) {
-                    msgChange($('#div-register-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Ошибка регистрации пользователя");
+                    msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "error", "glyphicon-remove", "Ошибка регистрации пользователя");
                 });
                 return false;
                 break;
@@ -67,17 +67,15 @@ $(function () {
         }
     }
 
-    $(document).ready(function () {
-        $("#logout-link").on("click", function (event) {
-            $.ajax({
-                url: '/login',
-                type: 'DELETE',
-                success: function (result) {
-                    showUserInfo(null);
-                }
-            });
-            event.preventDefault();
+    $("#logout-link").on("click", function (event) {
+        $.ajax({
+            url: '/login',
+            type: 'DELETE',
+            success: function (result) {
+                showUserInfo(null);
+            }
         });
+        event.preventDefault();
     });
 
 
@@ -101,6 +99,7 @@ $(function () {
     });
 
     function modalAnimate($oldForm, $newForm) {
+        cleanup();
         var $oldH = $oldForm.height();
         var $newH = $newForm.height();
         $divForms.css("height", $oldH);
@@ -129,5 +128,26 @@ $(function () {
             $iconTag.addClass("glyphicon-chevron-right");
             $iconTag.removeClass($iconClass + " " + $divClass);
         }, $msgShowTime);
+    }
+
+    function cleanup() {
+        cleanupLogin();
+        cleanupLost();
+        cleanupRegister();
+    }
+
+    function cleanupRegister() {
+        $('#register_username').val("");
+        $('#register_phone').val("");
+        $("#text-register-msg").text("Регистрация нового пользователя.");
+    }
+    function cleanupLogin() {
+        $('#login_phone').val("");
+        $('#login_password').val("");
+        $("#text-login-msg").text("Введите номер телефона и пароль.");
+    }
+    function cleanupLost() {
+        $('#lost_email').val("");
+        $("#text-login-msg").text("Введите ваш номер телефона.");
     }
 });
