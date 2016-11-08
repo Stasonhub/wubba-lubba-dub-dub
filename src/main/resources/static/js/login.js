@@ -7,6 +7,15 @@ $(function () {
     var $msgAnimateTime = 150;
     var $msgShowTime = 2000;
 
+    $('#login-modal').on('hidden.bs.modal', function (e) {
+        cleanup();
+    });
+
+
+    $('#login-modal').on('shown.bs.modal', function (e) {
+        $('#login_phone').focus();
+    });
+
     $("form").submit(function () {
         switch (this.id) {
             case "login-form":
@@ -22,12 +31,15 @@ $(function () {
                 return false;
                 break;
             case "lost-form":
-                var $ls_email = $('#lost_email').val();
-                if ($ls_email == "ERROR") {
-                    msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "error", "glyphicon-remove", "Send error");
-                } else {
-                    msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "success", "glyphicon-ok", "Send OK");
-                }
+                var $ls_phone = $('#lost_phone').val();
+                $.post("/rememberPassword", {"phoneNumber": $ls_phone}, function (data, status) {
+                    msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "success", "glyphicon-ok", "Пароль успешно отправлен");
+                    modalAnimate($formLost, $formLogin, $('#login_password'));
+                    $("#login_phone").val($ls_phone);
+                    $("#text-login-msg").text("Пароль отправлен смс сообщением:");
+                }).fail(function (xhr, ajaxOptions, thrownError) {
+                    msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "error", "glyphicon-remove", "Ошибка отправки пароля");
+                });
                 return false;
                 break;
             case "register-form":
@@ -35,10 +47,9 @@ $(function () {
                 var $rg_phone = $('#register_phone').val();
                 $.post("/register", {"userName": $rg_username, "phoneNumber": $rg_phone}, function (data, status) {
                     msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Вы успешно зарегистрированы");
-                    modalAnimate($formRegister, $formLogin);
+                    modalAnimate($formRegister, $formLogin, $('#login_password'));
                     $("#login_phone").val($rg_phone);
                     $("#text-login-msg").text("Введите пароль из смс сообщения:");
-                    $('#login_password').focus();
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "error", "glyphicon-remove", "Ошибка регистрации пользователя");
                 });
@@ -52,7 +63,7 @@ $(function () {
 
     $("#login_phone").mask("+7 (999) 999-9999");
     $("#register_phone").mask("+7 (999) 999-9999");
-    $("#lost_email").mask("+7 (999) 999-9999");
+    $("#lost_phone").mask("+7 (999) 999-9999");
 
     function showUserInfo(userInfo) {
         if (userInfo == null) {
@@ -80,25 +91,25 @@ $(function () {
 
 
     $('#login_register_btn').click(function () {
-        modalAnimate($formLogin, $formRegister)
+        modalAnimate($formLogin, $formRegister, $('#register_username'))
     });
     $('#register_login_btn').click(function () {
-        modalAnimate($formRegister, $formLogin);
+        modalAnimate($formRegister, $formLogin, $('#login_phone'));
     });
     $('#login_lost_btn').click(function () {
-        modalAnimate($formLogin, $formLost);
+        modalAnimate($formLogin, $formLost, $('#lost_phone'));
     });
     $('#lost_login_btn').click(function () {
-        modalAnimate($formLost, $formLogin);
+        modalAnimate($formLost, $formLogin, $('#login_phone'));
     });
     $('#lost_register_btn').click(function () {
-        modalAnimate($formLost, $formRegister);
+        modalAnimate($formLost, $formRegister, $('#register_username'));
     });
     $('#register_lost_btn').click(function () {
-        modalAnimate($formRegister, $formLost);
+        modalAnimate($formRegister, $formLost, $('#lost_phone'));
     });
 
-    function modalAnimate($oldForm, $newForm) {
+    function modalAnimate($oldForm, $newForm, $focus) {
         cleanup();
         var $oldH = $oldForm.height();
         var $newH = $newForm.height();
@@ -106,6 +117,7 @@ $(function () {
         $oldForm.fadeToggle($modalAnimateTime, function () {
             $divForms.animate({height: $newH}, $modalAnimateTime, function () {
                 $newForm.fadeToggle($modalAnimateTime);
+                $focus.focus();
             });
         });
     }
@@ -141,11 +153,13 @@ $(function () {
         $('#register_phone').val("");
         $("#text-register-msg").text("Регистрация нового пользователя.");
     }
+
     function cleanupLogin() {
         $('#login_phone').val("");
         $('#login_password').val("");
         $("#text-login-msg").text("Введите номер телефона и пароль.");
     }
+
     function cleanupLost() {
         $('#lost_email').val("");
         $("#text-login-msg").text("Введите ваш номер телефона.");
