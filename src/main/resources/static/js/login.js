@@ -2,6 +2,11 @@ $(function () {
     var $formLogin = $('#login-form');
     var $formLost = $('#lost-form');
     var $formRegister = $('#register-form');
+
+    var $bottomLogin = $('#login-form-footer');
+    var $bottomLost = $('#lost-form-footer');
+    var $bottomRegister = $('#register-form-footer');
+
     var $divForms = $('#div-forms');
     var $modalAnimateTime = 300;
     var $msgAnimateTime = 150;
@@ -11,54 +16,45 @@ $(function () {
         cleanup();
     });
 
-
     $('#login-modal').on('shown.bs.modal', function (e) {
         $('#login_phone').focus();
     });
 
-    $("form").submit(function () {
-        switch (this.id) {
-            case "login-form":
-                var $lg_phone = $('#login_phone').val();
-                var $lg_password = $('#login_password').val();
+    $('#login_submit').click(function () {
+        var $lg_phone = $('#login_phone').val();
+        var $lg_password = $('#login_password').val();
 
-                $.post("/login", {"user": $lg_phone, "password": $lg_password}, function (data, status) {
-                    $('#login-modal').modal('hide');
-                    showUserInfo(JSON.parse(data));
-                }).fail(function (xhr, ajaxOptions, thrownError) {
-                    msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Ошибка входа");
-                });
-                return false;
-                break;
-            case "lost-form":
-                var $ls_phone = $('#lost_phone').val();
-                $.post("/rememberPassword", {"phoneNumber": $ls_phone}, function (data, status) {
-                    msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "success", "glyphicon-ok", "Пароль успешно отправлен");
-                    modalAnimate($formLost, $formLogin, $('#login_password'));
-                    $("#login_phone").val($ls_phone);
-                    $("#text-login-msg").text("Пароль отправлен смс сообщением:");
-                }).fail(function (xhr, ajaxOptions, thrownError) {
-                    msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "error", "glyphicon-remove", "Ошибка отправки пароля");
-                });
-                return false;
-                break;
-            case "register-form":
-                var $rg_username = $('#register_username').val();
-                var $rg_phone = $('#register_phone').val();
-                $.post("/register", {"userName": $rg_username, "phoneNumber": $rg_phone}, function (data, status) {
-                    msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Вы успешно зарегистрированы");
-                    modalAnimate($formRegister, $formLogin, $('#login_password'));
-                    $("#login_phone").val($rg_phone);
-                    $("#text-login-msg").text("Введите пароль из смс сообщения:");
-                }).fail(function (xhr, ajaxOptions, thrownError) {
-                    msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "error", "glyphicon-remove", "Ошибка регистрации пользователя");
-                });
-                return false;
-                break;
-            default:
-                return false;
-        }
-        return false;
+        $.post("/login", {"user": $lg_phone, "password": $lg_password}, function (data, status) {
+            $('#login-modal').modal('hide');
+            showUserInfo(JSON.parse(data));
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Ошибка входа");
+        });
+    });
+
+    $('#lost_submit').click(function () {
+        var $ls_phone = $('#lost_phone').val();
+        $.post("/rememberPassword", {"phoneNumber": $ls_phone}, function (data, status) {
+            msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "success", "glyphicon-ok", "Пароль успешно отправлен");
+            modalAnimate($formLost, $formLogin, $bottomLost, $bottomLogin, $('#login_password'));
+            $("#login_phone").val($ls_phone);
+            $("#text-login-msg").text("Пароль отправлен смс сообщением:");
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "error", "glyphicon-remove", "Ошибка отправки пароля");
+        });
+    });
+
+    $('#register-submit').click(function () {
+        var $rg_username = $('#register_username').val();
+        var $rg_phone = $('#register_phone').val();
+        $.post("/register", {"userName": $rg_username, "phoneNumber": $rg_phone}, function (data, status) {
+            msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Вы успешно зарегистрированы");
+            modalAnimate($formRegister, $formLogin, $bottomRegister, $bottomLogin, $('#login_password'));
+            $("#login_phone").val($rg_phone);
+            $("#text-login-msg").text("Введите пароль из смс сообщения:");
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "error", "glyphicon-remove", "Ошибка регистрации пользователя");
+        });
     });
 
     $("#login_phone").mask("+7 (999) 999-9999");
@@ -91,29 +87,31 @@ $(function () {
 
 
     $('#login_register_btn').click(function () {
-        modalAnimate($formLogin, $formRegister, $('#register_username'))
+        modalAnimate($formLogin, $formRegister, $bottomLogin, $bottomRegister, $('#register_username'))
     });
     $('#register_login_btn').click(function () {
-        modalAnimate($formRegister, $formLogin, $('#login_phone'));
+        modalAnimate($formRegister, $formLogin, $bottomRegister, $bottomLogin, $('#login_phone'));
     });
     $('#login_lost_btn').click(function () {
-        modalAnimate($formLogin, $formLost, $('#lost_phone'));
+        modalAnimate($formLogin, $formLost, $bottomLogin, $bottomLost, $('#lost_phone'));
     });
     $('#lost_login_btn').click(function () {
-        modalAnimate($formLost, $formLogin, $('#login_phone'));
+        modalAnimate($formLost, $formLogin, $bottomLost, $bottomLogin, $('#login_phone'));
     });
     $('#lost_register_btn').click(function () {
-        modalAnimate($formLost, $formRegister, $('#register_username'));
+        modalAnimate($formLost, $formRegister, $bottomLost, $bottomRegister, $('#register_username'));
     });
     $('#register_lost_btn').click(function () {
-        modalAnimate($formRegister, $formLost, $('#lost_phone'));
+        modalAnimate($formRegister, $formLost, $bottomRegister, $bottomLost, $('#lost_phone'));
     });
 
-    function modalAnimate($oldForm, $newForm, $focus) {
+    function modalAnimate($oldForm, $newForm, $oldBottom, $newBottom, $focus) {
         cleanup();
-        var $oldH = $oldForm.height();
-        var $newH = $newForm.height();
+        var $oldH = $oldForm.height() + $oldBottom;
+        var $newH = $newForm.height() + $newBottom;
         $divForms.css("height", $oldH);
+        $oldBottom.hide();
+        $newBottom.show();
         $oldForm.fadeToggle($modalAnimateTime, function () {
             $divForms.animate({height: $newH}, $modalAnimateTime, function () {
                 $newForm.fadeToggle($modalAnimateTime);
