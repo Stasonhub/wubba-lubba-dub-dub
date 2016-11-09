@@ -161,7 +161,7 @@ $(function () {
     }
 
     function cleanupLost() {
-        $('#lost_email').val("");
+        $('#lost_phone').val("");
         $("#text-login-msg").text("Введите ваш номер телефона.");
     }
 });
