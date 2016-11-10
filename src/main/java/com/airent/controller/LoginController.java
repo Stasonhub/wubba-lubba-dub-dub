@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
@@ -22,7 +23,7 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/register")
-    public void registerUser(HttpServletResponse response, String phoneNumber, String userName) {
+    public void registerUser(HttpServletResponse response, String phoneNumber, String userName, @RequestParam("recaptcha-token") String captcha) {
         Objects.requireNonNull(phoneNumber);
         Objects.requireNonNull(userName);
 
@@ -35,7 +36,7 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/rememberPassword")
-    public void sendNewPassword(HttpServletResponse response, String phoneNumber) {
+    public void sendNewPassword(HttpServletResponse response, String phoneNumber, @RequestParam("recaptcha-token") String captcha) {
         Objects.requireNonNull(phoneNumber);
 
         boolean sent = loginService.sendNewPassword(PhoneNumber.normalize(phoneNumber));
