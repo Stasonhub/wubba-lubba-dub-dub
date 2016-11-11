@@ -1873,6 +1873,10 @@ h1, h2, h3, h4, h5, h6, figure {
     opacity: 0;
 }
 
+.btn {
+    cursor: default !important;
+}
+
 /*# sourceMappingURL=style.css.map */
 
 /** re-captcha */

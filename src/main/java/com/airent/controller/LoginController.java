@@ -23,7 +23,7 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/register")
-    public void registerUser(HttpServletResponse response, String phoneNumber, String userName, @RequestParam("recaptcha-token") String captcha) {
+    public void registerUser(HttpServletResponse response, String phoneNumber, String userName) {
         Objects.requireNonNull(phoneNumber);
         Objects.requireNonNull(userName);
 
@@ -36,7 +36,7 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/rememberPassword")
-    public void sendNewPassword(HttpServletResponse response, String phoneNumber, @RequestParam("recaptcha-token") String captcha) {
+    public void sendNewPassword(HttpServletResponse response, String phoneNumber) {
         Objects.requireNonNull(phoneNumber);
 
         boolean sent = loginService.sendNewPassword(PhoneNumber.normalize(phoneNumber));

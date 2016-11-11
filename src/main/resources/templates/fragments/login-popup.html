@@ -27,14 +27,14 @@
                             <span id="text-login-msg">Введите номер телефона и пароль.</span>
                         </div>
                         <input id="login_phone" class="form-control" type="text"
-                               placeholder="Номер телефона" required>
-                        <input id="login_password" class="form-control" type="password" placeholder="Пароль" required>
-                        <div id="login-captcha" class="g-recaptcha"
-                             data-sitekey="6Le2fgsUAAAAABHgQv4YGApILBc451B2Yhrqlh5k"></div>
+                               placeholder="Номер телефона" required title="Заполните это поле">
+                        <input id="login_password" class="form-control" type="password" placeholder="Пароль" required
+                               title="Заполните это поле">
+                        <div id="login-captcha" class="g-recaptcha"></div>
                     </div>
                     <div class="modal-footer">
                         <div>
-                            <button class="btn btn-primary btn-lg btn-block">Войти</button>
+                            <button id="login-button" class="btn btn-primary btn-lg btn-block">Войти</button>
                         </div>
                         <div>
                             <button id="login_lost_btn" type="button" class="btn btn-link">Забыли пароль?</button>
@@ -52,11 +52,11 @@
                             <span id="text-lost-msg">Введите ваш номер телефона.</span>
                         </div>
                         <input id="lost_phone" class="form-control" type="text"
-                               placeholder="Номер телефона" required>
+                               placeholder="Номер телефона" required title="Заполните это поле">
                     </div>
                     <div class="modal-footer">
                         <div>
-                            <button class="btn btn-primary btn-lg btn-block">Отправить</button>
+                            <button id="lost-button" class="btn btn-primary btn-lg btn-block">Отправить</button>
                         </div>
                         <div>
                             <button id="lost_login_btn" type="button" class="btn btn-link">Войти</button>
@@ -73,13 +73,15 @@
                             <div id="icon-register-msg" class="glyphicon glyphicon-chevron-right"></div>
                             <span id="text-register-msg">Регистрация нового пользователя.</span>
                         </div>
-                        <input id="register_username" class="form-control" type="text" placeholder="Ваше имя" required>
+                        <input id="register_username" class="form-control" type="text" placeholder="Ваше имя" required
+                               title="Заполните это поле">
                         <input id="register_phone" class="form-control" type="text"
-                               placeholder="Номер телефона" required>
+                               placeholder="Номер телефона" required title="Заполните это поле">
                     </div>
                     <div class="modal-footer">
                         <div>
-                            <button class="btn btn-primary btn-lg btn-block">Зарегистрироваться</button>
+                            <button id="register-button" class="btn btn-primary btn-lg btn-block">Зарегистрироваться
+                            </button>
                         </div>
                         <div>
                             <button id="register_login_btn" type="button" class="btn btn-link">Войти</button>

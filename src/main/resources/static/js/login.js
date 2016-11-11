@@ -1,3 +1,19 @@
+// immediate section
+var phoneRegex = new RegExp("\\+7 \\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$");
+var updater = function () {
+    $("#login-button").prop('disabled', !phoneRegex.test($('#login_phone').val()) | $('#login_password').val().length == 0 | grecaptcha.getResponse().length == 0);
+    $("#lost-button").prop('disabled', $('#lost_phone').length == 0 | grecaptcha.getResponse().length == 0);
+    $("#register-button").prop('disabled', $('#register_username').length == 0 | $('#register_phone').length === 0 | grecaptcha.getResponse().length == 0);
+};
+
+var gCaptchaLoadedCallback = function () {
+    grecaptcha.render('login-captcha', {
+        'sitekey': '6Le2fgsUAAAAABHgQv4YGApILBc451B2Yhrqlh5k',
+        'callback': updater,
+        'expired-callback': updater
+    });
+};
+
 $(function () {
     var $formLogin = $('#login-form');
     var $formLost = $('#lost-form');
@@ -14,6 +30,7 @@ $(function () {
 
     $('#login-modal').on('shown.bs.modal', function (e) {
         $('#login_phone').focus();
+        updater();
     });
 
     $("form").submit(function () {
@@ -21,37 +38,58 @@ $(function () {
             case "login-form":
                 var $lg_phone = $('#login_phone').val();
                 var $lg_password = $('#login_password').val();
+                var $recaptcha = grecaptcha.getResponse();
 
-                $.post("/login", {"user": $lg_phone, "password": $lg_password}, function (data, status) {
+                if ($recaptcha == null) {
+                    return;
+                }
+
+                $.post("/login", {
+                    "user": $lg_phone,
+                    "password": $lg_password,
+                    "recaptcha-token": $recaptcha
+                }, function (data, status) {
                     $('#login-modal').modal('hide');
                     showUserInfo(JSON.parse(data));
                 }).fail(function (xhr, ajaxOptions, thrownError) {
-                    msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Ошибка входа");
+                    resetCaptcha();
+                    msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", xhr.responseJSON.message);
                 });
                 return false;
                 break;
             case "lost-form":
                 var $ls_phone = $('#lost_phone').val();
-                $.post("/rememberPassword", {"phoneNumber": $ls_phone}, function (data, status) {
+                var $recaptcha = grecaptcha.getResponse();
+                $.post("/rememberPassword", {
+                    "phoneNumber": $ls_phone,
+                    "recaptcha-token": $recaptcha
+                }, function (data, status) {
                     msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "success", "glyphicon-ok", "Пароль успешно отправлен");
                     modalAnimate($formLost, $formLogin, $('#login_password'));
                     $("#login_phone").val($ls_phone);
                     $("#text-login-msg").text("Пароль отправлен смс сообщением:");
                 }).fail(function (xhr, ajaxOptions, thrownError) {
-                    msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "error", "glyphicon-remove", "Ошибка отправки пароля");
+                    resetCaptcha();
+                    msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "error", "glyphicon-remove", xhr.responseJSON.message);
                 });
                 return false;
                 break;
             case "register-form":
                 var $rg_username = $('#register_username').val();
                 var $rg_phone = $('#register_phone').val();
-                $.post("/register", {"userName": $rg_username, "phoneNumber": $rg_phone}, function (data, status) {
+                var $recaptcha = grecaptcha.getResponse();
+                $.post("/register", {
+                    "userName": $rg_username,
+                    "phoneNumber": $rg_phone,
+                    "recaptcha-token": $recaptcha
+                }, function (data, status) {
                     msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Вы успешно зарегистрированы");
                     modalAnimate($formRegister, $formLogin, $('#login_password'));
                     $("#login_phone").val($rg_phone);
                     $("#text-login-msg").text("Введите пароль из смс сообщения:");
                 }).fail(function (xhr, ajaxOptions, thrownError) {
-                    msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "error", "glyphicon-remove", "Ошибка регистрации пользователя");
+                    resetCaptcha();
+                    msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "error", "glyphicon-remove", xhr.responseJSON.message);
                 });
                 return false;
                 break;
@@ -65,6 +103,13 @@ $(function () {
     $("#register_phone").mask("+7 (999) 999-9999");
     $("#lost_phone").mask("+7 (999) 999-9999");
 
+    $("#login_phone").on('keyup.maqskywalker', updater);
+    $("#login_password").on('input', updater);
+    $("#register_username").on('input', updater);
+    //   $("#register_phone").on('keyup.maqskywalker', validateSubmitButton);
+    //  $("#lost_phone").on('keyup.maqskywalker', validateSubmitButton);
+
+    $("#recaptcha_response_field").attr('required', 'required');
     function showUserInfo(userInfo) {
         if (userInfo == null) {
             $("#nav-username").hide();
@@ -148,6 +193,12 @@ $(function () {
         cleanupLogin();
         cleanupLost();
         cleanupRegister();
+        resetCaptcha();
+        validateSubmitButton();
+    }
+
+    function resetCaptcha() {
+        grecaptcha.reset();
     }
 
     function cleanupRegister() {

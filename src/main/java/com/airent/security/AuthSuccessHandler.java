@@ -1,6 +1,6 @@
 package com.airent.security;
 
-import com.airent.model.UserInfo;
+import com.airent.model.rest.UserInfo;
 import com.airent.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +29,7 @@ public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         UserInfo userInfo = new UserInfo();

@@ -1,21 +1,18 @@
 package com.airent.config;
 
 
-import com.airent.security.AuthFailureHandler;
-import com.airent.security.AuthSuccessHandler;
-import com.airent.security.HttpAuthenticationEntryPoint;
-import com.airent.security.HttpLogoutSuccessHandler;
+import com.airent.security.*;
 import com.airent.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -23,19 +20,23 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private HttpAuthenticationEntryPoint authenticationEntryPoint;
+    HttpAuthenticationEntryPoint authenticationEntryPoint;
+
     @Autowired
-    private AuthSuccessHandler authSuccessHandler;
+    AuthSuccessHandler authSuccessHandler;
+
     @Autowired
-    private AuthFailureHandler authFailureHandler;
+    AuthFailureHandler authFailureHandler;
+
     @Autowired
-    private HttpLogoutSuccessHandler logoutSuccessHandler;
+    HttpLogoutSuccessHandler logoutSuccessHandler;
+
+    @Autowired
+    CaptchaVerifierFilter captchaVerifierFilter;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder, LoginService loginService) throws Exception {
-        DaoAuthenticationConfigurer<AuthenticationManagerBuilder, LoginService> authenticationManagerBuilderLoginServiceDaoAuthenticationConfigurer = auth.userDetailsService(loginService)
-                .passwordEncoder(passwordEncoder);
-        authenticationManagerBuilderLoginServiceDaoAuthenticationConfigurer.withObjectPostProcessor()
+        auth.userDetailsService(loginService).passwordEncoder(passwordEncoder);
     }
 
     @Bean
@@ -56,7 +57,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .formLogin()
-
                 .permitAll()
                 .loginProcessingUrl("/login")
                 .loginPage("/login-page")
@@ -71,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/login", "DELETE"))
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
+                .addFilterBefore(captchaVerifierFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf()
                 .disable();
     }

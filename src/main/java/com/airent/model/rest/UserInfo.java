@@ -1,4 +1,4 @@
-package com.airent.model;
+package com.airent.model.rest;
 
 public class UserInfo {
 

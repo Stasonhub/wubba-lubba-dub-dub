@@ -2,7 +2,7 @@ package com.airent.service;
 
 import com.airent.mapper.UserMapper;
 import com.airent.model.User;
-import com.airent.model.UserInfo;
+import com.airent.model.rest.UserInfo;
 import com.airent.util.PhoneNumber;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
