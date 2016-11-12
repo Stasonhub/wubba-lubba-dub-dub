@@ -39,6 +39,7 @@ dependencies {
     runtime 'com.h2database:h2:1.4.192'
 
     compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'com.squareup.okhttp3:okhttp:3.4.2'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

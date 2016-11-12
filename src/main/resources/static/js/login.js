@@ -1,6 +1,6 @@
 // immediate section
 var phoneRegex = new RegExp("\\+7 \\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$");
-var updater = function () {
+var loginButtonUpdater = function () {
     $("#login-button").prop('disabled', !phoneRegex.test($('#login_phone').val()) | $('#login_password').val().length == 0 | grecaptcha.getResponse().length == 0);
     $("#lost-button").prop('disabled', $('#lost_phone').length == 0 | grecaptcha.getResponse().length == 0);
     $("#register-button").prop('disabled', $('#register_username').length == 0 | $('#register_phone').length === 0 | grecaptcha.getResponse().length == 0);
@@ -9,8 +9,8 @@ var updater = function () {
 var gCaptchaLoadedCallback = function () {
     grecaptcha.render('login-captcha', {
         'sitekey': '6Le2fgsUAAAAABHgQv4YGApILBc451B2Yhrqlh5k',
-        'callback': updater,
-        'expired-callback': updater
+        'callback': loginButtonUpdater,
+        'expired-callback': loginButtonUpdater
     });
 };
 
@@ -30,7 +30,7 @@ $(function () {
 
     $('#login-modal').on('shown.bs.modal', function (e) {
         $('#login_phone').focus();
-        updater();
+        loginButtonUpdater();
     });
 
     $("form").submit(function () {
@@ -50,9 +50,11 @@ $(function () {
                     "recaptcha-token": $recaptcha
                 }, function (data, status) {
                     $('#login-modal').modal('hide');
-                    showUserInfo(JSON.parse(data));
+                    showUserInfo(data);
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     resetCaptcha();
+                    $('#login_password').val("");
+                    $('#login_password').focus();
                     msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", xhr.responseJSON.message);
                 });
                 return false;
@@ -103,11 +105,11 @@ $(function () {
     $("#register_phone").mask("+7 (999) 999-9999");
     $("#lost_phone").mask("+7 (999) 999-9999");
 
-    $("#login_phone").on('keyup.maqskywalker', updater);
-    $("#login_password").on('input', updater);
-    $("#register_username").on('input', updater);
-    //   $("#register_phone").on('keyup.maqskywalker', validateSubmitButton);
-    //  $("#lost_phone").on('keyup.maqskywalker', validateSubmitButton);
+    $("#login_phone").on('keyup.maqskywalker', loginButtonUpdater);
+    $("#login_password").on('input', loginButtonUpdater);
+    $("#register_username").on('input', loginButtonUpdater);
+     $("#register_phone").on('keyup.maqskywalker', loginButtonUpdater);
+    $("#lost_phone").on('keyup.maqskywalker', loginButtonUpdater);
 
     $("#recaptcha_response_field").attr('required', 'required');
     function showUserInfo(userInfo) {
@@ -194,11 +196,11 @@ $(function () {
         cleanupLost();
         cleanupRegister();
         resetCaptcha();
-        validateSubmitButton();
     }
 
     function resetCaptcha() {
         grecaptcha.reset();
+        loginButtonUpdater();
     }
 
     function cleanupRegister() {

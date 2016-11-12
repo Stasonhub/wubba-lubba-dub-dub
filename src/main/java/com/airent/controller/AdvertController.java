@@ -44,6 +44,12 @@ public class AdvertController {
         return "main";
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/add")
+    public String addAdvert(Model model) {
+        model.addAttribute("currentUser", loginService.getCurrentUser());
+        return "in-progress";
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = "/loadMore")
     public String loadMoreAdverts(@RequestParam long timestampUntil, Model model) {
         List<Advert> adverts = advertService.getAdvertsForMainPageFrom(timestampUntil);

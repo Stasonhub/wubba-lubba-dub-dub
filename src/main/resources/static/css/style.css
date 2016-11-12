@@ -1877,6 +1877,13 @@ h1, h2, h3, h4, h5, h6, figure {
     cursor: default !important;
 }
 
+.adv-img-title-div {
+    width: 100%;
+    height: 270px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 /*# sourceMappingURL=style.css.map */
 
 /** re-captcha */
