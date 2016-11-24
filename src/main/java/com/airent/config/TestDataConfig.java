@@ -48,8 +48,9 @@ public class TestDataConfig {
 
             for (int j = 0; j < 3; j++) {
                 Advert testAdvert = createTestAdvert(i, j);
-                testAdvert.setUserId(user.getId());
                 advertMapper.createAdvert(testAdvert);
+
+                advertMapper.bindToUser(testAdvert.getId(), user.getId());
 
                 List<Photo> photos = createPhotos(testAdvert);
                 photos.forEach(v -> photoMapper.createPhoto(v));

@@ -1,13 +1,14 @@
 CREATE TABLE user (
-  id       BIGINT PRIMARY KEY AUTO_INCREMENT,
-  phone    BIGINT      NOT NULL,
-  name     VARCHAR(30) NOT NULL,
-  password VARCHAR     NOT NULL,
+  id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+  phone      BIGINT      NOT NULL,
+  name       VARCHAR(30) NOT NULL,
+  trustRate  BIGINT      NOT NULL,
+  password   VARCHAR     NOT NULL,
+  registered BOOLEAN     NOT NULL
 );
 
 CREATE TABLE advert (
   id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
-  userId             BIGINT       NOT NULL,
   publicationDate    BIGINT       NOT NULL,
   district           VARCHAR(3)   NOT NULL,
   address            VARCHAR(100) NOT NULL,
@@ -19,7 +20,12 @@ CREATE TABLE advert (
   withPublicServices BOOLEAN      NOT NULL,
   conditions         INT          NOT NULL,
   description        VARCHAR(250) NOT NULL,
-  FOREIGN KEY (userId) REFERENCES user (id)
+  trustRate          BIGINT       NOT NULL
+);
+
+CREATE TABLE advert_author (
+  advertId BIGINT NOT NULL,
+  userId   BIGINT NOT NULL
 );
 
 CREATE TABLE photo (

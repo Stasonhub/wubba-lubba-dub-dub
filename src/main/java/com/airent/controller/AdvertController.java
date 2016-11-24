@@ -1,7 +1,7 @@
 package com.airent.controller;
 
 import com.airent.model.Advert;
-import com.airent.model.AdvertPrices;
+import com.airent.model.ui.AdvertPrices;
 import com.airent.model.District;
 import com.airent.model.Photo;
 import com.airent.model.rest.SearchRequest;
@@ -10,8 +10,6 @@ import com.airent.service.AdvertService;
 import com.airent.service.LoginService;
 import com.airent.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;

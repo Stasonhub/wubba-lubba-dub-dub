@@ -3,7 +3,6 @@ package com.airent.model;
 public class Advert {
 
     private long id;
-    private long userId;
     private long publicationDate;
 
     private District district;
@@ -23,21 +22,14 @@ public class Advert {
     private int bedrooms;
     private int beds;
 
+    private int trustRate;
+
     public long getId() {
         return id;
     }
 
     public Advert setId(long id) {
         this.id = id;
-        return this;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public Advert setUserId(long userId) {
-        this.userId = userId;
         return this;
     }
 
@@ -174,5 +166,13 @@ public class Advert {
     public Advert setBeds(int beds) {
         this.beds = beds;
         return this;
+    }
+
+    public int getTrustRate() {
+        return trustRate;
+    }
+
+    public void setTrustRate(int trustRate) {
+        this.trustRate = trustRate;
     }
 }

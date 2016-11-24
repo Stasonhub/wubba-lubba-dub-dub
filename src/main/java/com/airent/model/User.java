@@ -6,6 +6,8 @@ public class User {
     private long phone;
     private String name;
     private String password;
+    private int trustRate;
+    private boolean registered;
 
     public long getId() {
         return id;
@@ -38,4 +40,21 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public int getTrustRate() {
+        return trustRate;
+    }
+
+    public void setTrustRate(int trustRate) {
+        this.trustRate = trustRate;
+    }
+
+    public void setRegistered(boolean registered) {
+        this.registered = registered;
+    }
+
+    public boolean isRegistered() {
+        return registered;
+    }
+
 }

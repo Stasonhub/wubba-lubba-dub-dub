@@ -21,7 +21,7 @@ public class UserService {
         if (advert == null) {
             return null;
         }
-        return userMapper.findById(advert.getUserId());
+        return userMapper.getUserForAdvert(advert.getId());
     }
 
 }

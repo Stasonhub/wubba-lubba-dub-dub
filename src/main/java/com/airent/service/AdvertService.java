@@ -2,7 +2,7 @@ package com.airent.service;
 
 import com.airent.mapper.AdvertMapper;
 import com.airent.model.Advert;
-import com.airent.model.AdvertPrices;
+import com.airent.model.ui.AdvertPrices;
 import com.airent.model.District;
 import com.airent.model.rest.SearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;

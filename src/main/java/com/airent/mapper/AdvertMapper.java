@@ -1,8 +1,8 @@
 package com.airent.mapper;
 
 import com.airent.model.Advert;
-import com.airent.model.AdvertPrices;
 import com.airent.model.District;
+import com.airent.model.ui.AdvertPrices;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
@@ -29,5 +29,7 @@ public interface AdvertMapper {
     void deleteAdvert(long id);
 
     int getCount();
+
+    void bindToUser(@Param("advertId") long advertId, @Param("userId") long userId);
 
 }

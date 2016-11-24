@@ -29,8 +29,6 @@ public class TestUtil {
         advert.setWithPublicServices(true);
         advert.setDescription("Bla bla bla");
 
-        advert.setUserId(user.getId());
-
         advertMapper.createAdvert(advert);
         return advert;
     }

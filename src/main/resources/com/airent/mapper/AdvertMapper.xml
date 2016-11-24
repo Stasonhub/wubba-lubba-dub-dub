@@ -3,10 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airent.mapper.AdvertMapper">
     <insert id="createAdvert" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO advert (userId, publicationDate, district, address, floor, maxFloor, rooms,
-                     sq, price, withPublicServices, conditions, description)
-        VALUES (#{userId}, #{publicationDate}, #{district}, #{address}, #{floor}, #{maxFloor}, #{rooms}, #{sq},
-                 #{price}, #{withPublicServices}, #{conditions}, #{description})
+        INSERT INTO advert (publicationDate, district, address, floor, maxFloor, rooms,
+                     sq, price, withPublicServices, conditions, description, trustRate)
+        VALUES (#{publicationDate}, #{district}, #{address}, #{floor}, #{maxFloor}, #{rooms}, #{sq},
+                 #{price}, #{withPublicServices}, #{conditions}, #{description}, #{trustRate})
     </insert>
 
     <select id="findById" resultType="com.airent.model.Advert">
@@ -22,7 +22,6 @@
         ORDER BY publicationDate
         DESC limit #{limit}
   </select>
-
 
     <select id="searchNextAdvertsBeforeTime" resultType="com.airent.model.Advert">
         SELECT *
@@ -53,11 +52,16 @@
     FROM advert
   </select>
 
-    <select id="getAdvertPrices" resultType="com.airent.model.AdvertPrices">
+    <select id="getAdvertPrices" resultType="com.airent.model.ui.AdvertPrices">
         SELECT
         min(price) as priceMin,
         max(price) as priceMax
         FROM advert
   </select>
+
+    <insert id="bindToUser">
+        INSERT INTO advert_author (advertId, userId)
+        VALUES (#{advertId}, #{userId})
+    </insert>
 
 </mapper>

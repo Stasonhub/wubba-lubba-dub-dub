@@ -7,10 +7,11 @@ public interface UserMapper {
 
     void createUser(User user);
 
+    void updatePassword(@Param("id") long id, @Param("password") String password);
+
     User findById(long id);
 
     User findByPhone(long phone);
 
-    void updatePassword(@Param("id") long id, @Param("password") String password);
-
+    User getUserForAdvert(long advertId);
 }

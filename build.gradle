@@ -40,6 +40,9 @@ dependencies {
 
     compile 'org.apache.commons:commons-lang3:3.5'
     compile 'com.squareup.okhttp3:okhttp:3.4.2'
+    compile 'org.jsoup:jsoup:1.10.1'
+    compile 'org.bytedeco.javacpp-presets:tesseract:3.04.01-1.2'
+    compile 'org.bytedeco.javacpp-presets:tesseract:3.04.01-1.2:linux-x86_64'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

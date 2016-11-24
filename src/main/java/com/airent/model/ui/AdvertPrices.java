@@ -1,4 +1,4 @@
-package com.airent.model;
+package com.airent.model.ui;
 
 public class AdvertPrices {
 
