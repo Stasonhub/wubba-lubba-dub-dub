@@ -43,6 +43,8 @@ dependencies {
     compile 'org.jsoup:jsoup:1.10.1'
     compile 'org.bytedeco.javacpp-presets:tesseract:3.04.01-1.2'
     compile 'org.bytedeco.javacpp-presets:tesseract:3.04.01-1.2:linux-x86_64'
+    compile 'org.bytedeco.javacpp-presets:leptonica:1.73-1.2'
+    compile 'org.bytedeco.javacpp-presets:leptonica:1.73-1.2:linux-x86_64'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

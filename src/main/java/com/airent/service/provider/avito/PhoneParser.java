@@ -9,6 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -20,8 +21,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.bytedeco.javacpp.lept.pixDestroy;
-import static org.bytedeco.javacpp.lept.pixRead;
 
+@Component
 public class PhoneParser implements AutoCloseable {
 
     private Pattern idPattern = Pattern.compile("avito\\.item\\.id[ ]+=[ ]*'([0-9a-z]+)'");
@@ -32,10 +33,10 @@ public class PhoneParser implements AutoCloseable {
     @PostConstruct
     public void init() {
         api = new tesseract.TessBaseAPI();
-        // Initialize tesseract-ocr with English, without specifying tessdata path
-        if (api.Init(null, "digits") != 0) {
+        if (api.Init("/home/abariev/workspace/airent/src/main/resources/tesseract", "eng") != 0) {
             throw new IllegalStateException("Couldn't init tesseract");
         }
+        api.SetVariable("tessedit_char_whitelist", "0123456789-");
     }
 
     public long getPhone(Document advertPage, String advertId) throws IOException {
@@ -48,8 +49,7 @@ public class PhoneParser implements AutoCloseable {
                 .ignoreContentType(true)
                 .execute();
         String body = response.body();
-        System.out.println(body);
-        return -1;
+        return parseNumbersFromImage(body);
     }
 
     private Pair<Integer, String> getSecret(Document document) {
@@ -69,15 +69,17 @@ public class PhoneParser implements AutoCloseable {
         byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
 
         lept.PIX image = lept.pixReadMemPng(imageBytes, imageBytes.length);
-
-        api.SetImage(imageBytes, 100, 100, 1, 5);
+        api.SetImage(image);
         BytePointer outText = api.GetUTF8Text();
         String result = outText.getString();
-        System.out.println("OCR output:\n" + outText.getString());
         outText.deallocate();
         pixDestroy(image);
 
-        return Long.parseLong(result);
+        String numbers = result.replaceAll("[^\\d]", "");
+        if (numbers.length() != 11 || numbers.charAt(0) != '8') {
+            throw new IllegalArgumentException("Recognition failure. Received " + result + " for " + dataImagePhoto);
+        }
+        return Long.parseLong(numbers.substring(1));
     }
 
     public Pair<Integer, String> parseKeysFromScript(String scriptText) {

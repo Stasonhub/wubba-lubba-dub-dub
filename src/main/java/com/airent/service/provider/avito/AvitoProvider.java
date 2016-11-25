@@ -1,6 +1,7 @@
 package com.airent.service.provider.avito;
 
 import com.airent.model.Advert;
+import com.airent.model.User;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
 import org.apache.commons.lang3.tuple.Pair;
@@ -8,6 +9,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -18,12 +21,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Component
 public class AvitoProvider implements AdvertsProvider {
 
-    private static final int MAX_PAGES = 3;
+    private static final int MAX_PAGES = 1;
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok?p=";
     private static AvitoDateFormatter avitoDateFormatter = new AvitoDateFormatter();
-    private PhoneParser phoneParser = new PhoneParser();
+
+    private PhoneParser phoneParser;
+
+    @Autowired
+    public AvitoProvider(PhoneParser phoneParser) {
+        this.phoneParser = phoneParser;
+    }
 
     @Override
     public List<RawAdvert> getAdvertsUntil(long timestamp) {
@@ -97,14 +107,18 @@ public class AvitoProvider implements AdvertsProvider {
         advert.setPublicationDate(timestamp);
 
         /** user */
-        Elements contacts = itemViewMain.select(".item-view-contacts");
-        boolean realtor = "агентство".equals(itemViewMain.select(".seller-info-label").text().toLowerCase());
-        String userName = realtor ? "" : contacts.select(".seller-info-name").text();
+        Elements contacts = advertDocument.select(".item-view-contacts");
+        boolean realtor = "агентство".equals(itemViewMain.select(".seller-info-label").text().trim().toLowerCase());
+        String userName = realtor ? "" : contacts.select(".seller-info-name").text().trim();
         long phone = phoneParser.getPhone(advertDocument, itemId);
 
+        User user = new User();
+        user.setName(userName);
+        user.setPhone(phone);
 
         RawAdvert rawAdvert = new RawAdvert();
         rawAdvert.setAdvert(advert);
+        rawAdvert.setUser(user);
         return rawAdvert;
     }
 

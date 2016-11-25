@@ -9,11 +9,16 @@ import java.util.List;
 public class AvitoProviderTest {
 
     @Test
-    public void testScanSomething() {
-        AvitoProvider avitoProvider = new AvitoProvider();
+    public void testScanSomething() throws Exception {
+        PhoneParser phoneParser = new PhoneParser();
+        phoneParser.init();
+
+        AvitoProvider avitoProvider = new AvitoProvider(phoneParser);
         List<RawAdvert> advertsUntil = avitoProvider.getAdvertsUntil(0L);
 
         advertsUntil.stream().map(RawAdvert::getAdvert).map(Advert::getDescription).forEach(System.out::println);
+
+        phoneParser.close();
     }
 
 }
