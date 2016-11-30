@@ -6,6 +6,7 @@ public class Photo {
     private long advertId;
     private boolean main;
     private String path;
+    private long hash;
 
     public long getId() {
         return id;
@@ -41,5 +42,13 @@ public class Photo {
     public Photo setPath(String path) {
         this.path = path;
         return this;
+    }
+
+    public long getHash() {
+        return hash;
+    }
+
+    public void setHash(long hash) {
+        this.hash = hash;
     }
 }

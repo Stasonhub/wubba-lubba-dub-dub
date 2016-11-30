@@ -1,17 +1,22 @@
 package com.airent.service.provider.avito;
 
 import com.airent.model.Advert;
+import com.airent.model.Photo;
 import com.airent.model.User;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,19 +25,29 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class AvitoProvider implements AdvertsProvider {
 
-    private static final int MAX_PAGES = 1;
+    private static final int MAX_PAGES = 20;
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok?p=";
     private static AvitoDateFormatter avitoDateFormatter = new AvitoDateFormatter();
 
+    private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(//(.*)\\).*");
     private PhoneParser phoneParser;
 
+    private String storagePath;
+    private int maxItems;
+
     @Autowired
-    public AvitoProvider(PhoneParser phoneParser) {
+    public AvitoProvider(PhoneParser phoneParser,
+                         @Value("${avito.provider.max.items}") int maxItems,
+                         @Value("${avito.provider.storage.path}") String storagePath) {
         this.phoneParser = phoneParser;
+        this.maxItems = maxItems;
+        this.storagePath = storagePath;
     }
 
     @Override
@@ -41,22 +56,23 @@ public class AvitoProvider implements AdvertsProvider {
         try {
             List<Pair<String, Long>> advertIdCollector = new ArrayList<>();
 
+            c1:
             for (int i = 0; i < MAX_PAGES; i++) {
                 Document doc = Jsoup.connect(MAIN_PAGE_URL + i).get();
                 Elements itemsOnPage = doc.select(".item");
                 for (Element item : itemsOnPage) {
                     long itemTimestamp = getTimestamp(item);
-                    if (itemTimestamp <= timestamp) {
-                        // we have reached previous scan point
-                        break;
+                    if (itemTimestamp <= timestamp || advertIdCollector.size() >= maxItems) {
+                        // we have reached previous scan point or limits
+                        break c1;
                     }
 
                     advertIdCollector.add(Pair.of(getId(item), itemTimestamp));
                 }
+            }
 
-                for (Pair<String, Long> item : advertIdCollector) {
-                    result.add(getAdvert(item.getLeft(), item.getRight()));
-                }
+            for (Pair<String, Long> item : advertIdCollector) {
+                result.add(getAdvert(item.getLeft(), item.getRight()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -116,12 +132,47 @@ public class AvitoProvider implements AdvertsProvider {
         user.setName(userName);
         user.setPhone(phone);
 
+        /** photos */
+        List<Photo> photos = new ArrayList<>();
+        Elements imageLinks = advertDocument
+                .select(".item-view-gallery")
+                .select(".gallery-list-item-link");
+
+        long photosPathId = System.currentTimeMillis();
+
+        int index = 0;
+        for (Element imageLink : imageLinks) {
+            String imageUrl = getImageUrl(imageLink.attr("style"));
+            Connection.Response response = Jsoup.connect("http://"+imageUrl).ignoreContentType(true).execute();
+
+            String path = storagePath + File.separator + photosPathId + File.separator + index + ".jpg";
+            new File(path).mkdirs();
+
+            try (FileOutputStream out = new FileOutputStream(new java.io.File(path))) {
+                out.write(response.bodyAsBytes());
+            }
+
+            Photo photo = new Photo();
+            photo.setPath(path);
+            photo.setMain(index == 0);
+
+            index++;
+        }
+
         RawAdvert rawAdvert = new RawAdvert();
         rawAdvert.setAdvert(advert);
         rawAdvert.setUser(user);
+        rawAdvert.setPhotos(photos);
         return rawAdvert;
     }
 
+    String getImageUrl(String fullImageUrl) {
+        Matcher matcher = imageUrlPattern.matcher(fullImageUrl);
+        if (!matcher.matches()) {
+            throw new IllegalStateException("Failed to retrieve image from " + fullImageUrl);
+        }
+        return matcher.group(1);
+    }
 
     private int getNumberInsideOf(String val) {
         StringBuilder result = new StringBuilder();
