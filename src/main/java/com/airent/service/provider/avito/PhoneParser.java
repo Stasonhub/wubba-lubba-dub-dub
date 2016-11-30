@@ -1,7 +1,9 @@
 package com.airent.service.provider.avito;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bytedeco.javacpp.BytePointer;
+import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.lept;
 import org.bytedeco.javacpp.tesseract;
 import org.jsoup.Connection;
@@ -26,14 +28,23 @@ import static org.bytedeco.javacpp.lept.pixDestroy;
 public class PhoneParser implements AutoCloseable {
 
     private Pattern idPattern = Pattern.compile("avito\\.item\\.id[ ]+=[ ]*'([0-9a-z]+)'");
+
     private Pattern phonePatter = Pattern.compile("avito\\.item\\.phone[ ]+=[ ]*'([0-9a-z]+)'");
+
     private SecretMixer secretMixer = new SecretMixer();
+
     private tesseract.TessBaseAPI api;
 
     @PostConstruct
-    public void init() {
+    public void init() throws IOException {
+        Loader.load(BytePointer.class);
+
+        // load whole language into memory
+        byte[] tessTrainedData =
+                IOUtils.toByteArray(getClass().getResourceAsStream("/tesseract/tessdata/eng.traineddata"));
+        BytePointer trainedDataPointer = new BytePointer(tessTrainedData);
         api = new tesseract.TessBaseAPI();
-        if (api.Init("/home/abariev/workspace/airent/src/main/resources/tesseract", "eng") != 0) {
+        if (api.Init(trainedDataPointer, new BytePointer("eng")) != 0) {
             throw new IllegalStateException("Couldn't init tesseract");
         }
         api.SetVariable("tessedit_char_whitelist", "0123456789-");
@@ -43,11 +54,9 @@ public class PhoneParser implements AutoCloseable {
         Pair<Integer, String> secret = getSecret(advertPage);
         String mixedVal = secretMixer.mix(secret.getLeft(), secret.getRight());
 
-        Connection.Response response = Jsoup
-                .connect("https://www.avito.ru/items/phone/" + secret.getLeft() + "?pkey=" + mixedVal)
-                .referrer("https://www.avito.ru" + advertId)
-                .ignoreContentType(true)
-                .execute();
+        Connection.Response response =
+                Jsoup.connect("https://www.avito.ru/items/phone/" + secret.getLeft() + "?pkey=" + mixedVal)
+                     .referrer("https://www.avito.ru" + advertId).ignoreContentType(true).execute();
         String body = response.body();
         return parseNumbersFromImage(body);
     }
