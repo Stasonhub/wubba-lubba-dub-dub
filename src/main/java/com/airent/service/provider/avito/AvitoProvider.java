@@ -33,6 +33,7 @@ public class AvitoProvider implements AdvertsProvider {
 
     private static final int MAX_PAGES = 20;
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok?p=";
+    private static final String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.100 Safari/537.36";
     private static AvitoDateFormatter avitoDateFormatter = new AvitoDateFormatter();
 
     private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(//(.*)\\).*");
@@ -58,7 +59,10 @@ public class AvitoProvider implements AdvertsProvider {
 
             c1:
             for (int i = 0; i < MAX_PAGES; i++) {
-                Document doc = Jsoup.connect(MAIN_PAGE_URL + i).get();
+                Document doc = Jsoup
+                        .connect(MAIN_PAGE_URL + i)
+                        .userAgent(USER_AGENT)
+                        .get();
                 Elements itemsOnPage = doc.select(".item");
                 for (Element item : itemsOnPage) {
                     long itemTimestamp = getTimestamp(item);
@@ -89,7 +93,9 @@ public class AvitoProvider implements AdvertsProvider {
     }
 
     private RawAdvert getAdvert(String itemId, long timestamp) throws IOException {
-        Document advertDocument = Jsoup.connect("https://www.avito.ru" + itemId).get();
+        Document advertDocument = Jsoup.connect("https://www.avito.ru" + itemId)
+                .userAgent(USER_AGENT)
+                .get();
 
         /** advert */
         Elements itemViewMain = advertDocument.select(".item-view-main");
@@ -143,10 +149,12 @@ public class AvitoProvider implements AdvertsProvider {
         int index = 0;
         for (Element imageLink : imageLinks) {
             String imageUrl = getImageUrl(imageLink.attr("style"));
-            Connection.Response response = Jsoup.connect("http://"+imageUrl).ignoreContentType(true).execute();
+            Connection.Response response = Jsoup.connect("http://"+imageUrl.replace("80x60", "640x480"))
+                    .userAgent(USER_AGENT)
+                    .ignoreContentType(true).execute();
 
             String path = storagePath + File.separator + photosPathId + File.separator + index + ".jpg";
-            new File(path).mkdirs();
+            new File(path).getParentFile().mkdirs();
 
             try (FileOutputStream out = new FileOutputStream(new java.io.File(path))) {
                 out.write(response.bodyAsBytes());

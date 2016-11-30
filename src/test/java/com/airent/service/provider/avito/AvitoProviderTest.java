@@ -17,7 +17,7 @@ public class AvitoProviderTest {
         PhoneParser phoneParser = new PhoneParser();
         phoneParser.init();
 
-        AvitoProvider avitoProvider = new AvitoProvider(phoneParser, 5, "~/images");
+        AvitoProvider avitoProvider = new AvitoProvider(phoneParser, 5, "/home/abariev/images");
         List<RawAdvert> advertsUntil = avitoProvider.getAdvertsUntil(0L);
 
         advertsUntil.stream().map(RawAdvert::getAdvert).map(Advert::getDescription).forEach(System.out::println);
@@ -30,7 +30,7 @@ public class AvitoProviderTest {
         PhoneParser phoneParser = new PhoneParser();
         phoneParser.init();
 
-        AvitoProvider avitoProvider = new AvitoProvider(phoneParser, 5, "~/images");
+        AvitoProvider avitoProvider = new AvitoProvider(phoneParser, 5, "/home/abariev/images");
         String imageUrl = avitoProvider.getImageUrl("background-image: url(//68.img.avito.st/80x60/3186657868.jpg);");
         assertEquals("68.img.avito.st/80x60/3186657868.jpg", imageUrl);
     }
