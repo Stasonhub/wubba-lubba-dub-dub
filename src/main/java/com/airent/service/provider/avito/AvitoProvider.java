@@ -14,7 +14,12 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import sun.nio.ch.IOUtil;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,19 +37,26 @@ import java.util.regex.Pattern;
 public class AvitoProvider implements AdvertsProvider {
 
     private static final int MAX_PAGES = 20;
+
+    private static final int SIGN_HEIGHT = 120;
+
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok?p=";
-    private static final String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.100 Safari/537.36";
+
+    private static final String USER_AGENT =
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.100 Safari/537.36";
+
     private static AvitoDateFormatter avitoDateFormatter = new AvitoDateFormatter();
 
     private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(//(.*)\\).*");
+
     private PhoneParser phoneParser;
 
     private String storagePath;
+
     private int maxItems;
 
     @Autowired
-    public AvitoProvider(PhoneParser phoneParser,
-                         @Value("${avito.provider.max.items}") int maxItems,
+    public AvitoProvider(PhoneParser phoneParser, @Value("${avito.provider.max.items}") int maxItems,
                          @Value("${avito.provider.storage.path}") String storagePath) {
         this.phoneParser = phoneParser;
         this.maxItems = maxItems;
@@ -59,10 +71,7 @@ public class AvitoProvider implements AdvertsProvider {
 
             c1:
             for (int i = 0; i < MAX_PAGES; i++) {
-                Document doc = Jsoup
-                        .connect(MAIN_PAGE_URL + i)
-                        .userAgent(USER_AGENT)
-                        .get();
+                Document doc = Jsoup.connect(MAIN_PAGE_URL + i).userAgent(USER_AGENT).get();
                 Elements itemsOnPage = doc.select(".item");
                 for (Element item : itemsOnPage) {
                     long itemTimestamp = getTimestamp(item);
@@ -93,16 +102,12 @@ public class AvitoProvider implements AdvertsProvider {
     }
 
     private RawAdvert getAdvert(String itemId, long timestamp) throws IOException {
-        Document advertDocument = Jsoup.connect("https://www.avito.ru" + itemId)
-                .userAgent(USER_AGENT)
-                .get();
+        Document advertDocument = Jsoup.connect("https://www.avito.ru" + itemId).userAgent(USER_AGENT).get();
 
         /** advert */
         Elements itemViewMain = advertDocument.select(".item-view-main");
-        Iterator<Element> mainParamsIterator = itemViewMain
-                .select(".item-params")
-                .select(".item-params-list-item")
-                .iterator();
+        Iterator<Element> mainParamsIterator =
+                itemViewMain.select(".item-params").select(".item-params-list-item").iterator();
 
         int roomsCount = getNumberInsideOf(mainParamsIterator.next().text());
         int floor = getNumberInsideOf(mainParamsIterator.next().text());
@@ -110,11 +115,8 @@ public class AvitoProvider implements AdvertsProvider {
         mainParamsIterator.next().text(); // house type
         int sq = getNumberInsideOf(mainParamsIterator.next().text());
 
-        String address = itemViewMain
-                .select(".item-view-map")
-                .select(".item-map-address")
-                .select(".streetAddress")
-                .text();
+        String address =
+                itemViewMain.select(".item-view-map").select(".item-map-address").select(".streetAddress").text();
 
         String description = itemViewMain.select(".item-description-text p").text();
 
@@ -140,24 +142,24 @@ public class AvitoProvider implements AdvertsProvider {
 
         /** photos */
         List<Photo> photos = new ArrayList<>();
-        Elements imageLinks = advertDocument
-                .select(".item-view-gallery")
-                .select(".gallery-list-item-link");
+        Elements imageLinks = advertDocument.select(".item-view-gallery").select(".gallery-list-item-link");
 
         long photosPathId = System.currentTimeMillis();
 
         int index = 0;
         for (Element imageLink : imageLinks) {
             String imageUrl = getImageUrl(imageLink.attr("style"));
-            Connection.Response response = Jsoup.connect("http://"+imageUrl.replace("80x60", "640x480"))
-                    .userAgent(USER_AGENT)
-                    .ignoreContentType(true).execute();
+            Connection.Response response =
+                    Jsoup.connect("http://" + imageUrl.replace("80x60", "640x480")).userAgent(USER_AGENT)
+                         .ignoreContentType(true).execute();
 
             String path = storagePath + File.separator + photosPathId + File.separator + index + ".jpg";
             new File(path).getParentFile().mkdirs();
 
+            BufferedImage bufferedImage =
+                    removeAvitoSign(ImageIO.read(new ByteArrayInputStream(response.bodyAsBytes())));
             try (FileOutputStream out = new FileOutputStream(new java.io.File(path))) {
-                out.write(response.bodyAsBytes());
+                ImageIO.write(bufferedImage, "jpeg", out);
             }
 
             Photo photo = new Photo();
@@ -172,6 +174,16 @@ public class AvitoProvider implements AdvertsProvider {
         rawAdvert.setUser(user);
         rawAdvert.setPhotos(photos);
         return rawAdvert;
+    }
+
+    private BufferedImage removeAvitoSign(BufferedImage originalImage) {
+        int height = originalImage.getHeight() - SIGN_HEIGHT;
+        BufferedImage resizedImage = new BufferedImage(originalImage.getWidth(), height, originalImage.getType());
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, originalImage.getWidth(), 100, null);
+        g.dispose();
+
+        return resizedImage;
     }
 
     String getImageUrl(String fullImageUrl) {
@@ -214,11 +226,13 @@ public class AvitoProvider implements AdvertsProvider {
             if (dateFormatted.startsWith("сегодня")) {
                 int dayOfMonth = LocalDate.now().getDayOfMonth();
                 int monthValue = LocalDate.now().getMonthValue();
-                return String.format("%s %d.%d.%d", dateFormatted.split(" ")[1], dayOfMonth, monthValue, LocalDate.now().getYear());
+                return String.format("%s %02d.%02d.%d", dateFormatted.split(" ")[1], dayOfMonth, monthValue,
+                        LocalDate.now().getYear());
             } else if (dateFormatted.startsWith("вчера")) {
                 int dayOfMonth = LocalDate.now().minusDays(1).getDayOfMonth();
                 int monthValue = LocalDate.now().minusDays(1).getMonthValue();
-                return String.format("%s %d.%d.%d", dateFormatted.split(" ")[1], dayOfMonth, monthValue, LocalDate.now().getYear());
+                return String.format("%s %02d.%02d.%d", dateFormatted.split(" ")[1], dayOfMonth, monthValue,
+                        LocalDate.now().getYear());
             }
 
             String[] parts = dateFormatted.split(" ");
@@ -226,33 +240,44 @@ public class AvitoProvider implements AdvertsProvider {
         }
 
         private String replaceMonth(String monthString) {
-            if (monthString.startsWith("янв"))
-                return "1";
-            if (monthString.startsWith("фев"))
-                return "2";
-            if (monthString.startsWith("март"))
-                return "3";
-            if (monthString.startsWith("апр"))
-                return "4";
-            if (monthString.startsWith("ма"))
-                return "5";
-            if (monthString.startsWith("июн"))
-                return "6";
-            if (monthString.startsWith("июл"))
-                return "7";
-            if (monthString.startsWith("авг"))
-                return "8";
-            if (monthString.startsWith("сент"))
-                return "9";
-            if (monthString.startsWith("окт"))
+            if (monthString.startsWith("янв")) {
+                return "01";
+            }
+            if (monthString.startsWith("фев")) {
+                return "02";
+            }
+            if (monthString.startsWith("март")) {
+                return "03";
+            }
+            if (monthString.startsWith("апр")) {
+                return "04";
+            }
+            if (monthString.startsWith("ма")) {
+                return "05";
+            }
+            if (monthString.startsWith("июн")) {
+                return "06";
+            }
+            if (monthString.startsWith("июл")) {
+                return "07";
+            }
+            if (monthString.startsWith("авг")) {
+                return "08";
+            }
+            if (monthString.startsWith("сент")) {
+                return "09";
+            }
+            if (monthString.startsWith("окт")) {
                 return "10";
-            if (monthString.startsWith("ноя"))
+            }
+            if (monthString.startsWith("ноя")) {
                 return "11";
-            if (monthString.startsWith("дек"))
+            }
+            if (monthString.startsWith("дек")) {
                 return "12";
+            }
             throw new IllegalArgumentException("Unknown month: " + monthString);
         }
-
 
         LocalDateTime parseDateTime(String dateTimeText) {
             return LocalDateTime.parse(dateTimeText, dateTimeFormatter);

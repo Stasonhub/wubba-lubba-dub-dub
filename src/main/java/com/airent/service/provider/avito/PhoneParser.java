@@ -1,9 +1,9 @@
 package com.airent.service.provider.avito;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bytedeco.javacpp.BytePointer;
-import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.lept;
 import org.bytedeco.javacpp.tesseract;
 import org.jsoup.Connection;
@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,14 +38,14 @@ public class PhoneParser implements AutoCloseable {
 
     @PostConstruct
     public void init() throws IOException {
-        Loader.load(BytePointer.class);
-
-        // load whole language into memory
         byte[] tessTrainedData =
                 IOUtils.toByteArray(getClass().getResourceAsStream("/tesseract/tessdata/eng.traineddata"));
-        BytePointer trainedDataPointer = new BytePointer(tessTrainedData);
+        File tmpTrainedDataFile = new File("/tmp/tesseract/tessdata/eng.traineddata");
+        FileUtils.forceMkdirParent(tmpTrainedDataFile);
+        FileUtils.writeByteArrayToFile(tmpTrainedDataFile, tessTrainedData);
+
         api = new tesseract.TessBaseAPI();
-        if (api.Init(trainedDataPointer, new BytePointer("eng")) != 0) {
+        if (api.Init(new BytePointer("/tmp/tesseract"), new BytePointer("eng")) != 0) {
             throw new IllegalStateException("Couldn't init tesseract");
         }
         api.SetVariable("tessedit_char_whitelist", "0123456789-");
