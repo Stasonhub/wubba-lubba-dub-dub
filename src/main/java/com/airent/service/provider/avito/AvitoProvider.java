@@ -38,7 +38,7 @@ public class AvitoProvider implements AdvertsProvider {
 
     private static final int MAX_PAGES = 20;
 
-    private static final int SIGN_HEIGHT = 120;
+    private static final int SIGN_HEIGHT = 40;
 
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok?p=";
 
@@ -178,12 +178,7 @@ public class AvitoProvider implements AdvertsProvider {
 
     private BufferedImage removeAvitoSign(BufferedImage originalImage) {
         int height = originalImage.getHeight() - SIGN_HEIGHT;
-        BufferedImage resizedImage = new BufferedImage(originalImage.getWidth(), height, originalImage.getType());
-        Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, originalImage.getWidth(), 100, null);
-        g.dispose();
-
-        return resizedImage;
+        return originalImage.getSubimage(0, 0, originalImage.getWidth(), height);
     }
 
     String getImageUrl(String fullImageUrl) {

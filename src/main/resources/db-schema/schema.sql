@@ -20,12 +20,13 @@ CREATE TABLE advert (
   withPublicServices BOOLEAN      NOT NULL,
   conditions         INT          NOT NULL,
   description        VARCHAR(250) NOT NULL,
-  trustRate          BIGINT       NOT NULL
+  raw                BOOLEAN      NOT NULL
 );
 
 CREATE TABLE advert_author (
-  advertId BIGINT NOT NULL,
-  userId   BIGINT NOT NULL
+  isMain   BOOLEAN NOT NULL,
+  advertId BIGINT  NOT NULL,
+  userId   BIGINT  NOT NULL
 );
 
 CREATE TABLE photo (
