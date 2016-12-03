@@ -7,6 +7,8 @@ public interface UserMapper {
 
     void createUser(User user);
 
+    void updateUser(User user);
+
     void updatePassword(@Param("id") long id, @Param("password") String password);
 
     User findById(long id);

@@ -4,9 +4,9 @@
 <mapper namespace="com.airent.mapper.AdvertMapper">
     <insert id="createAdvert" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO advert (publicationDate, district, address, floor, maxFloor, rooms,
-                     sq, price, withPublicServices, conditions, description, trustRate)
+                     sq, price, withPublicServices, conditions, description, trustRate, raw)
         VALUES (#{publicationDate}, #{district}, #{address}, #{floor}, #{maxFloor}, #{rooms}, #{sq},
-                 #{price}, #{withPublicServices}, #{conditions}, #{description}, #{trustRate})
+                 #{price}, #{withPublicServices}, #{conditions}, #{description}, #{trustRate}, #{raw})
     </insert>
 
     <select id="findById" resultType="com.airent.model.Advert">
@@ -18,7 +18,7 @@
     <select id="getNextAdvertsBeforeTime" resultType="com.airent.model.Advert">
         SELECT *
         FROM advert
-        WHERE #{timestamp} > publicationDate
+        WHERE #{timestamp} > publicationDate AND raw = FALSE
         ORDER BY publicationDate
         DESC limit #{limit}
   </select>
@@ -38,6 +38,7 @@
             ${room}
         </foreach>
         AND #{timestamp} > publicationDate
+        AND raw = FALSE
         ORDER BY publicationDate
         DESC limit #{limit}
     </select>
@@ -57,11 +58,21 @@
         min(price) as priceMin,
         max(price) as priceMax
         FROM advert
+        WHERE raw = FALSE
+
   </select>
 
     <insert id="bindToUser">
-        INSERT INTO advert_author (advertId, userId)
-        VALUES (#{advertId}, #{userId})
+        INSERT INTO advert_author (isMain, advertId, userId)
+        VALUES (FALSE, #{advertId}, #{userId})
     </insert>
 
+    <insert id="bindToMainUser">
+        UPDATE advert_author
+        SET isMain = false
+        WHERE advertId = #{advertId};
+
+        INSERT INTO advert_author (isMain, advertId, userId)
+        VALUES (TRUE, #{advertId}, #{userId})
+    </insert>
 </mapper>

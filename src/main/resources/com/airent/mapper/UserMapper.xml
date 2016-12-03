@@ -7,6 +7,12 @@
        VALUES (#{phone}, #{name}, #{password}, #{trustRate}, #{registered})
     </insert>
 
+    <update id="updateUser">
+        UPDATE user
+        SET phone = #{phone}, name = #{name}, trustRate = #{trustRate}
+        WHERE id = #{id}
+    </update>
+
     <select id="findById" resultType="com.airent.model.User">
         SELECT *
         FROM user

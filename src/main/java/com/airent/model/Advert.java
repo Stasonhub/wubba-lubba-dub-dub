@@ -3,26 +3,40 @@ package com.airent.model;
 public class Advert {
 
     private long id;
+
     private long publicationDate;
 
     private District district;
+
     private String address;
+
     private int floor;
+
     private int maxFloor;
+
     private int rooms;
+
     private int sq;
+
     private int price;
+
     private boolean withPublicServices;
+
     private boolean withDeposit;
 
     private String header;
+
     private String description;
 
     private int conditions;
+
     private int bedrooms;
+
     private int beds;
 
     private int trustRate;
+
+    private boolean raw;
 
     public long getId() {
         return id;
@@ -174,5 +188,13 @@ public class Advert {
 
     public void setTrustRate(int trustRate) {
         this.trustRate = trustRate;
+    }
+
+    public boolean isRaw() {
+        return raw;
+    }
+
+    public void setRaw(boolean raw) {
+        this.raw = raw;
     }
 }
