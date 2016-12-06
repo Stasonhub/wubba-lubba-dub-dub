@@ -14,10 +14,8 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import sun.nio.ch.IOUtil;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -61,6 +59,11 @@ public class AvitoProvider implements AdvertsProvider {
         this.phoneParser = phoneParser;
         this.maxItems = maxItems;
         this.storagePath = storagePath;
+    }
+
+    @Override
+    public String getType() {
+        return "AV";
     }
 
     @Override
@@ -151,7 +154,7 @@ public class AvitoProvider implements AdvertsProvider {
             String imageUrl = getImageUrl(imageLink.attr("style"));
             Connection.Response response =
                     Jsoup.connect("http://" + imageUrl.replace("80x60", "640x480")).userAgent(USER_AGENT)
-                         .ignoreContentType(true).execute();
+                            .ignoreContentType(true).execute();
 
             String path = storagePath + File.separator + photosPathId + File.separator + index + ".jpg";
             new File(path).getParentFile().mkdirs();

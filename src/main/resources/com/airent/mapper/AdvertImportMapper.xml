@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airent.mapper.AdvertImportMapper">
+    <insert id="saveLastImportTime">
+        UPDATE importState SET lastImportDate = #{lastImportDate} WHERE typeName = #{typeName};
+          IF @@ROWCOUNT = 0
+        INSERT INTO importState (typeName, lastImportDate)
+        VALUES (#{typeName}, #{lastImportDate})
+    </insert>
+
+    <select id="getLastImportTime" resultType="java.lang.Long">
+        SELECT lastImportDate
+        FROM importState
+        WHERE typeName=#{typeName}
+  </select>
+</mapper>

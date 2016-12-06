@@ -1,6 +1,6 @@
 package com.airent.service.provider;
 
-import com.airent.mapper.AdvertImporterMapper;
+import com.airent.mapper.AdvertImportMapper;
 import com.airent.mapper.AdvertMapper;
 import com.airent.mapper.PhotoMapper;
 import com.airent.mapper.UserMapper;
@@ -9,22 +9,27 @@ import com.airent.model.Photo;
 import com.airent.model.User;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Service
 public class AdvertImporter {
 
     private List<AdvertsProvider> advertsProviders;
 
-    private AdvertImporterMapper advertImporterMapper;
+    private AdvertImportMapper advertImportMapper;
     private AdvertMapper advertMapper;
     private PhotoMapper photoMapper;
     private UserMapper userMapper;
 
-    public AdvertImporter(AdvertImporterMapper advertImporterMapper, AdvertMapper advertMapper, PhotoMapper photoMapper, UserMapper userMapper) {
-        this.advertImporterMapper = advertImporterMapper;
+    @Autowired
+    public AdvertImporter(List<AdvertsProvider> advertsProviders, AdvertImportMapper advertImportMapper, AdvertMapper advertMapper, PhotoMapper photoMapper, UserMapper userMapper) {
+        this.advertsProviders = advertsProviders;
+        this.advertImportMapper = advertImportMapper;
         this.advertMapper = advertMapper;
         this.photoMapper = photoMapper;
         this.userMapper = userMapper;
@@ -48,7 +53,7 @@ public class AdvertImporter {
     }
 
     private void runImport(AdvertsProvider advertsProvider) {
-        long lastImportTime = advertImporterMapper.getLastImportTime(advertsProvider.getType());
+        long lastImportTime = advertImportMapper.getLastImportTime(advertsProvider.getType());
         List<RawAdvert> rawAdverts = advertsProvider.getAdvertsUntil(lastImportTime);
 
         for (RawAdvert rawAdvert : rawAdverts) {
@@ -87,7 +92,7 @@ public class AdvertImporter {
             }
 
             // save last import time
-            advertImporterMapper
+            advertImportMapper
                     .saveLastImportTime(advertsProvider.getType(), rawAdvert.getAdvert().getPublicationDate());
         }
     }

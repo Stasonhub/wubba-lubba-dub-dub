@@ -36,3 +36,8 @@ CREATE TABLE photo (
   main     BOOLEAN NOT NULL,
   FOREIGN KEY (advertId) REFERENCES advert (id)
 );
+
+CREATE TABLE importState (
+  typeName       VARCHAR(100) PRIMARY KEY,
+  lastImportDate BIGINT NOT NULL
+);
