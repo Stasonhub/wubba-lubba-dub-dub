@@ -3,12 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Estate &mdash; Free HTML5 Bootstrap Website Template by FreeHTML5.co</title>
+    <title>Admin page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Free HTML5 Website Template by FreeHTML5.co"/>
-    <meta name="keywords"
-          content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive"/>
-    <meta name="author" content="FreeHTML5.co"/>
 
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/icomoon.css">
@@ -22,32 +18,31 @@
     <script src="js/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
-<div th:replace="fragments/login-popup :: login-popup"/>
-<div id="fh5co-page">
-    <header th:replace="fragments/header :: header"/>
-    <div th:replace="fragments/searchBox :: searchBox"/>
-
-    <div id="best-deal">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box"
-                     data-animate-effect="fadeIn">
-                    <h2>Последние предложения</h2>
-                    <p>Все объявления проверены вручную нашими модераторами</p>
-                </div>
-
-                <div id="resultsBlock">
-                    <div th:replace="fragments/advert :: advertsForm (adverts=${adverts})"/>
-                </div>
-            </div>
-            <div class="row">
-                <div id="load-more-container" search-page="false" class="row">
-                    <div th:replace="fragments/searchBox :: loadMoreButton"/>
-                </div>
-            </div>
+<div class="container">
+    <p>
+    <h4>Import states</h4>
+    <div th:each="importState : ${importStates}" class="row">
+        <div class="col-md-3" th:text="${importState.providerName}">
+        </div>
+        <div class="col-md-3" th:text="${importState.lastImportDate}">
         </div>
     </div>
-    <footer th:replace="fragments/footer :: footer"/>
+    </p>
+
+    <p>
+    <h4>Run imports</h4>
+    <button id="run-imports-btn" type="button" class="btn">GO!</button>
+    </p>
+
+    <p>
+    <h4>All raw adverts</h4>
+    <div id="resultsBlock">
+        <div th:replace="fragments/advert :: advertsForm (adverts=${rawAdverts})"/>
+    </div>
+    </p>
+
+</div>
+</div>
 </div>
 
 <script src="/js/jquery.min.js"></script>
@@ -58,9 +53,13 @@
 <script src="/js/jquery.flexslider-min.js"></script>
 <script src="/js/bootstrap-select.js"></script>
 <script src="/js/bootstrap-slider.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/login.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?onload=gCaptchaLoadedCallback&render=explicit&hl=ru" async defer></script>
+<script>
+    $(function () {
+        $('#run-imports-btn').on('click', function () {
+            $.post("/startImport");
+        });
+    });
+</script>
 </body>
 </html>
 

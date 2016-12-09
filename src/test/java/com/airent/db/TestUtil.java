@@ -5,10 +5,13 @@ import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.District;
 import com.airent.model.User;
+import javafx.util.Pair;
+
+import java.util.Map;
 
 public class TestUtil {
 
-    public static Advert createAdvert(UserMapper userMapper, AdvertMapper advertMapper) {
+    public static Pair<Advert, User> createAdvert(UserMapper userMapper, AdvertMapper advertMapper) {
         User user = new User();
         user.setName("Aidar");
         user.setPhone(12345);
@@ -30,6 +33,6 @@ public class TestUtil {
         advert.setDescription("Bla bla bla");
 
         advertMapper.createAdvert(advert);
-        return advert;
+        return new Pair<>(advert, user);
     }
 }

@@ -4,6 +4,8 @@ import com.airent.mapper.AdvertMapper;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.District;
+import com.airent.model.User;
+import javafx.util.Pair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class AdvertTest {
 
     @Test
     public void testCreateAdvertWithPhotos() {
-        Advert advert = TestUtil.createAdvert(userMapper, advertMapper);
+        Advert advert = TestUtil.createAdvert(userMapper, advertMapper).getKey();
 
         Advert selectedAdvert = advertMapper.findById(advert.getId());
 
@@ -43,7 +45,7 @@ public class AdvertTest {
 
     @Test
     public void testSearchAdvert() {
-        Advert advert = TestUtil.createAdvert(userMapper, advertMapper);
+        Advert advert = TestUtil.createAdvert(userMapper, advertMapper).getKey();
 
         List<District> districtList = Collections.singletonList(advert.getDistrict());
         List<Integer> rooms = Collections.singletonList(advert.getRooms());
@@ -52,5 +54,11 @@ public class AdvertTest {
         assertNotNull(adverts);
         assertEquals(1, adverts.size());
         assertEquals(advert.getId(), adverts.get(0).getId());
+    }
+
+    @Test
+    public void testAdvertBinding() {
+        Pair<Advert, User> advertUserPair = TestUtil.createAdvert(userMapper, advertMapper);
+        advertMapper.bindToMainUser(advertUserPair.getKey().getId(), advertUserPair.getValue().getId());
     }
 }

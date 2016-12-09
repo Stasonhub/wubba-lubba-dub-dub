@@ -2,18 +2,18 @@ package com.airent.model;
 
 public class User {
 
-    private long id;
+    private Long id;
     private long phone;
     private String name;
     private String password;
     private int trustRate;
     private boolean registered;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

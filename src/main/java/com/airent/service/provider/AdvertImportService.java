@@ -15,9 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class AdvertImporter {
+public class AdvertImportService {
 
     private List<AdvertsProvider> advertsProviders;
 
@@ -27,7 +28,7 @@ public class AdvertImporter {
     private UserMapper userMapper;
 
     @Autowired
-    public AdvertImporter(List<AdvertsProvider> advertsProviders, AdvertImportMapper advertImportMapper, AdvertMapper advertMapper, PhotoMapper photoMapper, UserMapper userMapper) {
+    public AdvertImportService(List<AdvertsProvider> advertsProviders, AdvertImportMapper advertImportMapper, AdvertMapper advertMapper, PhotoMapper photoMapper, UserMapper userMapper) {
         this.advertsProviders = advertsProviders;
         this.advertImportMapper = advertImportMapper;
         this.advertMapper = advertMapper;
@@ -69,14 +70,14 @@ public class AdvertImporter {
                     // rebind to new user and remove half of trust on existing
                     currentUser.setTrustRate(currentUserTrustRate / 2);
                     userMapper.updateUser(currentUser);
-                    userMapper.createUser(newUser);
+                    createUser(newUser);
                     advertMapper.bindToMainUser(sameAdvert.getId(), newUser.getId());
                     continue;
                 }
 
                 // just create new user with half of trust initiated by provider
                 newUser.setTrustRate(newUserTrustRate / 2);
-                userMapper.createUser(newUser);
+                createUser(newUser);
                 advertMapper.bindToUser(sameAdvert.getId(), newUser.getId());
                 continue;
             }
@@ -97,8 +98,26 @@ public class AdvertImporter {
         }
     }
 
+    private void createUser(User newUser) {
+        if (newUser.getId() == null) {
+            if (newUser.isRegistered()) {
+                throw new IllegalStateException("New user marked as registered");
+            }
+            userMapper.createUser(newUser);
+        }
+    }
+
+    public List<String> getProviderTypes() {
+        return advertsProviders.stream().map(AdvertsProvider::getType).collect(Collectors.toList());
+    }
+
+    public long getLastImportTime(String typeName) {
+        return advertImportMapper.getLastImportTime(typeName);
+    }
+
     private Advert findTheSameAdvert(RawAdvert advert) {
         return null;
     }
+
 
 }

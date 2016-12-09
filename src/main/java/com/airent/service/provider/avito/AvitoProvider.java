@@ -1,8 +1,11 @@
 package com.airent.service.provider.avito;
 
+import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.Photo;
 import com.airent.model.User;
+import com.airent.service.LocationService;
+import com.airent.service.UserService;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
 import org.apache.commons.lang3.tuple.Pair;
@@ -47,6 +50,10 @@ public class AvitoProvider implements AdvertsProvider {
 
     private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(//(.*)\\).*");
 
+    private LocationService locationService;
+
+    private UserMapper userMapper;
+
     private PhoneParser phoneParser;
 
     private String storagePath;
@@ -54,8 +61,10 @@ public class AvitoProvider implements AdvertsProvider {
     private int maxItems;
 
     @Autowired
-    public AvitoProvider(PhoneParser phoneParser, @Value("${avito.provider.max.items}") int maxItems,
+    public AvitoProvider(LocationService locationService, UserMapper userMapper, PhoneParser phoneParser, @Value("${avito.provider.max.items}") int maxItems,
                          @Value("${avito.provider.storage.path}") String storagePath) {
+        this.locationService = locationService;
+        this.userMapper = userMapper;
         this.phoneParser = phoneParser;
         this.maxItems = maxItems;
         this.storagePath = storagePath;
@@ -63,7 +72,7 @@ public class AvitoProvider implements AdvertsProvider {
 
     @Override
     public String getType() {
-        return "AV";
+        return "AVT";
     }
 
     @Override
@@ -132,6 +141,8 @@ public class AvitoProvider implements AdvertsProvider {
         advert.setAddress(address);
         advert.setDescription(description);
         advert.setPublicationDate(timestamp);
+        advert.setDistrict(locationService.getdistrictFromAddress(address));
+        advert.setRaw(true);
 
         /** user */
         Elements contacts = advertDocument.select(".item-view-contacts");
@@ -139,9 +150,14 @@ public class AvitoProvider implements AdvertsProvider {
         String userName = realtor ? "" : contacts.select(".seller-info-name").text().trim();
         long phone = phoneParser.getPhone(advertDocument, itemId);
 
-        User user = new User();
-        user.setName(userName);
-        user.setPhone(phone);
+        User user = userMapper.findByPhone(phone);
+        if (user == null) {
+            user = new User();
+            user.setName(userName);
+            user.setPhone(phone);
+            user.setRegistered(false);
+            user.setTrustRate(1_000);
+        }
 
         /** photos */
         List<Photo> photos = new ArrayList<>();

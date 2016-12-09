@@ -35,7 +35,7 @@ public class PhotoTest {
 
     @Test
     public void testPhotoCreate() {
-        Advert advert = TestUtil.createAdvert(userMapper, advertMapper);
+        Advert advert = TestUtil.createAdvert(userMapper, advertMapper).getKey();
 
         Photo photo = new Photo();
         photo.setPath("/path/to/photo.jpg");
@@ -45,7 +45,7 @@ public class PhotoTest {
 
     @Test
     public void testGetPhotoForAdvert() {
-        Advert advert = TestUtil.createAdvert(userMapper, advertMapper);
+        Advert advert = TestUtil.createAdvert(userMapper, advertMapper).getKey();
 
         Photo photo = new Photo();
         photo.setPath("/path/to/photo.jpg");
@@ -73,7 +73,7 @@ public class PhotoTest {
         int advertsCount = 5;
 
         for (int i = 0; i < advertsCount; i++) {
-            Advert advert = TestUtil.createAdvert(userMapper, advertMapper);
+            Advert advert = TestUtil.createAdvert(userMapper, advertMapper).getKey();
             advertList.add(advert);
 
             for (int j = 0; j < 2; j++) {

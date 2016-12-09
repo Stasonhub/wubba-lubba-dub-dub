@@ -90,6 +90,12 @@ public class LoginService implements UserDetailsService {
             User user = userMapper.findByPhone(phoneNumber);
             Objects.requireNonNull(user);
 
+            if (!user.isRegistered()) {
+                throw new UsernameNotFoundException("User is not registered" + username);
+            }
+
+            Objects.requireNonNull(user.getPassword());
+
             GrantedAuthority authority = new SimpleGrantedAuthority("BASIC");
             OwnUserDetails userDetails = new OwnUserDetails(String.valueOf(user.getPhone()),
                     user.getPassword(), Arrays.asList(authority));

@@ -10,8 +10,10 @@
     </insert>
 
     <select id="getLastImportTime" resultType="java.lang.Long">
-        SELECT lastImportDate
-        FROM importState
-        WHERE typeName=#{typeName}
+        SELECT ISNULL(
+          SELECT lastImportDate
+          FROM importState
+          WHERE typeName=#{typeName}
+        , 0)
   </select>
 </mapper>

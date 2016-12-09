@@ -68,4 +68,8 @@ public class AdvertService {
     }
 
 
+    public List<Advert> getRawAdverts() {
+        return advertMapper.getRawAdverts();
+    }
+
 }

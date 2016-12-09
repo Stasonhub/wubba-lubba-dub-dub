@@ -3,7 +3,7 @@ CREATE TABLE user (
   phone      BIGINT      NOT NULL,
   name       VARCHAR(30) NOT NULL,
   trustRate  BIGINT      NOT NULL,
-  password   VARCHAR     NOT NULL,
+  password   VARCHAR,
   registered BOOLEAN     NOT NULL
 );
 
@@ -20,7 +20,8 @@ CREATE TABLE advert (
   withPublicServices BOOLEAN      NOT NULL,
   conditions         INT          NOT NULL,
   description        VARCHAR(250) NOT NULL,
-  raw                BOOLEAN      NOT NULL
+  raw                BOOLEAN      NOT NULL,
+  trustRate          BIGINT       NOT NULL
 );
 
 CREATE TABLE advert_author (
