@@ -69,11 +69,11 @@
 
     <update id="bindToMainUser">
         UPDATE advert_author
-        SET isMain = false
+        SET isMain = FALSE
         WHERE advertId = #{advertId};
 
         INSERT INTO advert_author (isMain, advertId, userId)
-        VALUES (TRUE, #{advertId}, #{userId});
+        VALUES (TRUE, ${advertId}, ${userId});
     </update>
 
     <select id="getRawAdverts" resultType="com.airent.model.Advert">
@@ -84,4 +84,10 @@
         ORDER BY publicationDate
         DESC limit 1000
     </select>
+
+    <update id="setAdvertNotRaw">
+        UPDATE advert
+        SET raw = FALSE
+        WHERE id = #{advertId};
+    </update>
 </mapper>

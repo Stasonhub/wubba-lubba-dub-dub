@@ -36,4 +36,6 @@ public interface AdvertMapper {
 
     List<Advert> getRawAdverts();
 
+    void setAdvertNotRaw(long advertId);
+
 }

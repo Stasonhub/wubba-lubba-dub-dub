@@ -40,7 +40,7 @@ public class TestDataConfig {
 
     private long timestamp = System.currentTimeMillis();
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         for (int i = 0; i < 47; i++) {
             User user = createTestUser(i);

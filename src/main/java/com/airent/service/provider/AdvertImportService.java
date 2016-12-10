@@ -82,6 +82,10 @@ public class AdvertImportService {
                 continue;
             }
 
+            if (rawAdvert.getPhotos().isEmpty()) {
+                throw new IllegalArgumentException("Found advert without photo " + rawAdvert.getAdvert());
+            }
+
             // create new advert in system
             advertMapper.createAdvert(rawAdvert.getAdvert());
             userMapper.createUser(rawAdvert.getUser());
@@ -89,6 +93,7 @@ public class AdvertImportService {
 
             // move and create photos
             for (Photo photo : rawAdvert.getPhotos()) {
+                photo.setAdvertId(rawAdvert.getAdvert().getId());
                 photoMapper.createPhoto(photo);
             }
 

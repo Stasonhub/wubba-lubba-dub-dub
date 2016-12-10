@@ -10,7 +10,7 @@
   <select id="getMainPhoto" resultType="com.airent.model.Photo">
     SELECT *
     FROM photo
-    WHERE advertId=#{advertId} AND main='true'
+    WHERE advertId=#{advertId} AND main='true';
   </select>
 
   <select id="getPhotos" resultType="com.airent.model.Photo">

@@ -1,11 +1,11 @@
 package com.airent.service.provider.avito;
 
+import com.airent.config.MvcConfig;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.Photo;
 import com.airent.model.User;
 import com.airent.service.LocationService;
-import com.airent.service.UserService;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
 import org.apache.commons.lang3.tuple.Pair;
@@ -62,7 +62,7 @@ public class AvitoProvider implements AdvertsProvider {
 
     @Autowired
     public AvitoProvider(LocationService locationService, UserMapper userMapper, PhoneParser phoneParser, @Value("${avito.provider.max.items}") int maxItems,
-                         @Value("${avito.provider.storage.path}") String storagePath) {
+                         @Value("${external.storage.path}") String storagePath) {
         this.locationService = locationService;
         this.userMapper = userMapper;
         this.phoneParser = phoneParser;
@@ -87,7 +87,7 @@ public class AvitoProvider implements AdvertsProvider {
                 Elements itemsOnPage = doc.select(".item");
                 for (Element item : itemsOnPage) {
                     long itemTimestamp = getTimestamp(item);
-                    if (itemTimestamp <= timestamp || advertIdCollector.size() >= maxItems) {
+                    if (itemTimestamp <= (timestamp + 60_000) || advertIdCollector.size() >= maxItems) {
                         // we have reached previous scan point or limits
                         break c1;
                     }
@@ -97,7 +97,10 @@ public class AvitoProvider implements AdvertsProvider {
             }
 
             for (Pair<String, Long> item : advertIdCollector) {
-                result.add(getAdvert(item.getLeft(), item.getRight()));
+                RawAdvert advert = getAdvert(item.getLeft(), item.getRight());
+                if (advert != null) {
+                    result.add(advert);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -163,6 +166,12 @@ public class AvitoProvider implements AdvertsProvider {
         List<Photo> photos = new ArrayList<>();
         Elements imageLinks = advertDocument.select(".item-view-gallery").select(".gallery-list-item-link");
 
+        if (imageLinks.isEmpty()) {
+            System.out.println("Not found photos for advert " + itemId);
+            return null;
+            //throw new IllegalStateException("Not found photos for advert " + itemId);
+        }
+
         long photosPathId = System.currentTimeMillis();
 
         int index = 0;
@@ -182,8 +191,9 @@ public class AvitoProvider implements AdvertsProvider {
             }
 
             Photo photo = new Photo();
-            photo.setPath(path);
+            photo.setPath(MvcConfig.STORAGE_FILES_PREFIX + File.separator + photosPathId + File.separator + index + ".jpg");
             photo.setMain(index == 0);
+            photos.add(photo);
 
             index++;
         }

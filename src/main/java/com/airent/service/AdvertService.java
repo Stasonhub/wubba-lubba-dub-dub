@@ -2,9 +2,9 @@ package com.airent.service;
 
 import com.airent.mapper.AdvertMapper;
 import com.airent.model.Advert;
-import com.airent.model.ui.AdvertPrices;
 import com.airent.model.District;
 import com.airent.model.rest.SearchRequest;
+import com.airent.model.ui.AdvertPrices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +70,14 @@ public class AdvertService {
 
     public List<Advert> getRawAdverts() {
         return advertMapper.getRawAdverts();
+    }
+
+    public void approveAdvert(long advertId) {
+        advertMapper.setAdvertNotRaw(advertId);
+    }
+
+    public void removeAdvert(long advertId) {
+        advertMapper.deleteAdvert(advertId);
     }
 
 }
