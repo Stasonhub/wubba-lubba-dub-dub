@@ -101,6 +101,7 @@
                 </div>
             </div>
         </div>
+        <div id="geo-data" th:latitude="${advert.latitude}" th:longitude="${advert.longitude}"></div>
         <div class="adv-details-container">
             <div class="container">
                 <div class="row">
@@ -166,7 +167,8 @@
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 <script src="/js/advertDetail.js"></script>
 <script src="/js/login.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?onload=gCaptchaLoadedCallback&render=explicit&hl=ru" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js?onload=gCaptchaLoadedCallback&render=explicit&hl=ru" async
+        defer></script>
 </body>
 </html>
 

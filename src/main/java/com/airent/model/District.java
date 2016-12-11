@@ -2,12 +2,12 @@ package com.airent.model;
 
 public enum District {
     AV("Авиастроительный"),
-    VH("Вахитовский"),
+    CV("Советский"),
     KR("Кировский"),
     MS("Московский"),
     NS("Ново-Савиновский"),
     PV("Приволжский"),
-    CV("Советский");
+    VH("Вахитовский");
 
     private String desc;
 

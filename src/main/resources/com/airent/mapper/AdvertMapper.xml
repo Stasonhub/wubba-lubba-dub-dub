@@ -4,9 +4,9 @@
 <mapper namespace="com.airent.mapper.AdvertMapper">
     <insert id="createAdvert" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO advert (publicationDate, district, address, floor, maxFloor, rooms,
-                     sq, price, withPublicServices, conditions, description, trustRate, raw)
+                     sq, price, withPublicServices, conditions, description, trustRate, raw, latitude, longitude)
         VALUES (#{publicationDate}, #{district}, #{address}, #{floor}, #{maxFloor}, #{rooms}, #{sq},
-                 #{price}, #{withPublicServices}, #{conditions}, #{description}, #{trustRate}, #{raw})
+                 #{price}, #{withPublicServices}, #{conditions}, #{description}, #{trustRate}, #{raw}, #{latitude}, #{longitude})
     </insert>
 
     <select id="findById" resultType="com.airent.model.Advert">

@@ -8,6 +8,7 @@ import com.airent.model.User;
 import com.airent.service.LocationService;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -131,9 +132,23 @@ public class AvitoProvider implements AdvertsProvider {
         int sq = getNumberInsideOf(mainParamsIterator.next().text());
 
         String address =
-                itemViewMain.select(".item-view-map").select(".item-map-address").select(".streetAddress").text();
+                itemViewMain.select(".item-view-map").select(".item-map-address").select("[itemprop=streetAddress]").text();
+        int price = getNumberInsideOf(advertDocument.select(".item-price").select(".price-value-string").text());
 
         String description = itemViewMain.select(".item-description-text p").text();
+
+
+        Elements searchMap = advertDocument.select(".b-search-map");
+        String latVal = searchMap.attr("data-map-lat");
+        String lonVal = searchMap.attr("data-map-lon");
+
+        if (StringUtils.isEmpty(latVal) || StringUtils.isEmpty(lonVal)) {
+            System.out.println("Wrong address without coordinates for " + itemId);
+            return null;
+        }
+
+        double latitude = Double.parseDouble(latVal);
+        double longitude = Double.parseDouble(lonVal);
 
         Advert advert = new Advert();
         advert.setBedrooms(1);
@@ -144,8 +159,11 @@ public class AvitoProvider implements AdvertsProvider {
         advert.setAddress(address);
         advert.setDescription(description);
         advert.setPublicationDate(timestamp);
-        advert.setDistrict(locationService.getdistrictFromAddress(address));
+        advert.setLatitude(latitude);
+        advert.setLongitude(longitude);
+        advert.setDistrict(locationService.getDistrictFromAddress(latitude, longitude));
         advert.setRaw(true);
+        advert.setPrice(price);
 
         /** user */
         Elements contacts = advertDocument.select(".item-view-contacts");

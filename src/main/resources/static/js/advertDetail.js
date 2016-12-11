@@ -26,11 +26,19 @@
     });
 
     ymaps.ready(function () {
+        var latitude = $('#geo-data').attr('latitude').text();
+        var longitude = $('#geo-data').attr('longitude').text()
+
         var map = new ymaps.Map("adv-detail-map", {
-            center: [55.76, 37.64],
+            center: [latitude, longitude],
             controls: ["zoomControl"],
-            zoom: 13
+            zoom: 11
         });
         map.behaviors.disable('scrollZoom');
+
+        var myPlacemark = new ymaps.Placemark([latitude, longitude], {}, {
+            preset: 'islands#redIcon'
+        });
+        map.geoObjects.add(myPlacemark);
     });
 }());

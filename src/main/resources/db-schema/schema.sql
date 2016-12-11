@@ -1,27 +1,30 @@
 CREATE TABLE user (
   id         BIGINT PRIMARY KEY AUTO_INCREMENT,
-  phone      BIGINT      NOT NULL,
+  phone      BIGINT       NOT NULL,
   name       VARCHAR(120) NOT NULL,
-  trustRate  BIGINT      NOT NULL,
+  trustRate  BIGINT       NOT NULL,
   password   VARCHAR,
-  registered BOOLEAN     NOT NULL
+  registered BOOLEAN      NOT NULL
 );
 
 CREATE TABLE advert (
   id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
-  publicationDate    BIGINT        NOT NULL,
-  district           VARCHAR(3)    NOT NULL,
-  address            VARCHAR(250)  NOT NULL,
-  floor              INT           NOT NULL,
-  maxFloor           INT           NOT NULL,
-  rooms              INT           NOT NULL,
-  sq                 INT           NOT NULL,
-  price              INT           NOT NULL,
-  withPublicServices BOOLEAN       NOT NULL,
-  conditions         INT           NOT NULL,
-  description        VARCHAR(1500) NOT NULL,
-  raw                BOOLEAN       NOT NULL,
-  trustRate          BIGINT        NOT NULL
+  publicationDate    BIGINT           NOT NULL,
+  district           VARCHAR(3)       NOT NULL,
+  address            VARCHAR(250)     NOT NULL,
+  floor              INT              NOT NULL,
+  maxFloor           INT              NOT NULL,
+  rooms              INT              NOT NULL,
+  sq                 INT              NOT NULL,
+  price              INT              NOT NULL,
+  withPublicServices BOOLEAN          NOT NULL,
+  conditions         INT              NOT NULL,
+  description        VARCHAR(1500)    NOT NULL,
+  raw                BOOLEAN          NOT NULL,
+  latitude           DOUBLE PRECISION NOT NULL,
+  longitude          DOUBLE PRECISION NOT NULL,
+  trustRate          BIGINT           NOT NULL
+
 );
 
 CREATE TABLE advert_author (

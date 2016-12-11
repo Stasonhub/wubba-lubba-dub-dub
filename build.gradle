@@ -24,6 +24,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    maven { url "https://repo.boundlessgeo.com/main" }
+    maven { url "http://download.osgeo.org/webdav/geotools/" }
     mavenCentral()
 }
 
@@ -53,6 +55,12 @@ dependencies {
     compile "org.bytedeco.javacpp-presets:tesseract:3.04.01-1.2:$javaCppClassifier"
     compile "org.bytedeco.javacpp-presets:leptonica:1.73-1.2:$javaCppClassifier"
 
+    compile 'org.geotools:gt-geojson:16.0'
+
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+configurations {
+    all*.exclude group: 'org.bytedeco', module: 'javacpp-presets'
 }
 
