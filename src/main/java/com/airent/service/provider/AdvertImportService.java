@@ -7,12 +7,14 @@ import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.Photo;
 import com.airent.model.User;
+import com.airent.service.PhotoService;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,13 +29,16 @@ public class AdvertImportService {
     private PhotoMapper photoMapper;
     private UserMapper userMapper;
 
+    private PhotoService photoService;
+
     @Autowired
-    public AdvertImportService(List<AdvertsProvider> advertsProviders, AdvertImportMapper advertImportMapper, AdvertMapper advertMapper, PhotoMapper photoMapper, UserMapper userMapper) {
+    public AdvertImportService(List<AdvertsProvider> advertsProviders, AdvertImportMapper advertImportMapper, AdvertMapper advertMapper, PhotoMapper photoMapper, UserMapper userMapper, PhotoService photoService) {
         this.advertsProviders = advertsProviders;
         this.advertImportMapper = advertImportMapper;
         this.advertMapper = advertMapper;
         this.photoMapper = photoMapper;
         this.userMapper = userMapper;
+        this.photoService = photoService;
     }
 
     public void runImport(String type) {
@@ -121,6 +126,16 @@ public class AdvertImportService {
     }
 
     private Advert findTheSameAdvert(RawAdvert advert) {
+        Map<Long, Long> allPhotoHashes = photoMapper.getAllPhotoHashes().stream()
+                .collect(Collectors.toMap(Photo::getHash, Photo::getAdvertId));
+        Optional<Long> anyValue = advert.getPhotos().stream()
+                .map(Photo::getHash)
+                .map(hash -> photoService.searchForSame(allPhotoHashes, hash))
+                .filter(val -> val != null)
+                .findAny();
+        if (anyValue.isPresent()) {
+            return advertMapper.findById(anyValue.get());
+        }
         return null;
     }
 

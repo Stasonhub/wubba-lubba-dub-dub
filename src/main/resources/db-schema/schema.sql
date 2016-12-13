@@ -38,6 +38,7 @@ CREATE TABLE photo (
   advertId BIGINT  NOT NULL,
   path     VARCHAR NOT NULL,
   main     BOOLEAN NOT NULL,
+  hash     BIGINT  NOT NULL,
   FOREIGN KEY (advertId) REFERENCES advert (id)
 );
 

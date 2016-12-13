@@ -3,6 +3,7 @@ package com.airent.service.provider.avito;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.service.LocationService;
+import com.airent.service.PhotoService;
 import com.airent.service.provider.api.RawAdvert;
 import org.jsoup.Jsoup;
 import org.junit.Test;
@@ -20,11 +21,14 @@ public class AvitoProviderTest {
         UserMapper userMapper = mock(UserMapper.class);
 
         LocationService locationService = new LocationService();
+        locationService.init();
 
         PhoneParser phoneParser = new PhoneParser();
         phoneParser.init();
 
-        AvitoProvider avitoProvider = new AvitoProvider(locationService, userMapper, phoneParser, 5, "/tmp/photos/1");
+        PhotoService photoService = new PhotoService();
+
+        AvitoProvider avitoProvider = new AvitoProvider(locationService, userMapper, phoneParser, photoService, 5, "/tmp/photos/1");
         List<RawAdvert> advertsUntil = avitoProvider.getAdvertsUntil(0L);
 
         advertsUntil.stream().map(RawAdvert::getAdvert).map(Advert::getDescription).forEach(System.out::println);
@@ -37,11 +41,15 @@ public class AvitoProviderTest {
         UserMapper userMapper = mock(UserMapper.class);
 
         LocationService locationService = new LocationService();
+        locationService.init();
 
         PhoneParser phoneParser = new PhoneParser();
         phoneParser.init();
 
-        AvitoProvider avitoProvider = new AvitoProvider(locationService, userMapper, phoneParser, 5, "/tmp/photos/2");
+        PhotoService photoService = new PhotoService();
+
+
+        AvitoProvider avitoProvider = new AvitoProvider(locationService, userMapper, phoneParser, photoService, 5, "/tmp/photos/2");
         String imageUrl = avitoProvider.getImageUrl("background-image: url(//68.img.avito.st/80x60/3186657868.jpg);");
         assertEquals("68.img.avito.st/80x60/3186657868.jpg", imageUrl);
     }

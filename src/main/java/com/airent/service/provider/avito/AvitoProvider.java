@@ -6,6 +6,7 @@ import com.airent.model.Advert;
 import com.airent.model.Photo;
 import com.airent.model.User;
 import com.airent.service.LocationService;
+import com.airent.service.PhotoService;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
 import org.apache.commons.lang3.StringUtils;
@@ -57,16 +58,19 @@ public class AvitoProvider implements AdvertsProvider {
 
     private PhoneParser phoneParser;
 
+    private PhotoService photoService;
+
     private String storagePath;
 
     private int maxItems;
 
     @Autowired
-    public AvitoProvider(LocationService locationService, UserMapper userMapper, PhoneParser phoneParser, @Value("${avito.provider.max.items}") int maxItems,
+    public AvitoProvider(LocationService locationService, UserMapper userMapper, PhoneParser phoneParser, PhotoService photoService, @Value("${avito.provider.max.items}") int maxItems,
                          @Value("${external.storage.path}") String storagePath) {
         this.locationService = locationService;
         this.userMapper = userMapper;
         this.phoneParser = phoneParser;
+        this.photoService = photoService;
         this.maxItems = maxItems;
         this.storagePath = storagePath;
     }
@@ -211,6 +215,7 @@ public class AvitoProvider implements AdvertsProvider {
             Photo photo = new Photo();
             photo.setPath(MvcConfig.STORAGE_FILES_PREFIX + File.separator + photosPathId + File.separator + index + ".jpg");
             photo.setMain(index == 0);
+            photo.setHash(photoService.calculateHash(bufferedImage));
             photos.add(photo);
 
             index++;

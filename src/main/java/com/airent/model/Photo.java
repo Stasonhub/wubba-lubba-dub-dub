@@ -2,26 +2,26 @@ package com.airent.model;
 
 public class Photo {
 
-    private long id;
-    private long advertId;
+    private Long id;
+    private Long advertId;
     private boolean main;
     private String path;
-    private long hash;
+    private Long hash;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public Photo setId(long id) {
+    public Photo setId(Long id) {
         this.id = id;
         return this;
     }
 
-    public long getAdvertId() {
+    public Long getAdvertId() {
         return advertId;
     }
 
-    public Photo setAdvertId(long advertId) {
+    public Photo setAdvertId(Long advertId) {
         this.advertId = advertId;
         return this;
     }
@@ -44,11 +44,11 @@ public class Photo {
         return this;
     }
 
-    public long getHash() {
+    public Long getHash() {
         return hash;
     }
 
-    public void setHash(long hash) {
+    public void setHash(Long hash) {
         this.hash = hash;
     }
 }
