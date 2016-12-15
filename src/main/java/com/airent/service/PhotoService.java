@@ -64,7 +64,7 @@ public class PhotoService {
      * Author: Elliot Shepherd (elliot@jarofworms.com
      * Based On: http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
      */
-    public class ImagePHash {
+    public static class ImagePHash {
 
         private int DISTANCE_MAX = 8;
 
@@ -86,12 +86,17 @@ public class PhotoService {
             return distance(val1, val2) <= DISTANCE_MAX;
         }
 
+        private String appendZeros(String value) {
+            int count = 64 - value.length();
+            if (count > 0) {
+                return StringUtils.repeat('0', count) + value;
+            }
+            return value;
+        }
+
         public int distance(long val1, long val2) {
-            String s1 = String.format("%064s" ,Long.toBinaryString(val1));
-            String s2 = String.format("%064s" ,Long.toBinaryString(val2));
-
-
-
+            String s1 = appendZeros(Long.toBinaryString(val1));
+            String s2 = appendZeros(Long.toBinaryString(val2));
 
             int counter = 0;
             for (int k = 0; k < s1.length(); k++) {

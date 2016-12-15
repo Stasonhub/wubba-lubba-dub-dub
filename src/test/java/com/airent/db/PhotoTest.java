@@ -40,6 +40,7 @@ public class PhotoTest {
         Photo photo = new Photo();
         photo.setPath("/path/to/photo.jpg");
         photo.setAdvertId(advert.getId());
+        photo.setHash(-1L);
         photoMapper.createPhoto(photo);
     }
 
@@ -50,12 +51,14 @@ public class PhotoTest {
         Photo photo = new Photo();
         photo.setPath("/path/to/photo.jpg");
         photo.setAdvertId(advert.getId());
+        photo.setHash(-1L);
         photoMapper.createPhoto(photo);
 
         photo = new Photo();
         photo.setPath("main.jpg");
         photo.setAdvertId(advert.getId());
         photo.setMain(true);
+        photo.setHash(-1L);
         photoMapper.createPhoto(photo);
 
         Photo mainPhoto = photoMapper.getMainPhoto(advert.getId());
@@ -81,6 +84,7 @@ public class PhotoTest {
                 photo.setPath("/path/to/photo" + i + "" + j + ".jpg");
                 photo.setAdvertId(advert.getId());
                 photo.setMain(j == 0);
+                photo.setHash(-1L);
                 photoMapper.createPhoto(photo);
             }
         }
