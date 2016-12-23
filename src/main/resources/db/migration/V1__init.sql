@@ -1,5 +1,5 @@
-CREATE TABLE user (
-  id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE sys_user (
+  id         SERIAL PRIMARY KEY,
   phone      BIGINT       NOT NULL,
   name       VARCHAR(120) NOT NULL,
   trustRate  BIGINT       NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE user (
 );
 
 CREATE TABLE advert (
-  id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id                 SERIAL PRIMARY KEY,
   publicationDate    BIGINT           NOT NULL,
   district           VARCHAR(3)       NOT NULL,
   address            VARCHAR(250)     NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE advert_author (
 );
 
 CREATE TABLE photo (
-  id       BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id       SERIAL PRIMARY KEY,
   advertId BIGINT  NOT NULL,
   path     VARCHAR NOT NULL,
   main     BOOLEAN NOT NULL,

@@ -1,24 +1,37 @@
 package com.airent.config;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 
 @Configuration
 public class DbConfig {
 
-    @Bean(destroyMethod = "shutdown")
-    public EmbeddedDatabase dataSource() {
-        return new EmbeddedDatabaseBuilder().
-                setType(EmbeddedDatabaseType.H2).
-                addScript("db-schema/schema.sql").
-                build();
+    @Value("${airent.db.url}")
+    private String dbUrl;
+
+    @Value("${airent.db.name}")
+    private String dbName;
+
+    @Value("${airent.db.password}")
+    private String dbPassword;
+
+    @Bean
+    public DataSource dataSource() {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName("org.postgresql.Driver");
+
+        dataSource.setUrl(dbUrl);
+        dataSource.setUsername(dbName);
+        dataSource.setValidationQuery("SELECT 1");
+        dataSource.setPassword(dbPassword);
+        return dataSource;
     }
+
 
     @Bean
     public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {

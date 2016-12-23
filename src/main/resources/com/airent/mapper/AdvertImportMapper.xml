@@ -7,10 +7,10 @@
     </update>
 
     <select id="getLastImportTime" resultType="java.lang.Long">
-        SELECT ISNULL(
-          SELECT lastImportDate
+        SELECT COALESCE(
+          (SELECT lastImportDate
           FROM importState
-          WHERE typeName=#{typeName}
+          WHERE typeName=#{typeName})
         , 0)
   </select>
 </mapper>
