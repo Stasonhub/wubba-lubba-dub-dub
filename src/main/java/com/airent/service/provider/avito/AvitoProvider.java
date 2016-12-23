@@ -35,6 +35,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.airent.service.provider.common.Util.getNumberInsideOf;
+import static com.airent.service.provider.common.Util.removeAvitoSign;
 
 @Component
 public class AvitoProvider implements AdvertsProvider {
@@ -42,7 +43,6 @@ public class AvitoProvider implements AdvertsProvider {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final int MAX_PAGES = 20;
-    private static final int SIGN_HEIGHT = 40;
 
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok?p=";
 
@@ -223,11 +223,6 @@ public class AvitoProvider implements AdvertsProvider {
         rawAdvert.setUser(user);
         rawAdvert.setPhotos(photos);
         return rawAdvert;
-    }
-
-    private BufferedImage removeAvitoSign(BufferedImage originalImage) {
-        int height = originalImage.getHeight() - SIGN_HEIGHT;
-        return originalImage.getSubimage(0, 0, originalImage.getWidth(), height);
     }
 
     String getImageUrl(String fullImageUrl) {

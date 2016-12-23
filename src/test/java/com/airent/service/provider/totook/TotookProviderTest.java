@@ -78,4 +78,18 @@ public class TotookProviderTest {
         assertEquals(55.830134, coordinates.getLeft(), 0.01);
     }
 
+    @Test
+    public void testImageUrl() {
+        LocationService locationService = new LocationService();
+        locationService.init();
+
+        PhotoService photoService = new PhotoService();
+
+        TotookDateFormatter totookDateFormatter = new TotookDateFormatter();
+
+        TotookProvider totookProvider = new TotookProvider(locationService, photoService, totookDateFormatter, 5, "/tmp/photos/2");
+        String imageUrl = totookProvider.getImageUrl("/timthumb.php?src=/upload/iblock/0f7/0_b193_55376477_XXL.jpg&w=134&h=110");
+        System.out.println(imageUrl);
+    }
+
 }

@@ -32,8 +32,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.airent.service.provider.common.Util.getLongNumberInsideOf;
-import static com.airent.service.provider.common.Util.getNumberInsideOf;
+import static com.airent.service.provider.common.Util.*;
 
 @Component
 public class TotookProvider implements AdvertsProvider {
@@ -51,6 +50,7 @@ public class TotookProvider implements AdvertsProvider {
     private Pattern floorPattern = Pattern.compile(".*([0-9])+ из ([0-9])+.*");
     private Pattern coordinatesPattern = Pattern.compile(".*coordinates: \\[([0-9]+.[0-9]+), ([0-9]+.[0-9]+)\\].*", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
     private Pattern phoneNumberPattern = Pattern.compile(".*>\\+([0-9- ]+).*");
+    private Pattern imageSrcPattern = Pattern.compile("(.*)&w=[0-9]+&h=[0-9]+");
 
     private LocationService locationService;
     private PhotoService photoService;
@@ -203,9 +203,9 @@ public class TotookProvider implements AdvertsProvider {
 
         /* ------- photos ------- */
         List<Photo> photos = new ArrayList<>();
-        Elements imageLinks = advertDocument.select(".b-detail__photos a");
+        Elements images = advertDocument.select(".b-detail__photos a img");
 
-        if (imageLinks.isEmpty()) {
+        if (images.isEmpty()) {
             logger.warn("Not found photos for advert " + itemId);
             return null;
         }
@@ -213,9 +213,10 @@ public class TotookProvider implements AdvertsProvider {
         long photosPathId = System.currentTimeMillis();
 
         int index = 0;
-        for (Element imageLink : imageLinks) {
+        for (Element image : images) {
+            String imageUrl = getImageUrl(image.attr("src"));
             Connection.Response response =
-                    Jsoup.connect("http://kazan.totook.ru" + imageLink.attr("href"))
+                    Jsoup.connect("http://kazan.totook.ru" + imageUrl + "&w=1600")
                             .userAgent(Util.USER_AGENT)
                             .ignoreContentType(true)
                             .cookie(AUTH_COOKIE, authToken)
@@ -224,7 +225,7 @@ public class TotookProvider implements AdvertsProvider {
             String path = storagePath + File.separator + "t" + File.separator + photosPathId + File.separator + index + ".jpg";
             new File(path).getParentFile().mkdirs();
 
-            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(response.bodyAsBytes()));
+            BufferedImage bufferedImage = removeAvitoSign(ImageIO.read(new ByteArrayInputStream(response.bodyAsBytes())));
             try (FileOutputStream out = new FileOutputStream(new java.io.File(path))) {
                 ImageIO.write(bufferedImage, "jpeg", out);
             }
@@ -291,6 +292,14 @@ public class TotookProvider implements AdvertsProvider {
             return getLongNumberInsideOf(phoneNumberMatcher.group(1));
         }
         throw new IllegalArgumentException("Failed to get phone number from " + phoneNumberText);
+    }
+
+    String getImageUrl(String imageUrl) {
+        Matcher imageSrcMatcher = imageSrcPattern.matcher(imageUrl);
+        if (imageSrcMatcher.matches()) {
+            return imageSrcMatcher.group(1);
+        }
+        throw new IllegalArgumentException("Failed to get image src from " + imageUrl);
     }
 
 }
