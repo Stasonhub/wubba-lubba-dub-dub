@@ -5,6 +5,7 @@ import com.airent.model.User;
 import com.airent.service.LocationService;
 import com.airent.service.PhotoService;
 import com.airent.service.provider.api.RawAdvert;
+import com.airent.service.provider.http.JSoupTorConnector;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
@@ -24,12 +25,18 @@ public class TotookProviderTest {
 
         TotookDateFormatter totookDateFormatter = new TotookDateFormatter();
 
-        TotookProvider totookProvider = new TotookProvider(locationService, photoService, totookDateFormatter, 5, "/tmp/photos/2");
+        try (JSoupTorConnector jSoupTorConnector = new JSoupTorConnector()) {
+            jSoupTorConnector.start();
 
-        List<RawAdvert> advertsUntil = totookProvider.getAdvertsUntil(0L);
+            TotookProvider totookProvider = new TotookProvider(jSoupTorConnector, locationService, photoService, totookDateFormatter, 5, "/tmp/photos/2");
 
-        advertsUntil.stream().map(RawAdvert::getAdvert).map(Advert::getDescription).forEach(System.out::println);
-        advertsUntil.stream().map(RawAdvert::getUser).map(User::getPhone).forEach(System.out::println);
+            List<RawAdvert> advertsUntil = totookProvider.getAdvertsUntil(0L);
+
+            advertsUntil.stream().map(RawAdvert::getAdvert).map(Advert::getDescription).forEach(System.out::println);
+            advertsUntil.stream().map(RawAdvert::getUser).map(User::getPhone).forEach(System.out::println);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -67,15 +74,21 @@ public class TotookProviderTest {
 
         TotookDateFormatter totookDateFormatter = new TotookDateFormatter();
 
-        TotookProvider totookProvider = new TotookProvider(locationService, photoService, totookDateFormatter, 5, "/tmp/photos/2");
-        Pair<Double, Double> coordinates = totookProvider.getCoordinates(coordinatesScript);
+        try (JSoupTorConnector jSoupTorConnector = new JSoupTorConnector()) {
+            jSoupTorConnector.start();
 
-        assertNotNull(coordinates);
-        assertNotNull(coordinates.getLeft());
-        assertNotNull(coordinates.getRight());
+            TotookProvider totookProvider = new TotookProvider(jSoupTorConnector, locationService, photoService, totookDateFormatter, 5, "/tmp/photos/2");
+            Pair<Double, Double> coordinates = totookProvider.getCoordinates(coordinatesScript);
 
-        assertEquals(49.076761, coordinates.getRight(), 0.01);
-        assertEquals(55.830134, coordinates.getLeft(), 0.01);
+            assertNotNull(coordinates);
+            assertNotNull(coordinates.getLeft());
+            assertNotNull(coordinates.getRight());
+
+            assertEquals(49.076761, coordinates.getRight(), 0.01);
+            assertEquals(55.830134, coordinates.getLeft(), 0.01);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -87,9 +100,16 @@ public class TotookProviderTest {
 
         TotookDateFormatter totookDateFormatter = new TotookDateFormatter();
 
-        TotookProvider totookProvider = new TotookProvider(locationService, photoService, totookDateFormatter, 5, "/tmp/photos/2");
-        String imageUrl = totookProvider.getImageUrl("/timthumb.php?src=/upload/iblock/0f7/0_b193_55376477_XXL.jpg&w=134&h=110");
-        System.out.println(imageUrl);
+        try (JSoupTorConnector jSoupTorConnector = new JSoupTorConnector()) {
+            jSoupTorConnector.start();
+
+
+            TotookProvider totookProvider = new TotookProvider(jSoupTorConnector, locationService, photoService, totookDateFormatter, 5, "/tmp/photos/2");
+            String imageUrl = totookProvider.getImageUrl("/timthumb.php?src=/upload/iblock/0f7/0_b193_55376477_XXL.jpg&w=134&h=110");
+            System.out.println(imageUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

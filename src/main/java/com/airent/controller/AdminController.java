@@ -2,8 +2,10 @@ package com.airent.controller;
 
 
 import com.airent.model.Advert;
+import com.airent.model.rest.UserInfo;
 import com.airent.model.ui.ImportState;
 import com.airent.service.AdvertService;
+import com.airent.service.LoginService;
 import com.airent.service.PhotoService;
 import com.airent.service.provider.AdvertImportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class AdminController {
 
     @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private LoginService loginService;
 
     @RequestMapping(method = RequestMethod.GET, path = "/admin")
     public String viewImportState(Model model) {
@@ -70,10 +75,11 @@ public class AdminController {
     }
 
     private void checkAccess() {
+        UserInfo currentUser = loginService.getCurrentUser();
         // TODO: check admin credentials
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (currentUser == null || currentUser.getPhone() != 9274181281L) {
+            throw new IllegalArgumentException("IllegalAccess");
+        }
     }
 
 

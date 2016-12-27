@@ -8,11 +8,10 @@ import com.airent.service.LocationService;
 import com.airent.service.PhotoService;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
-import com.airent.service.provider.common.Util;
+import com.airent.service.provider.http.JSoupTorConnector;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -41,14 +40,16 @@ import static com.airent.service.provider.common.Util.removeAvitoSign;
 public class AvitoProvider implements AdvertsProvider {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final int TIMEOUT = 20_000;
 
     private static final int MAX_PAGES = 20;
 
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok?p=";
 
     private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(//(.*)\\).*");
-    private LocationService locationService;
 
+    private JSoupTorConnector jsoupTorConnector;
+    private LocationService locationService;
     private PhoneParser phoneParser;
     private PhotoService photoService;
     private AvitoDateFormatter avitoDateFormatter;
@@ -57,12 +58,15 @@ public class AvitoProvider implements AdvertsProvider {
     private int maxItems;
 
     @Autowired
-    public AvitoProvider(LocationService locationService,
-                         PhoneParser phoneParser,
-                         PhotoService photoService,
-                         AvitoDateFormatter avitoDateFormatter,
-                         @Value("${avito.provider.max.items}") int maxItems,
-                         @Value("${external.storage.path}") String storagePath) {
+    public AvitoProvider(
+            JSoupTorConnector jsoupTorConnector,
+            LocationService locationService,
+            PhoneParser phoneParser,
+            PhotoService photoService,
+            AvitoDateFormatter avitoDateFormatter,
+            @Value("${avito.provider.max.items}") int maxItems,
+            @Value("${external.storage.path}") String storagePath) {
+        this.jsoupTorConnector = jsoupTorConnector;
         this.locationService = locationService;
         this.phoneParser = phoneParser;
         this.photoService = photoService;
@@ -84,7 +88,8 @@ public class AvitoProvider implements AdvertsProvider {
 
             c1:
             for (int i = 0; i < MAX_PAGES; i++) {
-                Document doc = Jsoup.connect(MAIN_PAGE_URL + i).userAgent(Util.USER_AGENT).get();
+                Document doc = jsoupTorConnector.connect(MAIN_PAGE_URL + i)
+                        .get();
                 Elements itemsOnPage = doc.select(".item");
                 for (Element item : itemsOnPage) {
                     long itemTimestamp = getTimestamp(item);
@@ -118,7 +123,8 @@ public class AvitoProvider implements AdvertsProvider {
     }
 
     private RawAdvert getAdvert(String itemId, long timestamp) throws IOException {
-        Document advertDocument = Jsoup.connect("https://www.avito.ru" + itemId).userAgent(Util.USER_AGENT).get();
+        Document advertDocument = jsoupTorConnector.connect("https://www.avito.ru" + itemId)
+                .get();
 
         /** advert */
         Elements itemViewMain = advertDocument.select(".item-view-main");
@@ -180,7 +186,7 @@ public class AvitoProvider implements AdvertsProvider {
         user.setName(userName);
         user.setPhone(phone);
         user.setRegistered(false);
-        user.setTrustRate(1_000);
+        user.setTrustRate(600);
 
         /** photos */
         List<Photo> photos = new ArrayList<>();
@@ -197,8 +203,9 @@ public class AvitoProvider implements AdvertsProvider {
         for (Element imageLink : imageLinks) {
             String imageUrl = getImageUrl(imageLink.attr("style"));
             Connection.Response response =
-                    Jsoup.connect("http://" + imageUrl.replace("80x60", "640x480")).userAgent(Util.USER_AGENT)
-                            .ignoreContentType(true).execute();
+                    jsoupTorConnector.connect("http://" + imageUrl.replace("80x60", "640x480"))
+                            .ignoreContentType(true)
+                            .execute();
 
             String path = storagePath + File.separator + "a" + File.separator + photosPathId + File.separator + index + ".jpg";
             new File(path).getParentFile().mkdirs();

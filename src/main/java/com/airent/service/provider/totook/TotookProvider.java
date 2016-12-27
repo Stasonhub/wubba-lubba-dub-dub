@@ -8,10 +8,9 @@ import com.airent.service.LocationService;
 import com.airent.service.PhotoService;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
-import com.airent.service.provider.common.Util;
+import com.airent.service.provider.http.JSoupTorConnector;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -40,35 +39,44 @@ public class TotookProvider implements AdvertsProvider {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final int MAX_PAGES = 20;
+
     private static final String MAIN_PAGE_URL = "http://kazan.totook.ru/catalog/?PARENT_SECTION=28";
-    private static final String USER_AGENT =
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.100 Safari/537.36";
     private static final String AUTH_COOKIE = "PHPSESSID";
 
     private Pattern headerPattern = Pattern.compile(".*([0-9])-комн.*([0-9]+) м");
-    private Pattern streetPattern = Pattern.compile(".,.*,(.*,.*)");
+    private Pattern streetPattern = Pattern.compile(".,.*,(.*)");
     private Pattern floorPattern = Pattern.compile(".*([0-9])+ из ([0-9])+.*");
     private Pattern coordinatesPattern = Pattern.compile(".*coordinates: \\[([0-9]+.[0-9]+), ([0-9]+.[0-9]+)\\].*", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
     private Pattern phoneNumberPattern = Pattern.compile(".*>\\+([0-9- ]+).*");
     private Pattern imageSrcPattern = Pattern.compile("(.*)&w=[0-9]+&h=[0-9]+");
 
+    private JSoupTorConnector jsoupTorConnector;
     private LocationService locationService;
     private PhotoService photoService;
+    private TotookDateFormatter totookDateFormatter;
     private String storagePath;
     private int maxItems;
-    private TotookDateFormatter totookDateFormatter;
+    private String login;
+    private String password;
 
     @Autowired
-    public TotookProvider(LocationService locationService,
-                          PhotoService photoService,
-                          TotookDateFormatter totookDateFormatter,
-                          @Value("${totook.provider.max.items}") int maxItems,
-                          @Value("${external.storage.path}") String storagePath) {
+    public TotookProvider(
+            JSoupTorConnector jsoupTorConnector,
+            LocationService locationService,
+            PhotoService photoService,
+            TotookDateFormatter totookDateFormatter,
+            @Value("${totook.provider.max.items}") int maxItems,
+            @Value("${external.storage.path}") String storagePath,
+            @Value("${totook.provider.login}") String login,
+            @Value("${totook.provider.password}") String password) {
+        this.jsoupTorConnector = jsoupTorConnector;
         this.locationService = locationService;
         this.photoService = photoService;
         this.totookDateFormatter = totookDateFormatter;
         this.maxItems = maxItems;
         this.storagePath = storagePath;
+        this.login = login;
+        this.password = password;
     }
 
     @Override
@@ -84,12 +92,15 @@ public class TotookProvider implements AdvertsProvider {
 
             c1:
             for (int i = 0; i < MAX_PAGES; i++) {
-                Document doc = Jsoup
+                Document doc = jsoupTorConnector
                         .connect(MAIN_PAGE_URL + (i != 0 ? "&PAGEN_2=" + (i + 1) : ""))
-                        .userAgent(USER_AGENT)
                         .get();
                 Elements itemsOnPage = doc.select(".b-catalog__object");
                 for (Element item : itemsOnPage) {
+                    if (item.hasClass("access")) { // access element
+                        continue;
+                    }
+
                     long itemTimestamp = getTimestamp(item);
                     if (itemTimestamp <= (timestamp + 60_000) || advertIdCollector.size() >= maxItems) {
                         // we have reached previous scan point or limits
@@ -122,15 +133,14 @@ public class TotookProvider implements AdvertsProvider {
     }
 
     private String login() throws IOException {
-        Connection.Response response = Jsoup.connect("http://kazan.totook.ru/cabinet/?login=yes")
+        Connection.Response response = jsoupTorConnector.connect("http://kazan.totook.ru/cabinet/?login=yes")
                 .referrer("http://kazan.totook.ru/cabinet/")
                 .method(Connection.Method.POST)
-                .userAgent(USER_AGENT)
                 .data("AUTH_FORM", "Y")
                 .data("TYPE", "AUTH")
                 .data("backurl", "/cabinet/")
-                .data("USER_LOGIN", "kakakattk@mail.ru")
-                .data("USER_PASSWORD", "qwerty12345")
+                .data("USER_LOGIN", login)
+                .data("USER_PASSWORD", password)
                 .data("USER_REMEMBER", "Y")
                 .data("Login", "Войти на сайт")
                 .execute();
@@ -142,8 +152,7 @@ public class TotookProvider implements AdvertsProvider {
     }
 
     private RawAdvert getAdvert(String itemId, long timestamp, String authToken) throws IOException {
-        Document advertDocument = Jsoup.connect("http://kazan.totook.ru" + itemId)
-                .userAgent(Util.USER_AGENT)
+        Document advertDocument = jsoupTorConnector.connect("http://kazan.totook.ru" + itemId)
                 .cookie(AUTH_COOKIE, authToken)
                 .get();
 
@@ -183,9 +192,8 @@ public class TotookProvider implements AdvertsProvider {
         advert.setPrice(price);
 
         /* ------- user ------- */
-        Connection.Response phoneResponse = Jsoup.connect("http://kazan.totook.ru/bitrix/templates/totook_adaptive/aj/phone.php")
+        Connection.Response phoneResponse = jsoupTorConnector.connect("http://kazan.totook.ru/bitrix/templates/totook_adaptive/aj/phone.php")
                 .referrer(":http://kazan.totook.ru" + itemId)
-                .userAgent(Util.USER_AGENT)
                 .data("tCan", "Y")
                 .data("tID", String.valueOf(getNumberInsideOf(itemId)))
                 .ignoreContentType(true)
@@ -216,8 +224,7 @@ public class TotookProvider implements AdvertsProvider {
         for (Element image : images) {
             String imageUrl = getImageUrl(image.attr("src"));
             Connection.Response response =
-                    Jsoup.connect("http://kazan.totook.ru" + imageUrl + "&w=1600")
-                            .userAgent(Util.USER_AGENT)
+                    jsoupTorConnector.connect("http://kazan.totook.ru" + imageUrl + "&w=1600")
                             .ignoreContentType(true)
                             .cookie(AUTH_COOKIE, authToken)
                             .execute();

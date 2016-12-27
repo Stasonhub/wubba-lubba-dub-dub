@@ -1,5 +1,6 @@
 package com.airent.service.provider.avito;
 
+import com.airent.service.provider.http.JSoupTorConnector;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -7,10 +8,10 @@ import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.lept;
 import org.bytedeco.javacpp.tesseract;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +29,8 @@ import static org.bytedeco.javacpp.lept.pixDestroy;
 @Component
 public class PhoneParser implements AutoCloseable {
 
+    private static final int TIMEOUT = 20_000;
+
     private Pattern idPattern = Pattern.compile("avito\\.item\\.id[ ]+=[ ]*'([0-9a-z]+)'");
 
     private Pattern phonePatter = Pattern.compile("avito\\.item\\.phone[ ]+=[ ]*'([0-9a-z]+)'");
@@ -35,6 +38,13 @@ public class PhoneParser implements AutoCloseable {
     private SecretMixer secretMixer = new SecretMixer();
 
     private tesseract.TessBaseAPI api;
+
+    private JSoupTorConnector jsoupTorConnector;
+
+    @Autowired
+    public PhoneParser(JSoupTorConnector jsoupTorConnector) {
+        this.jsoupTorConnector = jsoupTorConnector;
+    }
 
     @PostConstruct
     public void init() throws IOException {
@@ -56,8 +66,10 @@ public class PhoneParser implements AutoCloseable {
         String mixedVal = secretMixer.mix(secret.getLeft(), secret.getRight());
 
         Connection.Response response =
-                Jsoup.connect("https://www.avito.ru/items/phone/" + secret.getLeft() + "?pkey=" + mixedVal)
-                     .referrer("https://www.avito.ru" + advertId).ignoreContentType(true).execute();
+                jsoupTorConnector.connect("https://www.avito.ru/items/phone/" + secret.getLeft() + "?pkey=" + mixedVal)
+                        .referrer("https://www.avito.ru" + advertId)
+                        .ignoreContentType(true)
+                        .execute();
         String body = response.body();
         return parseNumbersFromImage(body);
     }

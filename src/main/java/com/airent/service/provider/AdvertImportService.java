@@ -10,6 +10,8 @@ import com.airent.model.User;
 import com.airent.service.PhotoService;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.RawAdvert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +24,24 @@ import java.util.stream.Collectors;
 @Service
 public class AdvertImportService {
 
+    private Logger logger = LoggerFactory.getLogger(AdvertImportService.class);
+
     private List<AdvertsProvider> advertsProviders;
+
 
     private AdvertImportMapper advertImportMapper;
     private AdvertMapper advertMapper;
     private PhotoMapper photoMapper;
     private UserMapper userMapper;
-
     private PhotoService photoService;
 
     @Autowired
-    public AdvertImportService(List<AdvertsProvider> advertsProviders, AdvertImportMapper advertImportMapper, AdvertMapper advertMapper, PhotoMapper photoMapper, UserMapper userMapper, PhotoService photoService) {
+    public AdvertImportService(List<AdvertsProvider> advertsProviders,
+                               AdvertImportMapper advertImportMapper,
+                               AdvertMapper advertMapper,
+                               PhotoMapper photoMapper,
+                               UserMapper userMapper,
+                               PhotoService photoService) {
         this.advertsProviders = advertsProviders;
         this.advertImportMapper = advertImportMapper;
         this.advertMapper = advertMapper;
@@ -63,48 +72,61 @@ public class AdvertImportService {
         List<RawAdvert> rawAdverts = advertsProvider.getAdvertsUntil(lastImportTime);
 
         for (RawAdvert rawAdvert : rawAdverts) {
-            Advert sameAdvert = findTheSameAdvert(rawAdvert);
-            if (sameAdvert != null) {
-                User newUser = rawAdvert.getUser();
-                int newUserTrustRate = newUser.getTrustRate();
-
-                User currentUser = userMapper.getUserForAdvert(sameAdvert.getId());
-                int currentUserTrustRate = currentUser.getTrustRate();
-
-                if (newUserTrustRate > currentUserTrustRate) {
-                    // rebind to new user and remove half of trust on existing
-                    currentUser.setTrustRate(currentUserTrustRate / 2);
-                    userMapper.updateUser(currentUser);
-                    createUser(newUser);
-                    advertMapper.bindToMainUser(sameAdvert.getId(), newUser.getId());
-                    continue;
-                }
-
-                // just create new user with half of trust initiated by provider
-                newUser.setTrustRate(newUserTrustRate / 2);
-                createUser(newUser);
-                advertMapper.bindToUser(sameAdvert.getId(), newUser.getId());
-                continue;
-            }
-
-            if (rawAdvert.getPhotos().isEmpty()) {
-                throw new IllegalArgumentException("Found advert without photo " + rawAdvert.getAdvert());
-            }
-
-            // create new advert in system
-            advertMapper.createAdvert(rawAdvert.getAdvert());
-            userMapper.createUser(rawAdvert.getUser());
-            advertMapper.bindToMainUser(rawAdvert.getAdvert().getId(), rawAdvert.getUser().getId());
-
-            // move and create photos
-            for (Photo photo : rawAdvert.getPhotos()) {
-                photo.setAdvertId(rawAdvert.getAdvert().getId());
-                photoMapper.createPhoto(photo);
-            }
+            processNewAdvert(rawAdvert);
 
             // save last import time
-            advertImportMapper
-                    .saveLastImportTime(advertsProvider.getType(), rawAdvert.getAdvert().getPublicationDate());
+            advertImportMapper.saveLastImportTime(advertsProvider.getType(), rawAdvert.getAdvert().getPublicationDate());
+        }
+    }
+
+    private void processNewAdvert(RawAdvert rawAdvert) {
+        Advert matchingAdvert = findMatchingAdvert(rawAdvert);
+        User matchingUser = findMatchingUser(rawAdvert);
+
+        if (matchingAdvert != null) {
+            /* full duplicate */
+            if (matchingUser != null) {
+                return;
+            }
+
+            User newUser = rawAdvert.getUser();
+            int newUserTrustRate = newUser.getTrustRate();
+
+            User currentUser = userMapper.getUserForAdvert(matchingAdvert.getId());
+            int currentUserTrustRate = currentUser.getTrustRate();
+
+            if (newUserTrustRate > currentUserTrustRate) {
+                // rebind to new user and remove half of trust on existing
+                currentUser.setTrustRate(currentUserTrustRate / 2);
+                userMapper.updateUser(currentUser);
+                createUser(newUser);
+                advertMapper.bindToMainUser(matchingAdvert.getId(), newUser.getId());
+                return;
+            }
+
+            // just create new user with half of trust initiated by provider
+            newUser.setTrustRate(newUserTrustRate / 2);
+            createUser(newUser);
+            advertMapper.bindToUser(matchingAdvert.getId(), newUser.getId());
+            return;
+        }
+
+        /* new advert */
+        if (rawAdvert.getPhotos().isEmpty()) {
+            throw new IllegalArgumentException("Found advert without photo " + rawAdvert.getAdvert());
+        }
+
+        // create new advert in system
+        // create everything automatically
+        rawAdvert.getAdvert().setRaw(false);
+        advertMapper.createAdvert(rawAdvert.getAdvert());
+        userMapper.createUser(rawAdvert.getUser());
+        advertMapper.bindToMainUser(rawAdvert.getAdvert().getId(), rawAdvert.getUser().getId());
+
+        // move and create photos
+        for (Photo photo : rawAdvert.getPhotos()) {
+            photo.setAdvertId(rawAdvert.getAdvert().getId());
+            photoMapper.createPhoto(photo);
         }
     }
 
@@ -125,10 +147,13 @@ public class AdvertImportService {
         return advertImportMapper.getLastImportTime(typeName);
     }
 
-    private Advert findTheSameAdvert(RawAdvert advert) {
+    private Advert findMatchingAdvert(RawAdvert rawAdvert) {
         Map<Long, Long> allPhotoHashes = photoMapper.getAllPhotoHashes().stream()
-                .collect(Collectors.toMap(Photo::getHash, Photo::getAdvertId));
-        Optional<Long> anyValue = advert.getPhotos().stream()
+                .collect(Collectors.toMap(Photo::getHash, Photo::getAdvertId, (adv1, adv2) -> {
+                    logger.warn("Adverts {} and {} has the same photos", adv1, adv2);
+                    return adv1;
+                }));
+        Optional<Long> anyValue = rawAdvert.getPhotos().stream()
                 .map(Photo::getHash)
                 .map(hash -> photoService.searchForSame(allPhotoHashes, hash))
                 .filter(val -> val != null)
@@ -137,6 +162,11 @@ public class AdvertImportService {
             return advertMapper.findById(anyValue.get());
         }
         return null;
+    }
+
+    private User findMatchingUser(RawAdvert rawAdvert) {
+        User user = rawAdvert.getUser();
+        return userMapper.findByPhone(user.getPhone());
     }
 
 

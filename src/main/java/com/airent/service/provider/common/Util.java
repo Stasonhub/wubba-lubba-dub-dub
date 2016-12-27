@@ -14,7 +14,8 @@ public class Util {
     private static Logger logger = LoggerFactory.getLogger(Util.class);
 
     public static Integer getNumberInsideOf(String val) {
-        return Integer.parseInt(getStringNumberInsideOf(val));
+        String stringNumberInsideOf = getStringNumberInsideOf(val);
+        return stringNumberInsideOf == null ? null : Integer.parseInt(stringNumberInsideOf);
     }
 
     public static Long getLongNumberInsideOf(String val) {
