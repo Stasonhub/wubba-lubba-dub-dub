@@ -31,45 +31,45 @@ public class AvitoDateFormatter {
         }
 
         String[] parts = dateFormatted.split(" ");
-        return String.format("%s %s.%s.%d", parts[2], parts[0], replaceMonth(parts[1]), LocalDate.now().getYear());
+        return String.format("%s %02d.%02d.%d", parts[2], Integer.valueOf(parts[0]), replaceMonth(parts[1]), LocalDate.now().getYear());
     }
 
-    private String replaceMonth(String monthString) {
+    private int replaceMonth(String monthString) {
         if (monthString.startsWith("янв")) {
-            return "01";
+            return 1;
         }
         if (monthString.startsWith("фев")) {
-            return "02";
+            return 2;
         }
         if (monthString.startsWith("март")) {
-            return "03";
+            return 3;
         }
         if (monthString.startsWith("апр")) {
-            return "04";
+            return 4;
         }
         if (monthString.startsWith("ма")) {
-            return "05";
+            return 5;
         }
         if (monthString.startsWith("июн")) {
-            return "06";
+            return 6;
         }
         if (monthString.startsWith("июл")) {
-            return "07";
+            return 7;
         }
         if (monthString.startsWith("авг")) {
-            return "08";
+            return 8;
         }
         if (monthString.startsWith("сент")) {
-            return "09";
+            return 9;
         }
         if (monthString.startsWith("окт")) {
-            return "10";
+            return 10;
         }
         if (monthString.startsWith("ноя")) {
-            return "11";
+            return 11;
         }
         if (monthString.startsWith("дек")) {
-            return "12";
+            return 12;
         }
         throw new IllegalArgumentException("Unknown month: " + monthString);
     }

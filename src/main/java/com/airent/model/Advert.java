@@ -34,10 +34,6 @@ public class Advert {
 
     private int beds;
 
-    private int trustRate;
-
-    private boolean raw;
-
     private double latitude;
     private double longitude;
 
@@ -183,22 +179,6 @@ public class Advert {
     public Advert setBeds(int beds) {
         this.beds = beds;
         return this;
-    }
-
-    public int getTrustRate() {
-        return trustRate;
-    }
-
-    public void setTrustRate(int trustRate) {
-        this.trustRate = trustRate;
-    }
-
-    public boolean isRaw() {
-        return raw;
-    }
-
-    public void setRaw(boolean raw) {
-        this.raw = raw;
     }
 
     public double getLatitude() {

@@ -43,6 +43,7 @@ public class LoginService implements UserDetailsService {
 
             UserInfo userLogin = new UserInfo();
             userLogin.setName(userDetails.getName());
+            userLogin.setPhone(Long.valueOf(userDetails.getUsername()));
             return userLogin;
         }
         return null;
@@ -60,9 +61,11 @@ public class LoginService implements UserDetailsService {
         user.setPhone(phoneNumber);
         user.setName(userName);
         user.setPassword(passwordEncoder.encode(password));
+        user.setTrustRate(1000);
+        user.setRegistered(true);
         userMapper.createUser(user);
 
-        smsService.sendSms(phoneNumber, "Вы зарегистрированы на сайте airent.ru. Ваш пароль: " + password);
+        smsService.sendSms(phoneNumber, "Вы зарегистрированы на сайте oyouin.com. Ваш пароль: " + password);
         return true;
     }
 

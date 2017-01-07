@@ -4,9 +4,9 @@
 <mapper namespace="com.airent.mapper.AdvertMapper">
     <insert id="createAdvert" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO advert (publicationDate, district, address, floor, maxFloor, rooms,
-                     sq, price, withPublicServices, conditions, description, trustRate, raw, latitude, longitude)
+                     sq, price, withPublicServices, conditions, description, latitude, longitude)
         VALUES (#{publicationDate}, #{district}, #{address}, #{floor}, #{maxFloor}, #{rooms}, #{sq},
-                 #{price}, #{withPublicServices}, #{conditions}, #{description}, #{trustRate}, #{raw}, #{latitude}, #{longitude})
+                 #{price}, #{withPublicServices}, #{conditions}, #{description}, #{latitude}, #{longitude})
     </insert>
 
     <select id="findById" resultType="com.airent.model.Advert">
@@ -18,7 +18,7 @@
     <select id="getNextAdvertsBeforeTime" resultType="com.airent.model.Advert">
         SELECT *
         FROM advert
-        WHERE #{timestamp} > publicationDate AND raw = FALSE
+        WHERE #{timestamp} > publicationDate
         ORDER BY publicationDate
         DESC limit #{limit}
   </select>
@@ -38,7 +38,6 @@
             ${room}
         </foreach>
         AND #{timestamp} > publicationDate
-        AND raw = FALSE
         ORDER BY publicationDate
         DESC limit #{limit}
     </select>
@@ -58,36 +57,11 @@
         min(price) as priceMin,
         max(price) as priceMax
         FROM advert
-        WHERE raw = FALSE
-
   </select>
 
     <insert id="bindToUser">
-        INSERT INTO advert_author (isMain, advertId, userId)
-        VALUES (FALSE, #{advertId}, #{userId})
+        INSERT INTO advert_author (advertId, userId)
+        VALUES (#{advertId}, #{userId})
     </insert>
 
-    <update id="bindToMainUser">
-        UPDATE advert_author
-        SET isMain = FALSE
-        WHERE advertId = #{advertId};
-
-        INSERT INTO advert_author (isMain, advertId, userId)
-        VALUES (TRUE, ${advertId}, ${userId});
-    </update>
-
-    <select id="getRawAdverts" resultType="com.airent.model.Advert">
-        SELECT *
-        FROM advert
-        WHERE
-         raw = TRUE
-        ORDER BY publicationDate
-        DESC limit 1000
-    </select>
-
-    <update id="setAdvertNotRaw">
-        UPDATE advert
-        SET raw = FALSE
-        WHERE id = #{advertId};
-    </update>
 </mapper>

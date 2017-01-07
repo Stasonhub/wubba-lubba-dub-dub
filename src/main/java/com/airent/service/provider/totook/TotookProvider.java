@@ -11,6 +11,7 @@ import com.airent.service.provider.api.RawAdvert;
 import com.airent.service.provider.http.JSoupTorConnector;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Connection;
+import org.jsoup.HttpStatusException;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -118,6 +119,9 @@ public class TotookProvider implements AdvertsProvider {
                     result.add(advert);
                 }
             }
+        } catch (HttpStatusException httpStatusException) {
+            logger.error("Http conneciton failure in parsing Status:[{}] Url:[{}] ", httpStatusException.getStatusCode(),
+                    httpStatusException.getUrl(), httpStatusException);
         } catch (IOException e) {
             logger.error("Failure in parsing", e);
         }
@@ -188,7 +192,6 @@ public class TotookProvider implements AdvertsProvider {
         advert.setLatitude(latitude);
         advert.setLongitude(longitude);
         advert.setDistrict(locationService.getDistrictFromAddress(latitude, longitude));
-        advert.setRaw(true);
         advert.setPrice(price);
 
         /* ------- user ------- */

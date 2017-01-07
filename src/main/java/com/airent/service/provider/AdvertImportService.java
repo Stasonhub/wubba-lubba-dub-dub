@@ -28,7 +28,6 @@ public class AdvertImportService {
 
     private List<AdvertsProvider> advertsProviders;
 
-
     private AdvertImportMapper advertImportMapper;
     private AdvertMapper advertMapper;
     private PhotoMapper photoMapper;
@@ -89,23 +88,9 @@ public class AdvertImportService {
                 return;
             }
 
+            // just create new user with half of trust because of duplicate
             User newUser = rawAdvert.getUser();
-            int newUserTrustRate = newUser.getTrustRate();
-
-            User currentUser = userMapper.getUserForAdvert(matchingAdvert.getId());
-            int currentUserTrustRate = currentUser.getTrustRate();
-
-            if (newUserTrustRate > currentUserTrustRate) {
-                // rebind to new user and remove half of trust on existing
-                currentUser.setTrustRate(currentUserTrustRate / 2);
-                userMapper.updateUser(currentUser);
-                createUser(newUser);
-                advertMapper.bindToMainUser(matchingAdvert.getId(), newUser.getId());
-                return;
-            }
-
-            // just create new user with half of trust initiated by provider
-            newUser.setTrustRate(newUserTrustRate / 2);
+            newUser.setTrustRate(newUser.getTrustRate() / 2);
             createUser(newUser);
             advertMapper.bindToUser(matchingAdvert.getId(), newUser.getId());
             return;
@@ -118,10 +103,9 @@ public class AdvertImportService {
 
         // create new advert in system
         // create everything automatically
-        rawAdvert.getAdvert().setRaw(false);
         advertMapper.createAdvert(rawAdvert.getAdvert());
         userMapper.createUser(rawAdvert.getUser());
-        advertMapper.bindToMainUser(rawAdvert.getAdvert().getId(), rawAdvert.getUser().getId());
+        advertMapper.bindToUser(rawAdvert.getAdvert().getId(), rawAdvert.getUser().getId());
 
         // move and create photos
         for (Photo photo : rawAdvert.getPhotos()) {
@@ -168,6 +152,5 @@ public class AdvertImportService {
         User user = rawAdvert.getUser();
         return userMapper.findByPhone(user.getPhone());
     }
-
 
 }

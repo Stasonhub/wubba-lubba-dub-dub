@@ -32,10 +32,4 @@ public interface AdvertMapper {
 
     void bindToUser(@Param("advertId") long advertId, @Param("userId") long userId);
 
-    void bindToMainUser(@Param("advertId") long advertId, @Param("userId") long userId);
-
-    List<Advert> getRawAdverts();
-
-    void setAdvertNotRaw(long advertId);
-
 }

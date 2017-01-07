@@ -32,7 +32,6 @@ public class DbConfig {
         return dataSource;
     }
 
-
     @Bean
     public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();

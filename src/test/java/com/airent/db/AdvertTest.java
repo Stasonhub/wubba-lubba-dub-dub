@@ -1,15 +1,13 @@
 package com.airent.db;
 
+import com.airent.config.OyoSpringTest;
 import com.airent.mapper.AdvertMapper;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.District;
-import com.airent.model.User;
-import javafx.util.Pair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
@@ -19,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@OyoSpringTest
 public class AdvertTest {
 
     @Autowired
@@ -56,9 +54,4 @@ public class AdvertTest {
         assertEquals(advert.getId(), adverts.get(0).getId());
     }
 
-    @Test
-    public void testAdvertBinding() {
-        Pair<Advert, User> advertUserPair = TestUtil.createAdvert(userMapper, advertMapper);
-        advertMapper.bindToMainUser(advertUserPair.getKey().getId(), advertUserPair.getValue().getId());
-    }
 }

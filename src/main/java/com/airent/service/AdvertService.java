@@ -66,16 +66,7 @@ public class AdvertService {
     public AdvertPrices getAdvertPrices() {
         return advertMapper.getAdvertPrices();
     }
-
-
-    public List<Advert> getRawAdverts() {
-        return advertMapper.getRawAdverts();
-    }
-
-    public void approveAdvert(long advertId) {
-        advertMapper.setAdvertNotRaw(advertId);
-    }
-
+    
     public void removeAdvert(long advertId) {
         advertMapper.deleteAdvert(advertId);
     }

@@ -34,7 +34,11 @@
     <select id="getUserForAdvert" resultType="com.airent.model.User">
         SELECT *
         FROM sys_user
-        WHERE id=(SELECT userId FROM advert_author WHERE advertId=#{advertId})
+        WHERE id=(SELECT userId
+                  FROM advert_author
+                  WHERE advertId=#{advertId}
+                  ORDER BY trustRate DESC
+                  LIMIT 1)
     </select>
 
 </mapper>

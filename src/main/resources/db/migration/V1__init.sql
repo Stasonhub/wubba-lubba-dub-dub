@@ -24,7 +24,6 @@ CREATE TABLE advert (
   latitude           DOUBLE PRECISION NOT NULL,
   longitude          DOUBLE PRECISION NOT NULL,
   trustRate          BIGINT           NOT NULL
-
 );
 
 CREATE TABLE advert_author (

@@ -1,6 +1,6 @@
 package com.airent.service.provider.avito;
 
-import com.airent.service.provider.http.JSoupTorConnector;
+import com.airent.service.provider.http.JSoupConnector;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -11,6 +11,8 @@ import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -29,21 +32,19 @@ import static org.bytedeco.javacpp.lept.pixDestroy;
 @Component
 public class PhoneParser implements AutoCloseable {
 
-    private static final int TIMEOUT = 20_000;
+    private Logger logger = LoggerFactory.getLogger(PhoneParser.class);
 
     private Pattern idPattern = Pattern.compile("avito\\.item\\.id[ ]+=[ ]*'([0-9a-z]+)'");
-
     private Pattern phonePatter = Pattern.compile("avito\\.item\\.phone[ ]+=[ ]*'([0-9a-z]+)'");
-
     private SecretMixer secretMixer = new SecretMixer();
 
     private tesseract.TessBaseAPI api;
 
-    private JSoupTorConnector jsoupTorConnector;
+    private JSoupConnector jsoupConnector;
 
     @Autowired
-    public PhoneParser(JSoupTorConnector jsoupTorConnector) {
-        this.jsoupTorConnector = jsoupTorConnector;
+    public PhoneParser(JSoupConnector jsoupConnector) {
+        this.jsoupConnector = jsoupConnector;
     }
 
     @PostConstruct
@@ -61,14 +62,21 @@ public class PhoneParser implements AutoCloseable {
         api.SetVariable("tessedit_char_whitelist", "0123456789-");
     }
 
-    public long getPhone(Document advertPage, String advertId) throws IOException {
+    public long getPhone(Document advertPage, String advertId, Map<String, String> advertPageCookies) throws IOException {
         Pair<Integer, String> secret = getSecret(advertPage);
         String mixedVal = secretMixer.mix(secret.getLeft(), secret.getRight());
 
+        try {
+            Thread.sleep(2_000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Connection.Response response =
-                jsoupTorConnector.connect("https://www.avito.ru/items/phone/" + secret.getLeft() + "?pkey=" + mixedVal)
+                jsoupConnector.connect("https://www.avito.ru/items/phone/" + secret.getLeft() + "?pkey=" + mixedVal)
                         .referrer("https://www.avito.ru" + advertId)
                         .ignoreContentType(true)
+                        .cookies(advertPageCookies)
                         .execute();
         String body = response.body();
         return parseNumbersFromImage(body);
@@ -88,6 +96,8 @@ public class PhoneParser implements AutoCloseable {
 
     public long parseNumbersFromImage(String dataImagePhoto) {
         String base64Image = dataImagePhoto.split(",")[1];
+        logger.info("Parsing image {} ", dataImagePhoto);
+
         byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
 
         lept.PIX image = lept.pixReadMemPng(imageBytes, imageBytes.length);

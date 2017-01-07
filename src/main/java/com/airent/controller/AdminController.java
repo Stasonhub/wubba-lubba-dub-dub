@@ -44,11 +44,11 @@ public class AdminController {
             return importState;
         }).collect(Collectors.toList());
 
-        List<Advert> rawAdverts = advertService.getRawAdverts();
-
-        model.addAttribute("importStates", importStates);
-        model.addAttribute("rawAdverts", rawAdverts);
-        model.addAttribute("mainPhotos", photoService.getMainPhotos(rawAdverts));
+//        List<Advert> rawAdverts = advertService.getRawAdverts();
+//
+//        model.addAttribute("importStates", importStates);
+//        model.addAttribute("rawAdverts", rawAdverts);
+//        model.addAttribute("mainPhotos", photoService.getMainPhotos(rawAdverts));
 
         return "admin";
     }
@@ -70,7 +70,7 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.POST, path = "/approveAdvert/{advertId}")
     public String approveAdvert(@PathVariable long advertId) {
         checkAccess();
-        advertService.approveAdvert(advertId);
+        //advertService.approveAdvert(advertId);
         return "redirect:/admin";
     }
 
