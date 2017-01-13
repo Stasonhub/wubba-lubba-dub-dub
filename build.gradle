@@ -32,13 +32,13 @@ repositories {
 def javaCppClassifier = osdetector.classifier.replace 'osx', 'macosx'
 
 dependencies {
+    // --- spring ---
     compile 'org.springframework.boot:spring-boot-starter-web'
-
     compile 'org.thymeleaf:thymeleaf-spring4:3.0.1.RELEASE'
     compile 'org.thymeleaf:thymeleaf:3.0.1.RELEASE'
-
     compile 'org.springframework.boot:spring-boot-starter-security'
 
+    // --- database ---
     compile 'org.springframework:spring-jdbc'
     compile 'org.mybatis:mybatis-spring:1.3.0'
     compile 'org.mybatis:mybatis:3.4.1'
@@ -47,25 +47,26 @@ dependencies {
     compile 'org.apache.commons:commons-dbcp2:2.1.1'
     compile "org.flywaydb:flyway-core:4.0.3"
 
-    compile 'org.apache.commons:commons-lang3:3.5'
-    compile 'commons-io:commons-io:2.5'
-
+    // --- parsing ---
     compile 'com.squareup.okhttp3:okhttp:3.4.2'
+    compile 'org.seleniumhq.selenium:selenium-server:3.0.1'
+    compile 'io.github.bonigarcia:webdrivermanager:1.5.0'
+    compile 'org.seleniumhq.selenium:htmlunit-driver:2.23.1'
+    compile 'org.seleniumhq.selenium:selenium-support:3.0.1'
+    compile 'org.eclipse.jetty.websocket:websocket-client:9.4.0.M1'
     compile 'org.jsoup:jsoup:1.10.1'
     compile 'org.bytedeco.javacpp-presets:tesseract:3.04.01-1.2'
     compile 'org.bytedeco.javacpp-presets:leptonica:1.73-1.2'
-
     compile "org.bytedeco.javacpp-presets:tesseract:3.04.01-1.2:$javaCppClassifier"
     compile "org.bytedeco.javacpp-presets:leptonica:1.73-1.2:$javaCppClassifier"
-
-    compile 'org.geotools:gt-geojson:16.0'
-
-
     compile group: 'org.bitcoinj', name: 'orchid', version: '1.2.1'
 
+    // --- common ---
+    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'commons-io:commons-io:2.5'
+    compile 'org.geotools:gt-geojson:16.0'
 
-    // ------- tests ----------
-
+    // --- tests ---
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 

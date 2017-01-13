@@ -1,4 +1,4 @@
-package com.airent.service.provider.api;
+package com.airent.service.provider;
 
 import com.airent.model.Advert;
 import com.airent.model.Photo;

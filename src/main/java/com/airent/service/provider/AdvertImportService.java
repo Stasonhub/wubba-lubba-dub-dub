@@ -9,16 +9,14 @@ import com.airent.model.Photo;
 import com.airent.model.User;
 import com.airent.service.PhotoService;
 import com.airent.service.provider.api.AdvertsProvider;
-import com.airent.service.provider.api.RawAdvert;
+import com.airent.service.provider.api.ParsedAdvert;
+import com.airent.service.provider.api.ParsedAdvertHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,7 +66,18 @@ public class AdvertImportService {
 
     private void runImport(AdvertsProvider advertsProvider) {
         long lastImportTime = advertImportMapper.getLastImportTime(advertsProvider.getType());
-        List<RawAdvert> rawAdverts = advertsProvider.getAdvertsUntil(lastImportTime);
+
+        Iterator<ParsedAdvertHeader> adverts =
+                advertsProvider.getHeaders();
+        while (adverts.hasNext()) {
+            ParsedAdvertHeader advertHeader = adverts.next();
+            if (advertHeader.getPublicationTimestamp() <= (lastImportTime + 60_000)) {
+                break;
+            }
+
+            ParsedAdvert advert = advertsProvider.getAdvert(advertHeader);
+        }
+        List<RawAdvert> rawAdverts = Collections.emptyList();//advertsProvider.getAdvertsUntil(lastImportTime);
 
         for (RawAdvert rawAdvert : rawAdverts) {
             processNewAdvert(rawAdvert);

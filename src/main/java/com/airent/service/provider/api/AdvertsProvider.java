@@ -1,11 +1,13 @@
 package com.airent.service.provider.api;
 
-import java.util.List;
+import java.util.Iterator;
 
 public interface AdvertsProvider {
 
     String getType();
 
-    List<RawAdvert> getAdvertsUntil(long timestamp);
+    Iterator<ParsedAdvertHeader> getHeaders();
+
+    ParsedAdvert getAdvert(ParsedAdvertHeader parsedAdvertHeader);
 
 }

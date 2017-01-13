@@ -30,7 +30,7 @@ public class JSoupTorConnector implements AutoCloseable {
 
     @PostConstruct
     public void start() throws InterruptedException, IOException {
-        initTor();
+       // initTor();
     }
 
     private void initTor() throws IOException, InterruptedException {
