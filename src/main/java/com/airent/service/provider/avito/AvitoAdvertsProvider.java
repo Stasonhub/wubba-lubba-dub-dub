@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -27,7 +28,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok";
     private static final String PAGE_INDEX_SUFFIX = "?p=";
-    private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(//(.*)\\).*");
+    private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(\"//(.*)\"\\).*");
 
     private WebDriver driver;
 
@@ -41,7 +42,10 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         this.avitoDateFormatter = avitoDateFormatter;
         this.avitoPhoneParser = avitoPhoneParser;
         this.maxPages = maxPages;
+    }
 
+    @PostConstruct
+    public void init() {
         ChromeDriverManager.getInstance().setup();
         this.driver = new ChromeDriver();
     }
@@ -214,7 +218,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 .collect(Collectors.toList());
     }
 
-    private String getImageUrl(String fullImageUrl) {
+    String getImageUrl(String fullImageUrl) {
         Matcher matcher = imageUrlPattern.matcher(fullImageUrl);
         if (!matcher.matches()) {
             throw new IllegalStateException("Failed to retrieve image from " + fullImageUrl);
