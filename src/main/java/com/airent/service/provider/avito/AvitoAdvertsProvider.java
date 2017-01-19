@@ -30,18 +30,18 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     private static final String PAGE_INDEX_SUFFIX = "?p=";
     private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(\"//(.*)\"\\).*");
 
-    private WebDriver driver;
 
+    private WebDriver driver;
     private AvitoDateFormatter avitoDateFormatter;
     private AvitoPhoneParser avitoPhoneParser;
-    private int maxPages;
+    private int maxItemsToScan;
 
     public AvitoAdvertsProvider(AvitoDateFormatter avitoDateFormatter,
                                 AvitoPhoneParser avitoPhoneParser,
-                                @Value("${avito.provider.max.items}") int maxPages) {
+                                @Value("${avito.provider.max.items}") int maxItemsToScan) {
         this.avitoDateFormatter = avitoDateFormatter;
         this.avitoPhoneParser = avitoPhoneParser;
-        this.maxPages = maxPages;
+        this.maxItemsToScan = maxItemsToScan;
     }
 
     @PostConstruct
@@ -66,11 +66,12 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         return new Iterator<ParsedAdvertHeader>() {
 
             private int pageNumber = 0;
+            private int nextItemIndex;
             private Iterator<ParsedAdvertHeader> currentPageHeaders;
 
             @Override
             public boolean hasNext() {
-                return pageNumber < maxPages || (currentPageHeaders != null && currentPageHeaders.hasNext());
+                return nextItemIndex < maxItemsToScan || (currentPageHeaders != null && currentPageHeaders.hasNext());
             }
 
             @Override
@@ -94,6 +95,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                             }).collect(Collectors.toList()).iterator();
                     pageNumber++;
                 }
+
+                nextItemIndex++;
 
                 return currentPageHeaders.next();
             }
@@ -215,6 +218,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         return photos.stream()
                 .map(photo -> getImageUrl(photo.getAttribute("style")))
                 .map(photo -> photo.replace("80x60", "640x480"))
+                .map(v -> "http://" + v)
                 .collect(Collectors.toList());
     }
 

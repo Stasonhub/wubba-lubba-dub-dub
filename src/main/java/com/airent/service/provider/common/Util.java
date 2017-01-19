@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 public class Util {
 
-    private static final int SIGN_HEIGHT = 40;
+
     public static final String USER_AGENT =
             "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.100 Safari/537.36";
 
@@ -43,8 +43,5 @@ public class Util {
         return result.toString();
     }
 
-    public static BufferedImage removeAvitoSign(BufferedImage originalImage) {
-        int height = originalImage.getHeight() - SIGN_HEIGHT;
-        return originalImage.getSubimage(0, 0, originalImage.getWidth(), height);
-    }
+
 }
