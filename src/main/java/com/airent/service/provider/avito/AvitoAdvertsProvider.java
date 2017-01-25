@@ -28,8 +28,9 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok";
     private static final String PAGE_INDEX_SUFFIX = "?p=";
-    private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(\"//(.*)\"\\).*");
+    private static final int MAX_PAGES = 50;
 
+    private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(\"//(.*)\"\\).*");
 
     private WebDriver driver;
     private AvitoDateFormatter avitoDateFormatter;
@@ -71,11 +72,15 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
             @Override
             public boolean hasNext() {
-                return nextItemIndex < maxItemsToScan || (currentPageHeaders != null && currentPageHeaders.hasNext());
+                return nextItemIndex < maxItemsToScan && pageNumber < MAX_PAGES;
             }
 
             @Override
             public ParsedAdvertHeader next() {
+                if (!hasNext()) {
+                    throw new IllegalStateException("There is not next for you, dummy");
+                }
+
                 if (currentPageHeaders == null || !currentPageHeaders.hasNext()) {
                     // open next page
                     if (pageNumber == 0) {
@@ -90,7 +95,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                                 parsedAdvertHeader.setAdvertUrl(
                                         header.findElement(By.className("item-description-title-link")).getAttribute("href"));
                                 parsedAdvertHeader.setPublicationTimestamp(avitoDateFormatter.getTimestamp(
-                                        header.findElement(By.className("date")).getText()));
+                                        header.findElement(By.className("date")).getAttribute("innerText")));
                                 return parsedAdvertHeader;
                             }).collect(Collectors.toList()).iterator();
                     pageNumber++;
@@ -148,7 +153,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         return driver
                 .findElement(By.className("item-view-main"))
                 .findElement(By.cssSelector(".item-map-address [itemprop=streetAddress]"))
-                .getAttribute("innerHTML")
+                .getAttribute("innerText")
                 .trim();
     }
 
@@ -163,7 +168,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         return getNumberInsideOf(driver
                 .findElement(By.className("item-price"))
                 .findElement(By.className("price-value-string"))
-                .getAttribute("innerHTML"));
+                .getAttribute("innerText"));
     }
 
     private Integer getRooms() {
@@ -171,7 +176,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
-        return getNumberInsideOf(itemParams.get(0).getAttribute("innerHTML"));
+        return getNumberInsideOf(itemParams.get(0).getAttribute("innerText"));
     }
 
     private Integer getFloor() {
@@ -179,7 +184,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
-        return getNumberInsideOf(itemParams.get(1).getAttribute("innerHTML"));
+        return getNumberInsideOf(itemParams.get(1).getAttribute("innerText"));
     }
 
     private Integer getMaxFloor() {
@@ -187,7 +192,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
-        return getNumberInsideOf(itemParams.get(2).getAttribute("innerHTML"));
+        return getNumberInsideOf(itemParams.get(2).getAttribute("innerText"));
     }
 
     private Integer getSq() {
@@ -195,13 +200,13 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
-        return getNumberInsideOf(itemParams.get(4).getAttribute("innerHTML"));
+        return getNumberInsideOf(itemParams.get(4).getAttribute("innerText"));
     }
 
     private String getDescription() {
         return driver
                 .findElement(By.className("item-view-main"))
-                .findElement(By.cssSelector(".item-description-text p")).getText();
+                .findElement(By.cssSelector(".item-description-text p")).getAttribute("innerText");
     }
 
     private Pair<Double, Double> getCoordinates() {
@@ -216,14 +221,14 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     private String getUserName() {
         WebElement contacts = driver.findElement(By.className("item-view-contacts"));
-        return contacts.findElement(By.className("seller-info-name")).getText().trim();
+        return contacts.findElement(By.className("seller-info-name")).getAttribute("innerText").trim();
     }
 
     private int getTrustRate() {
         WebElement sellerInfoLabel = driver
                 .findElement(By.className("seller-info"))
                 .findElement(By.className("seller-info-label"));
-        if ("агентство".equals(sellerInfoLabel.getText().trim().toLowerCase())) {
+        if ("агентство".equals(sellerInfoLabel.getAttribute("innerText").trim().toLowerCase())) {
             return 1;
         }
         return 5000;

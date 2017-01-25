@@ -1,10 +1,10 @@
 package com.airent.controller;
 
 import com.airent.model.Advert;
-import com.airent.model.ui.AdvertPrices;
 import com.airent.model.District;
 import com.airent.model.Photo;
 import com.airent.model.rest.SearchRequest;
+import com.airent.model.ui.AdvertPrices;
 import com.airent.model.ui.SearchBoxState;
 import com.airent.service.AdvertService;
 import com.airent.service.LoginService;
@@ -100,8 +100,13 @@ public class AdvertController {
         searchBoxState.setNsSelected(true);
         searchBoxState.setPvSelected(true);
         searchBoxState.setCvSelected(true);
-        searchBoxState.setPriceMin(advertPrices.getPriceMin() / 1000);
-        searchBoxState.setPriceMax(advertPrices.getPriceMax() / 1000);
+        if (advertPrices != null) {
+            searchBoxState.setPriceMin(advertPrices.getPriceMin() / 1000);
+            searchBoxState.setPriceMax(advertPrices.getPriceMax() / 1000);
+        } else {
+            searchBoxState.setPriceMin(1);
+            searchBoxState.setPriceMax(120);
+        }
         searchBoxState.setPriceFrom(searchBoxState.getPriceMin());
         searchBoxState.setPriceTo(searchBoxState.getPriceMax());
         return searchBoxState;

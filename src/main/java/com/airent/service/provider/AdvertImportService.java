@@ -179,6 +179,7 @@ public class AdvertImportService {
 
         // persist photos
         for (Photo photo : photos) {
+            photo.setAdvertId(advert.getId());
             photoMapper.createPhoto(photo);
         }
     }
