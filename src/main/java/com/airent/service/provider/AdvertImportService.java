@@ -114,13 +114,13 @@ public class AdvertImportService {
     }
 
     private boolean checkAdvert(ParsedAdvert parsedAdvert) {
-        if (checkAndWarn(() -> !StringUtils.isEmpty(parsedAdvert.getAddress()),
+        if (checkAndWarn(() -> StringUtils.isEmpty(parsedAdvert.getAddress()),
                 () -> logger.warn("Address is empty for advert {}", parsedAdvert))) {
             return false;
-        } else if (checkAndWarn(() -> parsedAdvert.getRooms() != null,
+        } else if (checkAndWarn(() -> parsedAdvert.getRooms() == null,
                 () -> logger.warn("Rooms is null for advert {}", parsedAdvert))) {
             return false;
-        } else if (checkAndWarn(() -> parsedAdvert.getPrice() != null,
+        } else if (checkAndWarn(() -> parsedAdvert.getPrice() == null,
                 () -> logger.warn("Price is empty for advert {}", parsedAdvert))) {
             return false;
         } else if (checkAndWarn(() -> parsedAdvert.getPhotos().isEmpty(),
@@ -206,7 +206,7 @@ public class AdvertImportService {
 
     private boolean checkAndWarn(Supplier<Boolean> checker, Runnable warner) {
         boolean value = checker.get();
-        if (!value) {
+        if (value) {
             warner.run();
         }
         return value;

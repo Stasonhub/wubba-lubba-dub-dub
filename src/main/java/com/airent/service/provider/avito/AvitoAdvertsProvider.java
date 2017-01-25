@@ -114,10 +114,12 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         parsedAdvert.setAddress(getAddress());
         parsedAdvert.setRooms(getRooms());
         parsedAdvert.setFloor(getFloor());
+        parsedAdvert.setMaxFloor(getMaxFloor());
         parsedAdvert.setSq(getSq());
         parsedAdvert.setDescription(getDescription());
         parsedAdvert.setLatitude(getCoordinates().getLeft());
         parsedAdvert.setLongitude(getCoordinates().getRight());
+        parsedAdvert.setPrice(getPrice());
 
         parsedAdvert.setUserName(getUserName());
         parsedAdvert.setPhone(getPhone());
@@ -146,7 +148,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         return driver
                 .findElement(By.className("item-view-main"))
                 .findElement(By.cssSelector(".item-map-address [itemprop=streetAddress]"))
-                .getText();
+                .getAttribute("innerHTML")
+                .trim();
     }
 
     private long getPhone() {
@@ -156,12 +159,19 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         return avitoPhoneParser.parseNumbersFromImage(phoneVal);
     }
 
+    private Integer getPrice() {
+        return getNumberInsideOf(driver
+                .findElement(By.className("item-price"))
+                .findElement(By.className("price-value-string"))
+                .getAttribute("innerHTML"));
+    }
+
     private Integer getRooms() {
         List<WebElement> itemParams = driver
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
-        return getNumberInsideOf(itemParams.get(0).getText());
+        return getNumberInsideOf(itemParams.get(0).getAttribute("innerHTML"));
     }
 
     private Integer getFloor() {
@@ -169,7 +179,15 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
-        return getNumberInsideOf(itemParams.get(1).getText());
+        return getNumberInsideOf(itemParams.get(1).getAttribute("innerHTML"));
+    }
+
+    private Integer getMaxFloor() {
+        List<WebElement> itemParams = driver
+                .findElement(By.className("item-view-main"))
+                .findElement(By.className("item-params"))
+                .findElements(By.className("item-params-list-item"));
+        return getNumberInsideOf(itemParams.get(2).getAttribute("innerHTML"));
     }
 
     private Integer getSq() {
@@ -177,7 +195,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
-        return getNumberInsideOf(itemParams.get(3).getText());
+        return getNumberInsideOf(itemParams.get(4).getAttribute("innerHTML"));
     }
 
     private String getDescription() {

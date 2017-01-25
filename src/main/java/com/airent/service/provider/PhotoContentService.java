@@ -64,7 +64,11 @@ public class PhotoContentService {
     }
 
     private byte[] loadImage(String imageUrl) throws IOException {
-        Connection.Response response = Jsoup.connect(imageUrl).ignoreContentType(true).execute();
+        Connection.Response response = Jsoup.connect(imageUrl)
+                .ignoreContentType(true)
+                .header("User-Agent","Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
+                .execute();
+
         return response.bodyAsBytes();
     }
 
