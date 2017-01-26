@@ -2,7 +2,9 @@ package com.airent.service.provider.avito;
 
 import com.airent.config.OyoSpringTest;
 import com.airent.mapper.AdvertMapper;
+import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
+import com.airent.model.User;
 import com.airent.service.provider.AdvertImportService;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -28,6 +30,9 @@ public class AvitoAdvertsProviderIT {
     @Autowired
     private AdvertMapper advertMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Test
     public void getAdverts() throws Exception {
         assertTrue(avitoProviderMaxItems == 2);
@@ -36,7 +41,8 @@ public class AvitoAdvertsProviderIT {
 
         assertEquals(avitoProviderMaxItems, advertMapper.getCount());
 
-        List<Advert> adverts = advertMapper.getNextAdvertsBeforeTime(0L, avitoProviderMaxItems);
+        List<Advert> adverts = advertMapper.getNextAdvertsBeforeTime(Long.MAX_VALUE, avitoProviderMaxItems);
+        assertEquals(avitoProviderMaxItems, adverts.size());
         adverts.forEach(this::checkAdvert);
     }
 
@@ -47,6 +53,12 @@ public class AvitoAdvertsProviderIT {
         assertNotEquals(0L, advert.getPublicationDate());
         assertFalse(StringUtils.isEmpty(advert.getAddress()));
         assertFalse(StringUtils.isEmpty(advert.getDescription()));
+
+        User user = userMapper.getUserForAdvert(advert.getId());
+        assertNotNull(user);
+
+        assertFalse(StringUtils.isEmpty(user.getName()));
+        assertNotEquals(0L, user.getPhone());
     }
 
 

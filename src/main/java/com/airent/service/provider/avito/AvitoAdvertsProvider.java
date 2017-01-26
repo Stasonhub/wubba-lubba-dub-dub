@@ -3,14 +3,19 @@ package com.airent.service.provider.avito;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.ParsedAdvert;
 import com.airent.service.provider.api.ParsedAdvertHeader;
-import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.PhantomJsDriverManager;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +31,13 @@ import static com.airent.service.provider.common.Util.getNumberInsideOf;
 @Service
 public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
+    private Logger logger = LoggerFactory.getLogger(AvitoAdvertsProvider.class);
+
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok";
     private static final String PAGE_INDEX_SUFFIX = "?p=";
     private static final int MAX_PAGES = 50;
 
-    private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(\"//(.*)\"\\).*");
+    private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(.*//([a-zA-Z0-9/.]*)[\"]*\\).*");
 
     private WebDriver driver;
     private AvitoDateFormatter avitoDateFormatter;
@@ -47,8 +54,19 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     @PostConstruct
     public void init() {
-        ChromeDriverManager.getInstance().setup();
-        this.driver = new ChromeDriver();
+        PhantomJsDriverManager.getInstance().setup("2.1.1");
+
+        DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
+        capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[]{"--load-images=no"});
+
+        PhantomJSDriver driver = new PhantomJSDriver(capabilities);
+        driver.executePhantomJS("this.onResourceRequested = function(requestData, networkRequest) {\n" +
+                "  var match = requestData.url.match(/^http[s]*:\\/\\/[www]*[/.]*avito/g);\n" +
+                "  if (match == null) {\n" +
+                "    networkRequest.cancel(); \n" +
+                "  }\n" +
+                "};");
+        this.driver = driver;
     }
 
     @Override
@@ -141,11 +159,17 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.presenceOfElementLocated(
                         By.className("item-phone-number")))
+                .findElement(By.tagName("button"))
                 .click();
 
-        new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(
-                        By.cssSelector(".item-phone-big-number img")));
+        try {
+            new WebDriverWait(driver, 20)
+                    .until(ExpectedConditions.presenceOfElementLocated(
+                            By.cssSelector(".item-phone-big-number img")));
+        } catch (TimeoutException e) {
+            String bodyText = driver.findElement(By.tagName("body")).getAttribute("innerHTML");
+            logger.error("Failed to find element on page {} ", bodyText, e);
+        }
 
     }
 

@@ -39,6 +39,8 @@ public class AvitoPhoneParser implements AutoCloseable {
 
     public long parseNumbersFromImage(String dataImagePhoto) {
         String base64Image = dataImagePhoto.split(",")[1];
+
+        long startTime = System.currentTimeMillis();
         logger.info("Parsing image {} ", dataImagePhoto);
 
         byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
@@ -49,6 +51,8 @@ public class AvitoPhoneParser implements AutoCloseable {
         String result = outText.getString();
         outText.deallocate();
         pixDestroy(image);
+
+        logger.info("Parsing image completed in {} s", (System.currentTimeMillis() - startTime) / 1000);
 
         String numbers = result.replaceAll("[^\\d]", "");
         if (numbers.length() != 11 || numbers.charAt(0) != '8') {

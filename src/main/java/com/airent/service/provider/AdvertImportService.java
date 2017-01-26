@@ -175,6 +175,15 @@ public class AdvertImportService {
             matchingUser.setTrustRate(matchingUser.getTrustRate() / 4);
             userMapper.updateUser(matchingUser);
             advertMapper.bindToUser(advert.getId(), matchingUser.getId());
+        } else {
+            // just create new user and bind advert
+            User user = new User();
+            user.setRegistered(false);
+            user.setTrustRate(parsedAdvert.getTrustRate());
+            user.setPhone(parsedAdvert.getPhone());
+            user.setName(parsedAdvert.getUserName());
+            userMapper.createUser(user);
+            advertMapper.bindToUser(advert.getId(), user.getId());
         }
 
         // persist photos
