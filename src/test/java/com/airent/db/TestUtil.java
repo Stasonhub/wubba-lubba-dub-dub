@@ -7,9 +7,16 @@ import com.airent.model.District;
 import com.airent.model.User;
 import javafx.util.Pair;
 
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TestUtil {
+
+    public static final String TEST_ADVERT_DESC = "testAdvertDesc";
+
+    public static List<Advert> filterTestAdverts(List<Advert> adverts) {
+        return adverts.stream().filter(advert -> !TEST_ADVERT_DESC.equals(advert.getDescription())).collect(Collectors.toList());
+    }
 
     public static Pair<Advert, User> createAdvert(UserMapper userMapper, AdvertMapper advertMapper) {
         User user = new User();
@@ -21,7 +28,7 @@ public class TestUtil {
         Advert advert = new Advert();
         advert.setPublicationDate(2L);
         advert.setConditions(2);
-        advert.setDescription("Advert");
+        advert.setDescription(TEST_ADVERT_DESC);
         advert.setDistrict(District.KR);
         advert.setAddress("st. First,12");
         advert.setFloor(5);

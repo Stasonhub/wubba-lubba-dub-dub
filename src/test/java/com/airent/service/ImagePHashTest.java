@@ -1,6 +1,7 @@
 package com.airent.service;
 
-import org.junit.Test;
+
+import org.testng.annotations.Test;
 
 public class ImagePHashTest {
 

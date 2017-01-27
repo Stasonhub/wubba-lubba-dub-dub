@@ -157,6 +157,7 @@ public class AdvertImportService {
         Advert advert = new Advert();
         advert.setPublicationDate(parsedAdvert.getPublicationTimestamp());
         advert.setBedrooms(parsedAdvert.getBedrooms());
+        advert.setBeds(parsedAdvert.getBeds());
         advert.setRooms(parsedAdvert.getRooms());
         advert.setSq(parsedAdvert.getSq());
         advert.setFloor(parsedAdvert.getFloor());

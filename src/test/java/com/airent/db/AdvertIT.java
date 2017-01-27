@@ -5,20 +5,18 @@ import com.airent.mapper.AdvertMapper;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.District;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.*;
 
-@RunWith(SpringRunner.class)
 @OyoSpringTest
-public class AdvertTest {
+public class AdvertIT extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private UserMapper userMapper;
@@ -50,8 +48,7 @@ public class AdvertTest {
         List<Advert> adverts = advertMapper.searchNextAdvertsBeforeTime(districtList, 6_000, 45_000, rooms, System.currentTimeMillis(), 10);
 
         assertNotNull(adverts);
-        assertEquals(1, adverts.size());
-        assertEquals(advert.getId(), adverts.get(0).getId());
+        assertTrue(adverts.stream().map(Advert::getId).collect(Collectors.toList()).contains(advert.getId()));
     }
 
 }

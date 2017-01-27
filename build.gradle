@@ -27,6 +27,7 @@ repositories {
     maven { url "https://repo.boundlessgeo.com/main" }
     maven { url "http://download.osgeo.org/webdav/geotools/" }
     mavenCentral()
+    jcenter()
 }
 
 def javaCppClassifier = osdetector.classifier.replace 'osx', 'macosx'
@@ -48,18 +49,17 @@ dependencies {
     compile "org.flywaydb:flyway-core:4.0.3"
 
     // --- parsing ---
-    compile 'com.squareup.okhttp3:okhttp:3.4.2'
-    compile 'org.seleniumhq.selenium:selenium-server:3.0.1'
     compile 'io.github.bonigarcia:webdrivermanager:1.5.1'
     compile 'org.seleniumhq.selenium:selenium-support:3.0.1'
     compile "com.codeborne:phantomjsdriver:1.2.1"
+    compile 'com.squareup.okhttp3:okhttp:3.4.2'
     compile 'org.eclipse.jetty.websocket:websocket-client:9.4.0.M1'
     compile 'org.jsoup:jsoup:1.10.1'
     compile 'org.bytedeco.javacpp-presets:tesseract:3.04.01-1.2'
     compile 'org.bytedeco.javacpp-presets:leptonica:1.73-1.2'
     compile "org.bytedeco.javacpp-presets:tesseract:3.04.01-1.2:$javaCppClassifier"
     compile "org.bytedeco.javacpp-presets:leptonica:1.73-1.2:$javaCppClassifier"
-    compile group: 'org.bitcoinj', name: 'orchid', version: '1.2.1'
+    compile "org.bitcoinj:orchid:1.2.1"
 
     // --- common ---
     compile 'org.apache.commons:commons-lang3:3.5'
@@ -67,10 +67,17 @@ dependencies {
     compile 'org.geotools:gt-geojson:16.0'
 
     // --- tests ---
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.boot:spring-boot-test'
+    testCompile 'org.springframework:spring-test'
+    testCompile 'org.testng:testng:6.9.12'
+}
+
+test {
+    useTestNG()
 }
 
 configurations {
     all*.exclude group: 'org.bytedeco', module: 'javacpp-presets'
+    all*.exclude group: 'junit', module: 'junit'
 }
 

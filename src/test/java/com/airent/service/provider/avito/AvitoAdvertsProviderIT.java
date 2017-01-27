@@ -7,19 +7,18 @@ import com.airent.model.Advert;
 import com.airent.model.User;
 import com.airent.service.provider.AdvertImportService;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static com.airent.db.TestUtil.filterTestAdverts;
+import static org.testng.Assert.*;
 
-@RunWith(SpringRunner.class)
 @OyoSpringTest
-public class AvitoAdvertsProviderIT {
+public class AvitoAdvertsProviderIT extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private AdvertImportService advertImportService;
@@ -39,9 +38,7 @@ public class AvitoAdvertsProviderIT {
 
         advertImportService.runImport("AVT");
 
-        assertEquals(avitoProviderMaxItems, advertMapper.getCount());
-
-        List<Advert> adverts = advertMapper.getNextAdvertsBeforeTime(Long.MAX_VALUE, avitoProviderMaxItems);
+        List<Advert> adverts = filterTestAdverts(advertMapper.getNextAdvertsBeforeTime(Long.MAX_VALUE, avitoProviderMaxItems));
         assertEquals(avitoProviderMaxItems, adverts.size());
         adverts.forEach(this::checkAdvert);
     }

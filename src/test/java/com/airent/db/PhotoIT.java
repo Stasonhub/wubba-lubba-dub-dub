@@ -6,21 +6,19 @@ import com.airent.mapper.PhotoMapper;
 import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.Photo;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 
-@RunWith(SpringRunner.class)
 @OyoSpringTest
-public class PhotoTest {
+public class PhotoIT extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private UserMapper userMapper;

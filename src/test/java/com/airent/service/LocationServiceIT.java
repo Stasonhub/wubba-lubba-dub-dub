@@ -2,16 +2,14 @@ package com.airent.service;
 
 import com.airent.config.OyoSpringTest;
 import com.airent.model.District;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
-@RunWith(SpringRunner.class)
 @OyoSpringTest
-public class LocationServiceTest {
+public class LocationServiceIT extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private LocationService locationService;

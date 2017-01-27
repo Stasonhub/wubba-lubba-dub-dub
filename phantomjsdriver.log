@@ -1,0 +1,738 @@
+[INFO  - 2017-01-27T09:17:01.333Z] GhostDriver - Main - running on port 47879
+[INFO  - 2017-01-27T09:17:01.571Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T09:17:01.571Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T09:17:01.571Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T09:17:01.572Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 5c7f68f0-e471-11e6-a1ad-af6a3669b2d9
+[ERROR - 2017-01-27T09:21:41.938Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:21:41.938Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:21:41.938Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:21:41.939Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:21:41.942Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:21:41.942Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:21:41.943Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:21:41.943Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:21:48.242Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:21:48.242Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:21:48.242Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:21:48.242Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:21:48.242Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:21:48.242Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:21:55.217Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:21:55.218Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:21:55.219Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:21:55.219Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:21:55.222Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:21:55.223Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T09:22:01.320Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[ERROR - 2017-01-27T09:22:07.674Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:22:07.675Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:22:07.675Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:22:07.675Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T09:22:07.680Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T09:22:07.680Z] Session [5c7f68f0-e471-11e6-a1ad-af6a3669b2d9] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T09:27:01.307Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T09:32:01.295Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T10:43:52.660Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T10:46:47.360Z] GhostDriver - Main - running on port 16243
+[INFO  - 2017-01-27T10:46:47.723Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T10:46:47.724Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T10:46:47.724Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T10:46:47.724Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: e6e52280-e47d-11e6-8f5c-9120ea182556
+[ERROR - 2017-01-27T10:46:53.824Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T10:46:53.824Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T10:46:53.825Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T10:46:53.825Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T10:46:53.826Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T10:46:53.827Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T10:46:53.828Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T10:46:53.828Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T10:46:58.046Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T10:46:58.046Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T10:46:58.049Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T10:46:58.049Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T10:46:58.054Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T10:46:58.054Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T10:47:05.237Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T10:47:05.239Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T10:47:05.243Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T10:47:05.243Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T10:47:05.244Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T10:47:05.244Z] Session [e6e52280-e47d-11e6-8f5c-9120ea182556] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T10:48:52.651Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T10:51:47.496Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T10:51:47.498Z] SessionManagerReqHand - _cleanupWindowlessSessions - Deleted Session 'e6e52280-e47d-11e6-8f5c-9120ea182556', because windowless
+[INFO  - 2017-01-27T10:53:52.643Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T10:58:52.634Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:03:52.626Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:08:52.618Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:13:52.609Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:21:26.638Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:26:26.629Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:31:27.067Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:32:46.065Z] GhostDriver - Main - running on port 32005
+[INFO  - 2017-01-27T11:32:46.423Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T11:32:46.423Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T11:32:46.423Z] Session [53353230-e484-11e6-92af-055b2b13396a] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T11:32:46.423Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 53353230-e484-11e6-92af-055b2b13396a
+[ERROR - 2017-01-27T11:32:51.890Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:32:51.891Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:32:51.891Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:32:51.891Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:32:51.893Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:32:51.893Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:32:51.893Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:32:51.894Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:32:55.935Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:32:55.935Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:32:55.936Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:32:55.936Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:32:55.941Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:32:55.941Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:33:01.228Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:33:01.228Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:33:01.228Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:33:01.228Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:33:01.232Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:33:01.232Z] Session [53353230-e484-11e6-92af-055b2b13396a] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T11:34:43.120Z] GhostDriver - Main - running on port 25627
+[INFO  - 2017-01-27T11:34:43.482Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T11:34:43.482Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T11:34:43.482Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T11:34:43.482Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 98fafb60-e484-11e6-b984-8b94b7539bd3
+[ERROR - 2017-01-27T11:34:48.832Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:34:48.832Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:34:48.832Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:34:48.833Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:34:48.837Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:34:48.837Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:34:48.837Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:34:48.837Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:34:53.999Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:34:53.999Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:34:53.999Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:34:53.999Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:34:54.004Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:34:54.004Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:34:59.326Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:34:59.326Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:34:59.326Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:34:59.326Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:34:59.330Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:34:59.330Z] Session [98fafb60-e484-11e6-b984-8b94b7539bd3] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T11:35:24.308Z] GhostDriver - Main - running on port 15922
+[INFO  - 2017-01-27T11:35:24.639Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T11:35:24.639Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T11:35:24.639Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T11:35:24.639Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: b1830ab0-e484-11e6-a49f-9528116f21b6
+[ERROR - 2017-01-27T11:35:31.144Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:35:31.144Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:35:31.145Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:35:31.145Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:35:31.150Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:35:31.150Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:35:31.150Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:35:31.151Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:35:36.364Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:35:36.364Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:35:36.365Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:35:36.365Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:35:36.368Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:35:36.368Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:35:41.770Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1485516941734
+[ERROR - 2017-01-27T11:35:42.966Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:35:42.966Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:35:42.966Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:35:42.966Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:35:42.970Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:35:42.970Z] Session [b1830ab0-e484-11e6-a49f-9528116f21b6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T11:36:27.058Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:37:46.060Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:37:46.063Z] SessionManagerReqHand - _cleanupWindowlessSessions - Deleted Session '53353230-e484-11e6-92af-055b2b13396a', because windowless
+[INFO  - 2017-01-27T11:39:43.902Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:39:43.913Z] SessionManagerReqHand - _cleanupWindowlessSessions - Deleted Session '98fafb60-e484-11e6-b984-8b94b7539bd3', because windowless
+[INFO  - 2017-01-27T11:40:24.300Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:40:24.301Z] SessionManagerReqHand - _cleanupWindowlessSessions - Deleted Session 'b1830ab0-e484-11e6-a49f-9528116f21b6', because windowless
+[INFO  - 2017-01-27T11:41:27.048Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:46:27.039Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:47:42.986Z] GhostDriver - Main - running on port 3330
+[INFO  - 2017-01-27T11:47:43.358Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T11:47:43.358Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T11:47:43.358Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T11:47:43.358Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 69d29da0-e486-11e6-9bf4-1d93493ef5a6
+[ERROR - 2017-01-27T11:47:55.685Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:47:55.686Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:47:55.686Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:47:55.686Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:47:55.691Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:47:55.691Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:47:55.691Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:47:55.691Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:48:02.509Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:48:02.509Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:48:02.509Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:48:02.509Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:48:02.513Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:48:02.513Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:48:14.650Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:48:14.651Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:48:14.651Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:48:14.651Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:48:14.654Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:48:14.654Z] Session [69d29da0-e486-11e6-9bf4-1d93493ef5a6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T11:49:17.607Z] GhostDriver - Main - running on port 42886
+[INFO  - 2017-01-27T11:49:17.932Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T11:49:17.932Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T11:49:17.932Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T11:49:17.933Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: a2317680-e486-11e6-ae6d-3d263a5f1522
+[ERROR - 2017-01-27T11:49:26.902Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:26.902Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:49:26.902Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:26.902Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:49:26.906Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:26.906Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:49:26.907Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:26.907Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:49:26.907Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:26.907Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/timing.js:1)
+  m (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/timing.js:1)
+  Qa (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/timing.js:1)
+[ERROR - 2017-01-27T11:49:35.409Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:35.410Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:49:35.410Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:35.410Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:49:35.414Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:35.414Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:49:47.068Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:47.070Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:49:47.070Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:47.070Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:49:47.073Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:49:47.073Z] Session [a2317680-e486-11e6-ae6d-3d263a5f1522] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T11:51:27.029Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:52:42.975Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:52:42.976Z] SessionManagerReqHand - _cleanupWindowlessSessions - Deleted Session '69d29da0-e486-11e6-9bf4-1d93493ef5a6', because windowless
+[INFO  - 2017-01-27T11:54:17.598Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T11:54:17.598Z] SessionManagerReqHand - _cleanupWindowlessSessions - Deleted Session 'a2317680-e486-11e6-ae6d-3d263a5f1522', because windowless
+[INFO  - 2017-01-27T11:55:00.044Z] GhostDriver - Main - running on port 3562
+[INFO  - 2017-01-27T11:55:00.423Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T11:55:00.423Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T11:55:00.423Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T11:55:00.424Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 6e559840-e487-11e6-b392-c77a6db16cf6
+[ERROR - 2017-01-27T11:55:11.756Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:55:11.756Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:55:11.756Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:55:11.756Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:55:11.757Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:55:11.757Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:55:11.758Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:55:11.758Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:55:19.140Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:55:19.141Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:55:19.141Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:55:19.141Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:55:19.141Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:55:19.141Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:55:37.327Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:55:37.328Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:55:37.329Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:55:37.329Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T11:55:37.334Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T11:55:37.334Z] Session [6e559840-e487-11e6-b392-c77a6db16cf6] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T11:56:27.020Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:00:00.035Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:00:00.036Z] SessionManagerReqHand - _cleanupWindowlessSessions - Deleted Session '6e559840-e487-11e6-b392-c77a6db16cf6', because windowless
+[INFO  - 2017-01-27T12:01:27.011Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:06:27.002Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:11:26.994Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:16:26.985Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:21:26.970Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:26:26.958Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:31:26.967Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:32:29.366Z] GhostDriver - Main - running on port 27611
+[INFO  - 2017-01-27T12:32:29.803Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T12:32:29.803Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T12:32:29.803Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T12:32:29.803Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: ab112240-e48c-11e6-993e-8fe4e5ea7bf5
+[ERROR - 2017-01-27T12:32:39.445Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:32:39.446Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:32:39.447Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:32:39.447Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:32:39.454Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:32:39.454Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:32:39.455Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:32:39.455Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:32:46.191Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:32:46.192Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:32:46.193Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:32:46.193Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:32:46.193Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:32:46.194Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:33:00.012Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:33:00.013Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:33:00.013Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:33:00.014Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:33:00.018Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:33:00.018Z] Session [ab112240-e48c-11e6-993e-8fe4e5ea7bf5] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T12:36:26.935Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:37:29.777Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:37:29.777Z] SessionManagerReqHand - _cleanupWindowlessSessions - Deleted Session 'ab112240-e48c-11e6-993e-8fe4e5ea7bf5', because windowless
+[INFO  - 2017-01-27T12:38:49.685Z] GhostDriver - Main - running on port 18937
+[INFO  - 2017-01-27T12:38:50.050Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T12:38:50.050Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T12:38:50.050Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T12:38:50.050Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e
+[ERROR - 2017-01-27T12:38:57.132Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:38:57.133Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:38:57.133Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:38:57.133Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:38:57.133Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:38:57.133Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:38:57.133Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:38:57.134Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:39:04.136Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:39:04.136Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:39:04.137Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:39:04.137Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:39:04.137Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:39:04.137Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:39:14.805Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:39:14.805Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:39:14.806Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:39:14.806Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:39:14.811Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:39:14.811Z] Session [8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T12:41:26.922Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:43:49.762Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:43:49.762Z] SessionManagerReqHand - _cleanupWindowlessSessions - Deleted Session '8db6ade0-e48d-11e6-b4e8-a5816a8c8a2e', because windowless
+[INFO  - 2017-01-27T12:46:26.909Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:51:26.897Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:51:42.951Z] GhostDriver - Main - running on port 21005
+[INFO  - 2017-01-27T12:51:43.320Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T12:51:43.320Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T12:51:43.320Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T12:51:43.320Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 5a9e5140-e48f-11e6-8771-97af544ebc8f
+[ERROR - 2017-01-27T12:51:48.903Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:51:48.904Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:51:48.904Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:51:48.904Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:51:48.904Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:51:48.904Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:51:48.904Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:51:48.904Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:52:01.671Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:52:01.672Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:52:01.675Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:52:01.675Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:52:01.675Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:52:01.675Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:52:09.970Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:52:09.970Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:52:09.973Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:52:09.973Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T12:52:09.973Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T12:52:09.973Z] Session [5a9e5140-e48f-11e6-8771-97af544ebc8f] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[INFO  - 2017-01-27T12:56:26.886Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:56:42.938Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T12:56:42.938Z] SessionManagerReqHand - _cleanupWindowlessSessions - Deleted Session '5a9e5140-e48f-11e6-8771-97af544ebc8f', because windowless
+[INFO  - 2017-01-27T13:01:26.872Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T13:06:26.860Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2017-01-27T13:06:51.826Z] GhostDriver - Main - running on port 47980
+[INFO  - 2017-01-27T13:06:52.207Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":false,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-01-27T13:06:52.207Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.customHeaders:  - {}
+[INFO  - 2017-01-27T13:06:52.207Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-01-27T13:06:52.207Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 785b77b0-e491-11e6-abb4-f57b44d39e73
+[ERROR - 2017-01-27T13:07:10.670Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:10.671Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T13:07:10.671Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:10.671Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T13:07:10.674Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:10.674Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T13:07:10.674Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:10.674Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T13:07:16.410Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:16.410Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T13:07:16.410Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:16.410Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T13:07:16.411Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:16.411Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/timing.js:1)
+  m (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/timing.js:1)
+  Qa (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/timing.js:1)
+[ERROR - 2017-01-27T13:07:16.415Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:16.415Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T13:07:22.191Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:22.192Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T13:07:22.192Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:22.192Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+[ERROR - 2017-01-27T13:07:22.197Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - msg: TypeError: undefined is not an object (evaluating 'Array.prototype')
+[ERROR - 2017-01-27T13:07:22.197Z] Session [785b77b0-e491-11e6-abb4-f57b44d39e73] - page.onError - stack:
+  (anonymous function) (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  disable (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)
+  Lb (https://tpc.googlesyndication.com/pagead/js/r20170123/r20110914/activeview/osd_listener.js:1)

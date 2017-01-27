@@ -1,19 +1,19 @@
-package com.airent.service.provider.totook;
+//package com.airent.service.provider.totook;
 
-import com.airent.model.Advert;
-import com.airent.model.User;
-import com.airent.service.LocationService;
-import com.airent.service.PhotoService;
-import com.airent.service.provider.RawAdvert;
-import com.airent.service.provider.http.JSoupTorConnector;
-import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Ignore;
-import org.junit.Test;
-
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+//import com.airent.model.Advert;
+//import com.airent.model.User;
+//import com.airent.service.LocationService;
+//import com.airent.service.PhotoService;
+//import com.airent.service.provider.RawAdvert;
+//import com.airent.service.provider.http.JSoupTorConnector;
+//import org.apache.commons.lang3.tuple.Pair;
+//import org.junit.Ignore;
+//import org.junit.Test;
+//
+//import java.util.List;
+//
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertNotNull;
 
 //@Ignore
 //public class TotookProviderTest {

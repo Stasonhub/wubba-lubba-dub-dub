@@ -134,6 +134,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
         parsedAdvert.setPublicationTimestamp(parsedAdvertHeader.getPublicationTimestamp());
         parsedAdvert.setBedrooms(1);
+        parsedAdvert.setBeds(1);
         parsedAdvert.setAddress(getAddress());
         parsedAdvert.setRooms(getRooms());
         parsedAdvert.setFloor(getFloor());

@@ -26,8 +26,8 @@
     });
 
     ymaps.ready(function () {
-        var latitude = $('#geo-data').attr('latitude').text();
-        var longitude = $('#geo-data').attr('longitude').text()
+        var latitude = $('#geo-data').attr('latitude');
+        var longitude = $('#geo-data').attr('longitude')
 
         var map = new ymaps.Map("adv-detail-map", {
             center: [latitude, longitude],

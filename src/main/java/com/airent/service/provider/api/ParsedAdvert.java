@@ -6,6 +6,7 @@ public class ParsedAdvert {
 
     private long publicationTimestamp;
     private Integer bedrooms;
+    private Integer beds;
     private Integer rooms;
     private Integer sq;
     private Integer floor;
@@ -37,6 +38,15 @@ public class ParsedAdvert {
 
     public ParsedAdvert setBedrooms(Integer bedrooms) {
         this.bedrooms = bedrooms;
+        return this;
+    }
+
+    public Integer getBeds() {
+        return beds;
+    }
+
+    public ParsedAdvert setBeds(Integer beds) {
+        this.beds = beds;
         return this;
     }
 
