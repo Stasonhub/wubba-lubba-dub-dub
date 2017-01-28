@@ -25,7 +25,7 @@ public class AvitoPhoneParser implements AutoCloseable {
 
     @PostConstruct
     public void init() throws IOException {
-        ClassPathResource classPathResource = new ClassPathResource("/tesseract/tessdata/eng.traineddata");
+        ClassPathResource classPathResource = new ClassPathResource("tesseract/tessdata/eng.traineddata");
 
         byte[] tessTrainedData = IOUtils.toByteArray(classPathResource.getInputStream());
         File tmpTrainedDataFile = new File("/tmp/tesseract/tessdata/eng.traineddata");

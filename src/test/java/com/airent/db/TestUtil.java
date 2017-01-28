@@ -5,7 +5,7 @@ import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.District;
 import com.airent.model.User;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +40,6 @@ public class TestUtil {
         advert.setDescription("Bla bla bla");
 
         advertMapper.createAdvert(advert);
-        return new Pair<>(advert, user);
+        return Pair.of(advert, user);
     }
 }
