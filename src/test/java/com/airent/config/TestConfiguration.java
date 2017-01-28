@@ -3,6 +3,7 @@ package com.airent.config;
 import org.springframework.context.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
 
 @Configuration
 @Import(TestDbConfig.class)

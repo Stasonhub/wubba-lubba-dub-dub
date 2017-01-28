@@ -37,6 +37,9 @@ public class LocationService {
     private String loadDistrictGeoData(District district) {
         try {
             ClassPathResource classPathResource = new ClassPathResource("districts/geodata/" + district.name() + ".json");
+            System.out.println("CLASSPATH RESOURCE PATH IS: " + classPathResource.getPath());
+            System.out.println("CLASSPATH RESOURCE PATH EXISTS: " + classPathResource.exists());
+            System.out.println("CLASSPATH RESOURCE PATH CLSLOADER: " + classPathResource.getClassLoader());
             return IOUtils.toString(classPathResource.getInputStream(), "UTF-8");
         } catch (IOException e) {
             throw new RuntimeException(e);

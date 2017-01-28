@@ -49,7 +49,7 @@ dependencies {
     compile "org.flywaydb:flyway-core:4.0.3"
 
     // --- parsing ---
-    compile 'io.github.bonigarcia:webdrivermanager:1.5.1'
+    compile 'io.github.bonigarcia:webdrivermanager:1.5.0'
     compile 'org.seleniumhq.selenium:selenium-support:3.0.1'
     compile "com.codeborne:phantomjsdriver:1.2.1"
     compile 'com.squareup.okhttp3:okhttp:3.4.2'
