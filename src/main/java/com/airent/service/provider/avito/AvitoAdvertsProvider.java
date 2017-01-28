@@ -5,10 +5,7 @@ import com.airent.service.provider.api.ParsedAdvert;
 import com.airent.service.provider.api.ParsedAdvertHeader;
 import io.github.bonigarcia.wdm.PhantomJsDriverManager;
 import org.apache.commons.lang3.tuple.Pair;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -79,18 +76,23 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         return "AVT";
     }
 
+
+    @Override
+    public int getMaxItemsToScan() {
+        return maxItemsToScan;
+    }
+
     @Override
     public Iterator<ParsedAdvertHeader> getHeaders() {
         // open adverts page and remember position on page
         return new Iterator<ParsedAdvertHeader>() {
 
             private int pageNumber = 0;
-            private int nextItemIndex;
             private Iterator<ParsedAdvertHeader> currentPageHeaders;
 
             @Override
             public boolean hasNext() {
-                return nextItemIndex < maxItemsToScan && pageNumber < MAX_PAGES;
+                return pageNumber < MAX_PAGES;
             }
 
             @Override
@@ -118,8 +120,6 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                             }).collect(Collectors.toList()).iterator();
                     pageNumber++;
                 }
-
-                nextItemIndex++;
 
                 return currentPageHeaders.next();
             }
@@ -260,14 +260,18 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     }
 
     private List<String> getPhotos() {
-        List<WebElement> photos = driver.findElement(By.className("item-view-gallery"))
-                .findElements(By.className("gallery-list-item-link"));
+        try {
+            List<WebElement> photos = driver.findElement(By.className("item-view-gallery"))
+                    .findElements(By.className("gallery-list-item-link"));
 
-        return photos.stream()
-                .map(photo -> getImageUrl(photo.getAttribute("style")))
-                .map(photo -> photo.replace("80x60", "640x480"))
-                .map(v -> "http://" + v)
-                .collect(Collectors.toList());
+            return photos.stream()
+                    .map(photo -> getImageUrl(photo.getAttribute("style")))
+                    .map(photo -> photo.replace("80x60", "640x480"))
+                    .map(v -> "http://" + v)
+                    .collect(Collectors.toList());
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
 
     String getImageUrl(String fullImageUrl) {

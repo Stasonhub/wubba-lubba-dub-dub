@@ -10,4 +10,6 @@ public interface AdvertsProvider {
 
     ParsedAdvert getAdvert(ParsedAdvertHeader parsedAdvertHeader);
 
+    int getMaxItemsToScan();
+
 }

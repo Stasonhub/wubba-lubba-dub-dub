@@ -7,6 +7,7 @@ import org.bytedeco.javacpp.lept;
 import org.bytedeco.javacpp.tesseract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -24,8 +25,9 @@ public class AvitoPhoneParser implements AutoCloseable {
 
     @PostConstruct
     public void init() throws IOException {
-        byte[] tessTrainedData =
-                IOUtils.toByteArray(getClass().getResourceAsStream("/tesseract/tessdata/eng.traineddata"));
+        ClassPathResource classPathResource = new ClassPathResource("/tesseract/tessdata/eng.traineddata");
+
+        byte[] tessTrainedData = IOUtils.toByteArray(classPathResource.getInputStream());
         File tmpTrainedDataFile = new File("/tmp/tesseract/tessdata/eng.traineddata");
         FileUtils.forceMkdirParent(tmpTrainedDataFile);
         FileUtils.writeByteArrayToFile(tmpTrainedDataFile, tessTrainedData);

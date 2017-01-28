@@ -88,7 +88,8 @@ public class AdvertImportService {
 
         Long firstAdvertTs = null;
         Iterator<ParsedAdvertHeader> adverts = advertsProvider.getHeaders();
-        while (adverts.hasNext()) {
+        int maxItemsToScan = advertsProvider.getMaxItemsToScan();
+        for (int i = 0; i < maxItemsToScan && adverts.hasNext(); adverts.next()) {
             ParsedAdvertHeader advertHeader = adverts.next();
             if (advertHeader.getPublicationTimestamp() <= (lastImportTime + 60_000)) {
                 break;
@@ -100,6 +101,7 @@ public class AdvertImportService {
                 ParsedAdvert advert = advertsProvider.getAdvert(advertHeader);
                 if (checkAdvert(advert)) {
                     persistAdvert(advertsProvider, advert);
+                    i++;
                 }
             } catch (Exception e) {
                 logger.warn("Failed to process advert {}", advertHeader, e);

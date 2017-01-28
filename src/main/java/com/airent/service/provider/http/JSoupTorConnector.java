@@ -74,7 +74,7 @@ public class JSoupTorConnector implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        torClient.stop();
+       // torClient.stop();
     }
 
 

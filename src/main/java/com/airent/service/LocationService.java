@@ -8,6 +8,7 @@ import com.vividsolutions.jts.geom.Point;
 import org.apache.commons.io.IOUtils;
 import org.geotools.geojson.geom.GeometryJSON;
 import org.geotools.geometry.jts.JTSFactoryFinder;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -35,7 +36,8 @@ public class LocationService {
 
     private String loadDistrictGeoData(District district) {
         try {
-            return IOUtils.toString(LocationService.class.getResourceAsStream("/districts/geodata/" + district.name() + ".json"), "UTF-8");
+            ClassPathResource classPathResource = new ClassPathResource("/districts/geodata/" + district.name() + ".json");
+            return IOUtils.toString(classPathResource.getInputStream(), "UTF-8");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
