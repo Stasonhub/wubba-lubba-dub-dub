@@ -81,3 +81,8 @@ configurations {
     all*.exclude group: 'junit', module: 'junit'
 }
 
+task downloadDependencies(type: Exec) {
+    configurations.testRuntime.files
+    commandLine 'echo', 'Downloaded all dependencies'
+}
+
