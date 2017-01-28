@@ -1,0 +1,2 @@
+ALTER TABLE advert
+  ALTER COLUMN description TYPE VARCHAR(15000);

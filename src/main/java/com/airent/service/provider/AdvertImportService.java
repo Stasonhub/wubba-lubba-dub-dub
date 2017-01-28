@@ -125,7 +125,7 @@ public class AdvertImportService {
         } else if (checkAndWarn(() -> parsedAdvert.getPrice() == null,
                 () -> logger.warn("Price is empty for advert {}", parsedAdvert))) {
             return false;
-        } else if (checkAndWarn(() -> parsedAdvert.getPhotos().isEmpty(),
+        } else if (checkAndWarn(() -> parsedAdvert.getPhotos() == null || parsedAdvert.getPhotos().isEmpty(),
                 () -> logger.warn("Photos is empty for advert {}", parsedAdvert))) {
             return false;
         }
