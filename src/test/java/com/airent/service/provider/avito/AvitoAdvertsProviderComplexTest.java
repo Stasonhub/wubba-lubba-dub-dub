@@ -17,7 +17,6 @@ import java.util.List;
 import static com.airent.db.TestUtil.filterTestAdverts;
 import static org.testng.Assert.*;
 
-@Test(groups = "integration")
 @OyoSpringTest
 public class AvitoAdvertsProviderComplexTest extends AbstractTestNGSpringContextTests {
 
@@ -33,7 +32,7 @@ public class AvitoAdvertsProviderComplexTest extends AbstractTestNGSpringContext
     @Autowired
     private UserMapper userMapper;
 
-    @Test
+    @Test(timeOut = 120_000)
     public void getAdverts() throws Exception {
         assertTrue(avitoProviderMaxItems == 1);
 

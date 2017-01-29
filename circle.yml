@@ -6,7 +6,7 @@ dependencies:
     - ./gradlew downloadDependencies
 test:
   override:
-    - ./gradlew integrationTest
+    - ./gradlew test
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/reports/
     - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/reports/ \;

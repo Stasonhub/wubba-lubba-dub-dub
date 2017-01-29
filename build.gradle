@@ -87,17 +87,15 @@ task downloadDependencies(type: Exec) {
 }
 
 test {
-    useTestNG() {
-        includeGroups 'unit'
-    }
-    
-    minHeapSize = "64m"
-    maxHeapSize = "256m"
-}
+    useTestNG()
 
-task integrationTest(type: Test, dependsOn: 'test') {
-    useTestNG() {
-        includeGroups 'integration'
+    testLogging {
+        events "started", "skipped", "failed", "passed"
+        exceptionFormat "short"
+
+        // remove standard output/error logging from --info builds
+        // by assigning only 'failed' and 'skipped' events
+        info.events = ["failed", "skipped"]
     }
 
     minHeapSize = "64m"
