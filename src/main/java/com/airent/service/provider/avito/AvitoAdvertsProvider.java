@@ -179,7 +179,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 .click();
 
         try {
-            new WebDriverWait(driver, 20)
+            new WebDriverWait(driver, 50)
                     .until(ExpectedConditions.presenceOfElementLocated(
                             By.cssSelector(".item-phone-big-number img")));
         } catch (TimeoutException e) {
