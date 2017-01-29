@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -36,7 +35,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(.*//([a-zA-Z0-9/.]*)[\"]*\\).*");
 
-    private WebDriver driver;
+    private volatile WebDriver driver;
     private AvitoDateFormatter avitoDateFormatter;
     private AvitoPhoneParser avitoPhoneParser;
     private int maxItemsToScan;
@@ -49,25 +48,29 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         this.maxItemsToScan = maxItemsToScan;
     }
 
-    @PostConstruct
     public void init() {
-        PhantomJsDriverManager.getInstance().setup("2.1.1");
+        if (null == driver) {
+            synchronized (driver) {
+                PhantomJsDriverManager.getInstance().setup("2.1.1");
 
-        DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
-        capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[]{"--load-images=no"});
+                DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
+                capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[]{"--load-images=no"});
 
-        PhantomJSDriver driver = new PhantomJSDriver(capabilities);
-        driver.executePhantomJS("this.onResourceRequested = function(requestData, networkRequest) {\n" +
-                "  var match = requestData.url.match(/^http[s]*:\\/\\/[www]*[/.]*avito/g);\n" +
-                "  if (match == null) {\n" +
-                "    networkRequest.cancel(); \n" +
-                "  }\n" +
-                "};");
-        this.driver = driver;
+                PhantomJSDriver driver = new PhantomJSDriver(capabilities);
+                driver.executePhantomJS("this.onResourceRequested = function(requestData, networkRequest) {\n" +
+                        "  var match = requestData.url.match(/^http[s]*:\\/\\/[www]*[/.]*avito/g);\n" +
+                        "  if (match == null) {\n" +
+                        "    networkRequest.cancel(); \n" +
+                        "  }\n" +
+                        "};");
+                this.driver = driver;
+            }
+        }
     }
 
     @Override
     public void close() throws Exception {
+        init();
         driver.close();
     }
 
@@ -84,6 +87,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     @Override
     public Iterator<ParsedAdvertHeader> getHeaders() {
+        init();
         // open adverts page and remember position on page
         return new Iterator<ParsedAdvertHeader>() {
 
@@ -128,6 +132,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     @Override
     public ParsedAdvert getAdvert(ParsedAdvertHeader parsedAdvertHeader) {
+        init();
+
         openPageAndPhone(parsedAdvertHeader.getAdvertUrl());
 
         ParsedAdvert parsedAdvert = new ParsedAdvert();
