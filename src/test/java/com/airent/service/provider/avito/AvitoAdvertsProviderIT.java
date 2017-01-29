@@ -32,9 +32,9 @@ public class AvitoAdvertsProviderIT extends AbstractTestNGSpringContextTests {
     @Autowired
     private UserMapper userMapper;
 
-    @Test(enabled = false)
+    @Test
     public void getAdverts() throws Exception {
-        assertTrue(avitoProviderMaxItems == 2);
+        assertTrue(avitoProviderMaxItems == 1);
 
         advertImportService.runImport("AVT");
 

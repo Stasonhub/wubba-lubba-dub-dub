@@ -100,8 +100,9 @@ public class AdvertImportService {
             try {
                 ParsedAdvert advert = advertsProvider.getAdvert(advertHeader);
                 if (checkAdvert(advert)) {
-                    persistAdvert(advertsProvider, advert);
-                    i++;
+                    if (persistAdvert(advertsProvider, advert)) {
+                        i++;
+                    }
                 }
             } catch (Exception e) {
                 logger.warn("Failed to process advert {}", advertHeader, e);
@@ -132,7 +133,7 @@ public class AdvertImportService {
         return true;
     }
 
-    private void persistAdvert(AdvertsProvider advertsProvider, ParsedAdvert parsedAdvert) throws IOException {
+    private boolean persistAdvert(AdvertsProvider advertsProvider, ParsedAdvert parsedAdvert) throws IOException {
         List<Photo> photos = photoContentService.savePhotos(advertsProvider.getType(), parsedAdvert);
 
         Advert matchingAdvert = findMatchingAdvert(photos);
@@ -141,7 +142,7 @@ public class AdvertImportService {
         if (matchingAdvert != null) {
             /* full duplicate */
             if (matchingUser != null) {
-                return;
+                return false;
             }
 
             // found new user for the same advert
@@ -153,7 +154,7 @@ public class AdvertImportService {
             user.setName(parsedAdvert.getUserName());
             userMapper.createUser(user);
             advertMapper.bindToUser(matchingAdvert.getId(), user.getId());
-            return;
+            return false;
         }
 
         Advert advert = new Advert();
@@ -194,6 +195,8 @@ public class AdvertImportService {
             photo.setAdvertId(advert.getId());
             photoMapper.createPhoto(photo);
         }
+
+        return true;
     }
 
     private Advert findMatchingAdvert(List<Photo> photos) {

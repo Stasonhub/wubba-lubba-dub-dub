@@ -50,7 +50,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     public void init() {
         if (null == driver) {
-            synchronized (driver) {
+            synchronized (WebDriver.class) {
                 PhantomJsDriverManager.getInstance().setup("2.1.1");
 
                 DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
@@ -106,6 +106,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 }
 
                 if (currentPageHeaders == null || !currentPageHeaders.hasNext()) {
+                    long startTime = System.currentTimeMillis();
+
                     // open next page
                     if (pageNumber == 0) {
                         driver.get(MAIN_PAGE_URL);
@@ -122,6 +124,9 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                                         header.findElement(By.className("date")).getAttribute("innerText")));
                                 return parsedAdvertHeader;
                             }).collect(Collectors.toList()).iterator();
+
+                    logger.info("Spend time for headers page opening {} : {} s", pageNumber, System.currentTimeMillis() - startTime);
+
                     pageNumber++;
                 }
 
@@ -132,6 +137,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     @Override
     public ParsedAdvert getAdvert(ParsedAdvertHeader parsedAdvertHeader) {
+        long startTime = System.currentTimeMillis();
+
         init();
 
         openPageAndPhone(parsedAdvertHeader.getAdvertUrl());
@@ -156,6 +163,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         parsedAdvert.setTrustRate(getTrustRate());
 
         parsedAdvert.setPhotos(getPhotos());
+
+        logger.info("Spend time for opening advert {} : {} s", parsedAdvertHeader.getAdvertUrl(), System.currentTimeMillis() - startTime);
 
         return parsedAdvert;
     }

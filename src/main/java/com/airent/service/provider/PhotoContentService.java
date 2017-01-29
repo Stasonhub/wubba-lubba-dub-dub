@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PhotoContentService {
@@ -26,12 +27,15 @@ public class PhotoContentService {
 
     private PhotoService photoService;
     private String storagePath;
+    private boolean testMode;
 
     @Autowired
     public PhotoContentService(PhotoService photoService,
-                               @Value("${external.storage.path}") String storagePath) {
+                               @Value("${external.storage.path}") String storagePath,
+                               @Value("${external.storage.test.mode}") boolean testMode) {
         this.photoService = photoService;
         this.storagePath = storagePath;
+        this.testMode = testMode;
     }
 
     public List<Photo> savePhotos(String type, ParsedAdvert parsedAdvert) throws IOException {
@@ -50,16 +54,12 @@ public class PhotoContentService {
 
         byte[] image = loadImage(imageUrl);
 
-        BufferedImage bufferedImage =
-                removeAvitoSign(ImageIO.read(new ByteArrayInputStream(image)));
-        try (FileOutputStream out = new FileOutputStream(new java.io.File(path))) {
-            ImageIO.write(bufferedImage, "jpeg", out);
-        }
+        long hash = writeImageContent(path, image);
 
         Photo photo = new Photo();
         photo.setPath(MvcConfig.STORAGE_FILES_PREFIX + File.separator + type + File.separator + photosPath + File.separator + index + ".jpg");
         photo.setMain(index == 0);
-        photo.setHash(photoService.calculateHash(bufferedImage));
+        photo.setHash(hash);
         return photo;
     }
 
@@ -70,6 +70,19 @@ public class PhotoContentService {
                 .execute();
 
         return response.bodyAsBytes();
+    }
+
+    private long writeImageContent(String path, byte[] image) throws IOException {
+        if (testMode) {
+            return UUID.randomUUID().getLeastSignificantBits();
+        }
+
+        BufferedImage bufferedImage =
+                removeAvitoSign(ImageIO.read(new ByteArrayInputStream(image)));
+        try (FileOutputStream out = new FileOutputStream(new java.io.File(path))) {
+            ImageIO.write(bufferedImage, "jpeg", out);
+        }
+        return photoService.calculateHash(bufferedImage);
     }
 
     private BufferedImage removeAvitoSign(BufferedImage originalImage) {
