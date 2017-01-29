@@ -2,7 +2,7 @@ machine:
   java:
     version: oraclejdk8
 dependencies:
- pre:
+  pre:
     - sudo apt-get update; sudo apt-get install libicu52 libfreetype6 libfontconfig
   override:
     - ./gradlew downloadDependencies
