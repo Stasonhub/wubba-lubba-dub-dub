@@ -5,7 +5,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 
 @OyoSpringTest
-public class ApplicationBasicIT extends AbstractTestNGSpringContextTests {
+public class ApplicationBasicTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void contextLoads() {

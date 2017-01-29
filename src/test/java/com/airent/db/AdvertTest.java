@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import static org.testng.Assert.*;
 
 @OyoSpringTest
-public class AdvertIT extends AbstractTestNGSpringContextTests {
+public class AdvertTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private UserMapper userMapper;

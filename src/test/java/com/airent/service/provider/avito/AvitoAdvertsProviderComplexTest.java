@@ -17,8 +17,9 @@ import java.util.List;
 import static com.airent.db.TestUtil.filterTestAdverts;
 import static org.testng.Assert.*;
 
+@Test(groups = "integration")
 @OyoSpringTest
-public class AvitoAdvertsProviderIT extends AbstractTestNGSpringContextTests {
+public class AvitoAdvertsProviderComplexTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private AdvertImportService advertImportService;

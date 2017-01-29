@@ -18,7 +18,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
 @OyoSpringTest
-public class PhotoIT extends AbstractTestNGSpringContextTests {
+public class PhotoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private UserMapper userMapper;

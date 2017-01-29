@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 @OyoSpringTest
-public class LocationServiceIT extends AbstractTestNGSpringContextTests {
+public class LocationServiceTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private LocationService locationService;

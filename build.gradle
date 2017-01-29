@@ -87,21 +87,21 @@ task downloadDependencies(type: Exec) {
 }
 
 test {
-    useTestNG()
-
-    // set heap size for the test JVM(s)
+    useTestNG() {
+        includeGroups 'unit'
+    }
+    
     minHeapSize = "64m"
     maxHeapSize = "256m"
+}
 
-    // listen to events in the test execution lifecycle
-    beforeTest { descriptor ->
-        logger.lifecycle("Running test: " + descriptor)
+task integrationTest(type: Test, dependsOn: 'test') {
+    useTestNG() {
+        includeGroups 'integration'
     }
 
-    // listen to standard out and standard error of the test JVM(s)
-    onOutput { descriptor, event ->
-        logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
-    }
+    minHeapSize = "64m"
+    maxHeapSize = "256m"
 }
 
 
