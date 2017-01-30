@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -171,10 +172,9 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     private void openPageAndPhone(String advertUrl) {
         driver.get(advertUrl);
-
-        new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(
-                        By.className("item-phone-number")))
+        
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        driver.findElement(By.className("item-phone-number"))
                 .findElement(By.tagName("button"))
                 .click();
 
