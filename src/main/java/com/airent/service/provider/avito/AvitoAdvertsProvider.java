@@ -138,8 +138,6 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     @Override
     public ParsedAdvert getAdvert(ParsedAdvertHeader parsedAdvertHeader) {
-        long startTime = System.currentTimeMillis();
-
         init();
 
         openPageAndPhone(parsedAdvertHeader.getAdvertUrl());
@@ -165,13 +163,18 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
         parsedAdvert.setPhotos(getPhotos());
 
-        logger.info("Spend time for opening advert {} : {} s", parsedAdvertHeader.getAdvertUrl(), System.currentTimeMillis() - startTime);
-
         return parsedAdvert;
     }
 
     private void openPageAndPhone(String advertUrl) {
+        long startTime = System.currentTimeMillis();
+
         driver.get(advertUrl);
+
+        logger.info("Spend time for opening advert {} : {} s", advertUrl, System.currentTimeMillis() - startTime);
+
+
+        long phoneStartTime = System.currentTimeMillis();
 
         // click on phone button
         WebElement phoneButton = driver.findElement(By.className("item-phone-number"))
@@ -181,7 +184,6 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 .click()
                 .perform();
 
-
         try {
             new WebDriverWait(driver, 50)
                     .until(ExpectedConditions.presenceOfElementLocated(
@@ -190,6 +192,9 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
             String bodyText = driver.findElement(By.tagName("body")).getAttribute("innerHTML");
             logger.error("Failed to find element on page {}: {} ", e.getMessage(), bodyText, e);
         }
+
+        logger.info("Spend time for phone opening of advert {} : {} s", advertUrl, System.currentTimeMillis() - phoneStartTime);
+
 
     }
 
