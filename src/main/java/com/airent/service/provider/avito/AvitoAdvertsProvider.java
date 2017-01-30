@@ -172,8 +172,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     private void openPageAndPhone(String advertUrl) {
         driver.get(advertUrl);
-        
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.findElement(By.className("item-phone-number"))
                 .findElement(By.tagName("button"))
                 .click();
@@ -184,7 +184,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                             By.cssSelector(".item-phone-big-number img")));
         } catch (TimeoutException e) {
             String bodyText = driver.findElement(By.tagName("body")).getAttribute("innerHTML");
-            logger.error("Failed to find element on page {} ", bodyText, e);
+            logger.error("Failed to find element on page {}: {} ", e.getMessage(), bodyText, e);
         }
 
     }
