@@ -6,7 +6,6 @@ import com.airent.service.provider.api.ParsedAdvertHeader;
 import io.github.bonigarcia.wdm.PhantomJsDriverManager;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -64,6 +63,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                         "    networkRequest.cancel(); \n" +
                         "  }\n" +
                         "};");
+
+                logger.info("Browser original window size is {}", driver.manage().window().getSize());
                 this.driver = driver;
             }
         }
@@ -126,7 +127,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                                 return parsedAdvertHeader;
                             }).collect(Collectors.toList()).iterator();
 
-                    logger.info("Spend time for headers page opening {} : {} s", pageNumber, System.currentTimeMillis() - startTime);
+                    logger.info("Spend time for headers page opening {} : {} ms", pageNumber, System.currentTimeMillis() - startTime);
 
                     pageNumber++;
                 }
@@ -171,7 +172,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
         driver.get(advertUrl);
 
-        logger.info("Spend time for opening advert {} : {} s", advertUrl, System.currentTimeMillis() - startTime);
+        logger.info("Spend time for opening advert {} : {} ms", advertUrl, System.currentTimeMillis() - startTime);
 
 
         long phoneStartTime = System.currentTimeMillis();
@@ -179,10 +180,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         // click on phone button
         WebElement phoneButton = driver.findElement(By.className("item-phone-number"))
                 .findElement(By.tagName("button"));
-        new Actions(driver)
-                .moveToElement(phoneButton)
-                .click()
-                .perform();
+        phoneButton.sendKeys("");
+        phoneButton.click();
 
         try {
             new WebDriverWait(driver, 50)
@@ -193,9 +192,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
             logger.error("Failed to find element on page {}: {} ", e.getMessage(), bodyText, e);
         }
 
-        logger.info("Spend time for phone opening of advert {} : {} s", advertUrl, System.currentTimeMillis() - phoneStartTime);
-
-
+        logger.info("Spend time for phone opening of advert {} : {} ms", advertUrl, System.currentTimeMillis() - phoneStartTime);
     }
 
     private String getAddress() {
