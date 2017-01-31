@@ -4,7 +4,6 @@ import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.ParsedAdvert;
 import com.airent.service.provider.api.ParsedAdvertHeader;
 import io.github.bonigarcia.wdm.PhantomJsDriverManager;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.*;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -17,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -181,10 +179,13 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         long phoneStartTime = System.currentTimeMillis();
 
         // click on phone button
-        WebElement phoneButton = driver.findElement(By.className("item-phone-number"))
-                .findElement(By.tagName("button"));
-        phoneButton.sendKeys("");
-        phoneButton.click();
+//        WebElement phoneButton = driver.findElement(By.className("item-phone-number"))
+//                .findElement(By.tagName("button"));
+//        phoneButton.sendKeys("");
+//        phoneButton.click();
+
+        // click by js
+        ((JavascriptExecutor) driver).executeScript("$('.js-item-phone-button').click()");
 
         try {
             new WebDriverWait(driver, 50)
