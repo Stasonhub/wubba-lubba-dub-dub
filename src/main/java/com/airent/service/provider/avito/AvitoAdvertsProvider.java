@@ -4,6 +4,7 @@ import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.ParsedAdvert;
 import com.airent.service.provider.api.ParsedAdvertHeader;
 import io.github.bonigarcia.wdm.PhantomJsDriverManager;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.*;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -61,7 +63,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                         "  var match = requestData.url.match(/^http[s]*:\\/\\/[www]*[/.]*avito/g);\n" +
                         "  if (match == null) {\n" +
                         "    networkRequest.cancel(); \n" +
-                        "  }\n" +
+                        "  }" +
+                        "   console.log('PhantomJS. Loaded: ' + requestData['url']);\n" +
                         "};");
 
                 logger.info("Browser original window size is {}", driver.manage().window().getSize());
@@ -174,12 +177,6 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
         logger.info("Spend time for opening advert {} : {} ms", advertUrl, System.currentTimeMillis() - startTime);
 
-
-        try {
-            Thread.sleep(70_000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         long phoneStartTime = System.currentTimeMillis();
 
