@@ -179,13 +179,12 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         long phoneStartTime = System.currentTimeMillis();
 
         // click on phone button
-//        WebElement phoneButton = driver.findElement(By.className("item-phone-number"))
-//                .findElement(By.tagName("button"));
-//        phoneButton.sendKeys("");
-//        phoneButton.click();
+        WebElement phoneButton = driver.findElement(By.className("item-phone-number"))
+                .findElement(By.tagName("button"));
+        phoneButton.click();
 
         // click by js
-        ((JavascriptExecutor) driver).executeScript("$('.js-item-phone-button').click()");
+        //((JavascriptExecutor)driver).executeScript("$('.js-item-phone-button').click()");
 
         try {
             new WebDriverWait(driver, 50)
