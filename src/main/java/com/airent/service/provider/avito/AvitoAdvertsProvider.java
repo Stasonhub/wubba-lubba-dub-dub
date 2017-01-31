@@ -175,6 +175,12 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         logger.info("Spend time for opening advert {} : {} ms", advertUrl, System.currentTimeMillis() - startTime);
 
 
+        try {
+            Thread.sleep(70_000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         long phoneStartTime = System.currentTimeMillis();
 
         // click on phone button

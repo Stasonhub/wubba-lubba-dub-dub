@@ -99,7 +99,7 @@ test {
     }
 
     minHeapSize = "64m"
-    maxHeapSize = "256m"
+    maxHeapSize = "128m"
 }
 
 
