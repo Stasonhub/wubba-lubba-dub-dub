@@ -18,6 +18,7 @@ export dockerPassword=$2
 
 ### -- Step 1 -- ###
 sudo -E su
+set -e
 
 pgContainerName=postgres-oyouin
 pgImageName=postgres:9.4
@@ -61,6 +62,7 @@ docker run --name ${appContainerName} \
          -e LOG_DIR=/logs \
          -v ${appStaticImagePath}:/photos \
          -v ${appLogPath}:/logs \
+         -v /tmp/.m2:/root/.m2 \
          -d \
          ${appImageName}
 
