@@ -1,6 +1,6 @@
 machine:
   hosts:
-    oyouin.prod: $PROD_IP
+    oyouin.prod: 78.46.62.19
   java:
     version: oraclejdk8
   services:
