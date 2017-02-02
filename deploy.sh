@@ -6,10 +6,10 @@
 
 # Continuous deployment script (use ansible instead?)
 # Runs step by step:
-#  - 1. Get root access/configure/login into docker
+#  - 1. Get root access/configure
 #  - 2. Deploy/start postgres image
 #  - 3. Configures backup
-#  - 4. Stop app image
+#  - 4. Pull/Stop app image
 #  - 5. Deploy/Start app image
 #  - 6. Report about statuses
 
@@ -30,15 +30,15 @@ appImageName=oyouin/main
 appStaticImagePath=/data/photos
 appLogPath=/data/logs
 
-echo "Login to docker hub as ${dockerUser}."
-docker login -u ${dockerUser} -p ${dockerPassword}
+# Disabled docker login
+#echo "Login to docker hub as ${dockerUser}."
+#docker login -u ${dockerUser} -p ${dockerPassword}
 
 ### -- Step 2 -- ###
 if ! docker ps | grep -q ${pgImageName}
 then
   echo "Run docker postgres image"
   docker run --name ${pgContainerName} \
-           -p 4466:5432 \
            -e POSTGRES_PASSWORD=AQGnthVu73AjBfBF \
            -v ${pgDataPath}:/var/lib/postgresql/data \
            -d \
@@ -48,6 +48,7 @@ fi
 ### -- Step 3 -- ###
 
 ### -- Step 4 -- ###
+docker pull  ${appImageName}
 if docker ps -a | grep -q ${appContainerName}
 then
   echo "Stop & remove app container"
@@ -58,11 +59,13 @@ fi
 ### -- Step 5 -- ###
 echo "Run app container"
 docker run --name ${appContainerName} \
+         --link ${pgContainerName} \
          -p 3212:8080 \
-         -e LOG_DIR=/logs \
          -v ${appStaticImagePath}:/photos \
          -v ${appLogPath}:/logs \
          -v /tmp/.m2:/root/.m2 \
+         -e LOG_DIR=/logs \
+         -e airent.db.url=jdbc:postgresql://postgres-oyouin:5432/postgres \
          -d \
          ${appImageName}
 
