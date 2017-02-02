@@ -1,14 +1,29 @@
 machine:
   java:
     version: oraclejdk8
+  services:
+   - docker
+
 dependencies:
   pre:
     - sudo apt-get update; sudo apt-get install libicu52 libfreetype6 libfontconfig
   override:
     - ./gradlew downloadDependencies
+    - docker info
+    - docker pull java:openjdk-8
+
 test:
   override:
     - ./gradlew test
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/reports/
     - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/reports/ \;
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker build --rm=false -t oyouin/main .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push oyouin/main
+      - ssh circleci@78.46.62.19 'bash -s' < deploy.sh
