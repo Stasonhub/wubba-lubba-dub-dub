@@ -1,4 +1,6 @@
 machine:
+  hosts:
+    oyouin.prod: 78.46.62.19
   java:
     version: oraclejdk8
   services:
@@ -20,10 +22,11 @@ test:
     - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/reports/ \;
 
 deployment:
-  hub:
+  production:
     branch: master
     commands:
+      - ./gradlew build -x test
       - docker build --rm=false -t oyouin/main .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push oyouin/main
-      - ssh circleci@78.46.62.19 'bash -s' < deploy.sh
+      - ssh circleci@oyouin.prod 'bash -s' < deploy.sh
