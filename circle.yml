@@ -27,6 +27,6 @@ deployment:
     commands:
       - ./gradlew build -x test
       - docker build --rm=false -t oyouin/main .
-      - docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push oyouin/main
       - ssh circleci@oyouin.prod 'bash -s $DOCKER_USER $DOCKER_PASS' < deploy.sh
