@@ -29,4 +29,4 @@ deployment:
       - docker build --rm=false -t oyouin/main .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push oyouin/main
-      - ssh -t -t circleci@oyouin.prod 'bash -s $DOCKER_USER $DOCKER_PASS' < deploy.sh
+      - ssh circleci@oyouin.prod 'bash -s $DOCKER_USER $DOCKER_PASS' < deploy.sh
