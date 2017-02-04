@@ -3,13 +3,7 @@ package com.airent.service.provider.common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.image.BufferedImage;
-
 public class Util {
-
-
-    public static final String USER_AGENT =
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.100 Safari/537.36";
 
     private static Logger logger = LoggerFactory.getLogger(Util.class);
 

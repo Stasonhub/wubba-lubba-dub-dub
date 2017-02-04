@@ -4,6 +4,7 @@ import com.airent.config.MvcConfig;
 import com.airent.model.Photo;
 import com.airent.service.PhotoService;
 import com.airent.service.provider.api.ParsedAdvert;
+import com.airent.service.provider.proxy.ProxyServer;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,17 @@ public class PhotoContentService {
 
     private static final int SIGN_HEIGHT = 40;
 
+    private ProxyServer proxyServer;
     private PhotoService photoService;
     private String storagePath;
     private boolean testMode;
 
     @Autowired
-    public PhotoContentService(PhotoService photoService,
+    public PhotoContentService(ProxyServer proxyServer,
+                               PhotoService photoService,
                                @Value("${external.storage.path}") String storagePath,
                                @Value("${external.storage.test.mode}") boolean testMode) {
+        this.proxyServer = proxyServer;
         this.photoService = photoService;
         this.storagePath = storagePath;
         this.testMode = testMode;
@@ -65,6 +69,7 @@ public class PhotoContentService {
 
     private byte[] loadImage(String imageUrl) throws IOException {
         Connection.Response response = Jsoup.connect(imageUrl)
+                .proxy(proxyServer.getProxy())
                 .ignoreContentType(true)
                 .header("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
                 .execute();

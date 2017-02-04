@@ -3,6 +3,7 @@ package com.airent.service.provider.avito;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.ParsedAdvert;
 import com.airent.service.provider.api.ParsedAdvertHeader;
+import com.airent.service.provider.proxy.ProxyServer;
 import io.github.bonigarcia.wdm.PhantomJsDriverManager;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.*;
@@ -36,13 +37,16 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(.*//([a-zA-Z0-9/.]*)[\"]*\\).*");
 
     private volatile WebDriver driver;
+    private ProxyServer proxyServer;
     private AvitoDateFormatter avitoDateFormatter;
     private AvitoPhoneParser avitoPhoneParser;
     private int maxItemsToScan;
 
-    public AvitoAdvertsProvider(AvitoDateFormatter avitoDateFormatter,
+    public AvitoAdvertsProvider(ProxyServer proxyServer,
+                                AvitoDateFormatter avitoDateFormatter,
                                 AvitoPhoneParser avitoPhoneParser,
                                 @Value("${avito.provider.max.items}") int maxItemsToScan) {
+        this.proxyServer = proxyServer;
         this.avitoDateFormatter = avitoDateFormatter;
         this.avitoPhoneParser = avitoPhoneParser;
         this.maxItemsToScan = maxItemsToScan;
@@ -51,22 +55,26 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     public void init() {
         if (null == driver) {
             synchronized (WebDriver.class) {
-                PhantomJsDriverManager.getInstance().setup("2.1.1");
+                if (null == driver) {
+                    PhantomJsDriverManager.getInstance().setup("2.1.1");
 
-                DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
-                capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[]{"--load-images=no"});
+                    DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
+                    capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
+                            new String[]{"--load-images=no",
+                                    "--proxy=" + proxyServer.getProxy().address().toString(),
+                                    "--proxy-type=socks5"});
 
-                PhantomJSDriver driver = new PhantomJSDriver(capabilities);
-                driver.executePhantomJS("this.onResourceRequested = function(requestData, networkRequest) {\n" +
-                        "  var match = requestData.url.match(/^http[s]*:\\/\\/[www]*[/.]*avito/g);\n" +
-                        "  if (match == null) {\n" +
-                        "    networkRequest.cancel(); \n" +
-                        "  }" +
-                        "   console.log('PhantomJS. Loaded: ' + requestData['url']);\n" +
-                        "};");
+                    PhantomJSDriver driver = new PhantomJSDriver(capabilities);
+                    driver.executePhantomJS("this.onResourceRequested = function(requestData, networkRequest) {\n" +
+                            "  var match = requestData.url.match(/^http[s]*:\\/\\/[www]*[/.]*avito/g);\n" +
+                            "  if (match == null) {\n" +
+                            "    networkRequest.cancel(); \n" +
+                            "  }" +
+                            "};");
 
-                logger.info("Browser original window size is {}", driver.manage().window().getSize());
-                this.driver = driver;
+                    logger.info("Browser original window size is {}", driver.manage().window().getSize());
+                    this.driver = driver;
+                }
             }
         }
     }
@@ -131,6 +139,11 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                     logger.info("Spend time for headers page opening {} : {} ms", pageNumber, System.currentTimeMillis() - startTime);
 
                     pageNumber++;
+                }
+
+                if (!currentPageHeaders.hasNext()) {
+                    String bodyText = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
+                    logger.error("Iterator has no next element. Page is {}", bodyText);
                 }
 
                 return currentPageHeaders.next();
