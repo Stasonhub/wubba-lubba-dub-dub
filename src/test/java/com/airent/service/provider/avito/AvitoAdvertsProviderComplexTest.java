@@ -32,7 +32,7 @@ public class AvitoAdvertsProviderComplexTest extends AbstractTestNGSpringContext
     @Autowired
     private UserMapper userMapper;
 
-    @Test(timeOut = 180_000, enabled = true)
+    @Test(timeOut = 180_000, enabled = false)
     public void getAdverts() throws Exception {
         assertTrue(avitoProviderMaxItems == 1);
 
