@@ -52,7 +52,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
         this.maxItemsToScan = maxItemsToScan;
     }
 
-    public void init() {
+    public WebDriver initDriver() {
         if (null == driver) {
             synchronized (WebDriver.class) {
                 if (null == driver) {
@@ -61,8 +61,9 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                     DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
                     capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
                             new String[]{"--load-images=no",
-                                    "--proxy=" + proxyServer.getProxy().address().toString(),
-                                    "--proxy-type=socks5"});
+                                    "--proxy=" + proxyServer.getAddress(),
+                                    "--proxy-type=socks5",
+                                    "--proxy-auth=" + proxyServer.getAuthentication()});
 
                     PhantomJSDriver driver = new PhantomJSDriver(capabilities);
                     driver.executePhantomJS("this.onResourceRequested = function(requestData, networkRequest) {\n" +
@@ -74,14 +75,16 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
                     logger.info("Browser original window size is {}", driver.manage().window().getSize());
                     this.driver = driver;
+                    return driver;
                 }
             }
         }
+        return driver;
     }
 
     @Override
     public void close() throws Exception {
-        init();
+        initDriver();
         driver.close();
     }
 
@@ -98,7 +101,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     @Override
     public Iterator<ParsedAdvertHeader> getHeaders() {
-        init();
+        initDriver();
         // open adverts page and remember position on page
         return new Iterator<ParsedAdvertHeader>() {
 
@@ -153,7 +156,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     @Override
     public ParsedAdvert getAdvert(ParsedAdvertHeader parsedAdvertHeader) {
-        init();
+        initDriver();
 
         openPageAndPhone(parsedAdvertHeader.getAdvertUrl());
 

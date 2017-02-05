@@ -34,7 +34,7 @@ public class AvitoPhoneParser implements AutoCloseable {
 
         api = new tesseract.TessBaseAPI();
         if (api.Init(new BytePointer("/tmp/tesseract"), new BytePointer("eng")) != 0) {
-            throw new IllegalStateException("Couldn't init tesseract");
+            throw new IllegalStateException("Couldn't initDriver tesseract");
         }
         api.SetVariable("tessedit_char_whitelist", "0123456789-");
     }
