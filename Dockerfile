@@ -1,4 +1,9 @@
-FROM java:openjdk-8
+FROM openjdk:8
+
+RUN \
+  apt-get install libfreetype6 libfreetype6-dev && \
+  apt-get install libfontconfig1 libfontconfig1-dev
+
 VOLUME /tmp
 ADD build/libs/airent-0.0.1-SNAPSHOT.jar app.jar
 RUN sh -c 'touch /app.jar'
