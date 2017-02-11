@@ -5,6 +5,9 @@ RUN \
   apt-get install -y --no-install-recommends libfreetype6 libfreetype6-dev && \
   apt-get install -y --no-install-recommends libfontconfig1 libfontconfig1-dev
 
+RUN \
+  apt-get install -y --no-install-recommends libc6
+
 VOLUME /tmp
 ADD build/libs/airent-0.0.1-SNAPSHOT.jar app.jar
 RUN sh -c 'touch /app.jar'
