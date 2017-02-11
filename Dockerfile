@@ -1,8 +1,9 @@
 FROM openjdk:8
 
 RUN \
-  apt-get install libfreetype6 libfreetype6-dev && \
-  apt-get install libfontconfig1 libfontconfig1-dev
+  apt-get update && \
+  apt-get install -y --no-install-recommends libfreetype6 libfreetype6-dev && \
+  apt-get install -y --no-install-recommends libfontconfig1 libfontconfig1-dev
 
 VOLUME /tmp
 ADD build/libs/airent-0.0.1-SNAPSHOT.jar app.jar

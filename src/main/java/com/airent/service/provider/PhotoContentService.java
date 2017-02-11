@@ -4,9 +4,8 @@ import com.airent.config.MvcConfig;
 import com.airent.model.Photo;
 import com.airent.service.PhotoService;
 import com.airent.service.provider.api.ParsedAdvert;
-import com.airent.service.provider.proxy.ProxyServer;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
+import com.airent.service.provider.connection.OkHttpClient;
+import okhttp3.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,17 +25,17 @@ public class PhotoContentService {
 
     private static final int SIGN_HEIGHT = 40;
 
-    private ProxyServer proxyServer;
+    private OkHttpClient okHttpClient;
     private PhotoService photoService;
     private String storagePath;
     private boolean testMode;
 
     @Autowired
-    public PhotoContentService(ProxyServer proxyServer,
+    public PhotoContentService(OkHttpClient okHttpClient,
                                PhotoService photoService,
                                @Value("${external.storage.path}") String storagePath,
                                @Value("${external.storage.test.mode}") boolean testMode) {
-        this.proxyServer = proxyServer;
+        this.okHttpClient = okHttpClient;
         this.photoService = photoService;
         this.storagePath = storagePath;
         this.testMode = testMode;
@@ -68,13 +67,13 @@ public class PhotoContentService {
     }
 
     private byte[] loadImage(String imageUrl) throws IOException {
-        Connection.Response response = Jsoup.connect(imageUrl)
-                .proxy(proxyServer.getProxy())
-                .ignoreContentType(true)
+        Request request = new Request.Builder()
+                .url(imageUrl)
                 .header("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
-                .execute();
-
-        return response.bodyAsBytes();
+                .addHeader("Content-Type", "application/json")
+                .build();
+        return okHttpClient.get().newCall(request).execute()
+                .body().bytes();
     }
 
     private long writeImageContent(String path, byte[] image) throws IOException {

@@ -1,10 +1,11 @@
-package com.airent.service.provider.proxy;
+package com.airent.complex.proxy;
 
 import com.airent.config.OyoSpringTest;
-import com.airent.service.provider.avito.AvitoAdvertsProvider;
-import org.jsoup.Jsoup;
+import com.airent.service.provider.connection.OkHttpClient;
+import com.airent.service.provider.connection.ProxyServer;
+import com.airent.service.provider.connection.WebDriver;
+import okhttp3.Request;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 
 @OyoSpringTest
+@Test(groups = "complex")
 public class ProxyServerTest extends AbstractTestNGSpringContextTests {
 
     private Logger logger = LoggerFactory.getLogger(ProxyServerTest.class);
@@ -22,40 +24,45 @@ public class ProxyServerTest extends AbstractTestNGSpringContextTests {
     private ProxyServer proxyServer;
 
     @Autowired
-    private AvitoAdvertsProvider avitoAdvertsProvider;
+    private OkHttpClient okHttpClient;
+
+    @Autowired
+    private WebDriver webDriver;
 
     private String checkerSite = "https://api.ipify.org?format=json";
 
     @Test
     public void proxyServerTest() throws IOException {
-        String proxiedIpJson = Jsoup.connect(checkerSite)
-                .ignoreContentType(true)
-                .proxy(proxyServer.getProxy())
-                .execute()
-                .body();
+        String proxiedIpJson = okHttpClient.get().newCall(
+                new Request.Builder()
+                        .url(checkerSite)
+                        .get()
+                        .build()
+        ).execute().body().string();
         compareToOriginalIp(proxiedIpJson);
     }
 
     @Test
     public void wedDriverProxyTest() throws IOException {
-        WebDriver driver = avitoAdvertsProvider.initDriver();
-
         String checkerSite = "https://api.ipify.org?format=json";
-        driver.get(checkerSite);
+        webDriver.get().get(checkerSite);
 
-        String ipString = driver.findElement(By.tagName("pre")).getText();
+        String ipString = webDriver.get().findElement(By.tagName("pre")).getText();
         compareToOriginalIp(ipString);
     }
 
     private void compareToOriginalIp(String ipString) throws IOException {
-        String originalIpJson = Jsoup.connect(checkerSite)
-                .ignoreContentType(true)
-                .execute()
-                .body();
+        String originalIpJson = new okhttp3.OkHttpClient.Builder().build().newCall(
+                new Request.Builder()
+                        .url(checkerSite)
+                        .get()
+                        .build()
+        ).execute().body().string();
+
         logger.info("Original ip {}, proxied ip {}", originalIpJson, ipString);
 
         if (originalIpJson.equals(ipString)) {
-            throw new IllegalArgumentException("Proxy method " + proxyServer.getProxy().toString() + " is not working");
+            throw new IllegalArgumentException("Proxy method " + proxyServer.getAddress() + " is not working");
         }
     }
 

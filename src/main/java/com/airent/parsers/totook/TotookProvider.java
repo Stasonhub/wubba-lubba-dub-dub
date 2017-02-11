@@ -1,4 +1,4 @@
-package com.airent.service.provider.totook;
+package com.airent.parsers.totook;
 //
 //import com.airent.config.MvcConfig;
 //import com.airent.model.Advert;

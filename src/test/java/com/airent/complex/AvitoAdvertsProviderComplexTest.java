@@ -1,4 +1,4 @@
-package com.airent.service.provider.avito;
+package com.airent.complex;
 
 import com.airent.config.OyoSpringTest;
 import com.airent.mapper.AdvertMapper;
@@ -18,6 +18,7 @@ import static com.airent.db.TestUtil.filterTestAdverts;
 import static org.testng.Assert.*;
 
 @OyoSpringTest
+@Test(groups = "complex")
 public class AvitoAdvertsProviderComplexTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
@@ -32,7 +33,7 @@ public class AvitoAdvertsProviderComplexTest extends AbstractTestNGSpringContext
     @Autowired
     private UserMapper userMapper;
 
-    @Test(timeOut = 180_000, enabled = false)
+    @Test(timeOut = 90_000)
     public void getAdverts() throws Exception {
         assertTrue(avitoProviderMaxItems == 1);
 

@@ -1,34 +1,28 @@
-package com.airent.service.provider.proxy;
+package com.airent.service.provider.connection;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.net.Authenticator;
 import java.net.InetSocketAddress;
-import java.net.PasswordAuthentication;
 import java.net.Proxy;
 
 @Service
 public class ProxyServer {
 
-    private Proxy proxy;
     private String address;
-    private String authentication;
+    private String userName;
+    private String password;
+
+    private Proxy proxy;
 
     public ProxyServer(@Value("${proxy.host}") String proxyHost,
                        @Value("${proxy.port}") int proxyPort,
                        @Value("${proxy.username}") String userName,
                        @Value("${proxy.password}") String password) {
         this.address = proxyHost + ":" + proxyPort;
-        this.authentication = userName + ":" + password;
-        Authenticator.setDefault(new Authenticator() {
-            public PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(
-                        userName, password.toCharArray()
-                );
-            }
-        });
-        this.proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxyHost, proxyPort));
+        this.userName = userName;
+        this.password = password;
+        this.proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
     }
 
     public Proxy getProxy() {
@@ -40,6 +34,14 @@ public class ProxyServer {
     }
 
     public String getAuthentication() {
-        return authentication;
+        return userName + ":" + password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

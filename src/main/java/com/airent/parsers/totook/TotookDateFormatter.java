@@ -1,4 +1,4 @@
-package com.airent.service.provider.totook;
+package com.airent.parsers.totook;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

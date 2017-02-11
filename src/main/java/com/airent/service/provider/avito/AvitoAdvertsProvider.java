@@ -3,13 +3,9 @@ package com.airent.service.provider.avito;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.ParsedAdvert;
 import com.airent.service.provider.api.ParsedAdvertHeader;
-import com.airent.service.provider.proxy.ProxyServer;
-import io.github.bonigarcia.wdm.PhantomJsDriverManager;
+import com.airent.service.provider.connection.WebDriver;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.*;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -26,7 +22,7 @@ import java.util.stream.Collectors;
 import static com.airent.service.provider.common.Util.getNumberInsideOf;
 
 @Service
-public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
+public class AvitoAdvertsProvider implements AdvertsProvider {
 
     private Logger logger = LoggerFactory.getLogger(AvitoAdvertsProvider.class);
 
@@ -36,56 +32,19 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     private Pattern imageUrlPattern = Pattern.compile(".*background-image:[ ]*url[ ]*\\(.*//([a-zA-Z0-9/.]*)[\"]*\\).*");
 
-    private volatile WebDriver driver;
-    private ProxyServer proxyServer;
+    private WebDriver webDriver;
     private AvitoDateFormatter avitoDateFormatter;
     private AvitoPhoneParser avitoPhoneParser;
     private int maxItemsToScan;
 
-    public AvitoAdvertsProvider(ProxyServer proxyServer,
+    public AvitoAdvertsProvider(WebDriver webDriver,
                                 AvitoDateFormatter avitoDateFormatter,
                                 AvitoPhoneParser avitoPhoneParser,
                                 @Value("${avito.provider.max.items}") int maxItemsToScan) {
-        this.proxyServer = proxyServer;
+        this.webDriver = webDriver;
         this.avitoDateFormatter = avitoDateFormatter;
         this.avitoPhoneParser = avitoPhoneParser;
         this.maxItemsToScan = maxItemsToScan;
-    }
-
-    public WebDriver initDriver() {
-        if (null == driver) {
-            synchronized (WebDriver.class) {
-                if (null == driver) {
-                    PhantomJsDriverManager.getInstance().setup("2.1.1");
-
-                    DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
-                    capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
-                            new String[]{"--load-images=no",
-                                    "--proxy=" + proxyServer.getAddress(),
-                                    "--proxy-type=socks5",
-                                    "--proxy-auth=" + proxyServer.getAuthentication()});
-
-                    PhantomJSDriver driver = new PhantomJSDriver(capabilities);
-                    driver.executePhantomJS("this.onResourceRequested = function(requestData, networkRequest) {\n" +
-                            "  var match = requestData.url.match(/^http[s]*:\\/\\/[www]*[/.]*avito/g);\n" +
-                            "  if (match == null) {\n" +
-                            "    networkRequest.cancel(); \n" +
-                            "  }" +
-                            "};");
-
-                    logger.info("Browser original window size is {}", driver.manage().window().getSize());
-                    this.driver = driver;
-                    return driver;
-                }
-            }
-        }
-        return driver;
-    }
-
-    @Override
-    public void close() throws Exception {
-        initDriver();
-        driver.close();
     }
 
     @Override
@@ -101,7 +60,6 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     @Override
     public Iterator<ParsedAdvertHeader> getHeaders() {
-        initDriver();
         // open adverts page and remember position on page
         return new Iterator<ParsedAdvertHeader>() {
 
@@ -124,11 +82,11 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
                     // open next page
                     if (pageNumber == 0) {
-                        driver.get(MAIN_PAGE_URL);
+                        webDriver.get().get(MAIN_PAGE_URL);
                     } else {
-                        driver.get(MAIN_PAGE_URL + PAGE_INDEX_SUFFIX + pageNumber);
+                        webDriver.get().get(MAIN_PAGE_URL + PAGE_INDEX_SUFFIX + pageNumber);
                     }
-                    currentPageHeaders = driver
+                    currentPageHeaders = webDriver.get()
                             .findElements(By.className("item")).stream()
                             .map(header -> {
                                 ParsedAdvertHeader parsedAdvertHeader = new ParsedAdvertHeader();
@@ -145,7 +103,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
                 }
 
                 if (!currentPageHeaders.hasNext()) {
-                    String bodyText = driver.findElement(By.tagName("html")).getAttribute("innerHTML");
+                    String bodyText = webDriver.get().findElement(By.tagName("html")).getAttribute("innerHTML");
                     logger.error("Iterator has no next element. Page is {}", bodyText);
                 }
 
@@ -156,8 +114,6 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     @Override
     public ParsedAdvert getAdvert(ParsedAdvertHeader parsedAdvertHeader) {
-        initDriver();
-
         openPageAndPhone(parsedAdvertHeader.getAdvertUrl());
 
         ParsedAdvert parsedAdvert = new ParsedAdvert();
@@ -187,34 +143,37 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     private void openPageAndPhone(String advertUrl) {
         long startTime = System.currentTimeMillis();
 
-        driver.get(advertUrl);
+        // delete all cookies to emulate new user
+        webDriver.get().manage().deleteAllCookies();
+
+        webDriver.get().get(advertUrl);
 
         logger.info("Spend time for opening advert {} : {} ms", advertUrl, System.currentTimeMillis() - startTime);
 
-
         long phoneStartTime = System.currentTimeMillis();
 
-        // click on phone button
-        WebElement phoneButton = driver.findElement(By.className("item-phone-number"))
-                .findElement(By.tagName("button"));
-        phoneButton.click();
-
-        // click by js
-        //((JavascriptExecutor)driver).executeScript("$('.js-item-phone-button').click()");
-
         try {
-            new WebDriverWait(driver, 50)
-                    .until(ExpectedConditions.presenceOfElementLocated(
-                            By.cssSelector(".item-phone-big-number img")));
-        } catch (TimeoutException e) {
+            Thread.sleep(3_000);
+
+            ((JavascriptExecutor) webDriver.get())
+                    .executeScript("$(\".js-item-phone-button\").click()");
+
+            // find
+            new WebDriverWait(webDriver.get(), 50)
+                    .until(ExpectedConditions.presenceOfNestedElementLocatedBy(
+                            By.className("item-phone-big-number"),
+                            By.tagName("img")));
+        } catch (WebDriverException e) {
             logger.error("Failed to find element on page", e);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         logger.info("Spend time for phone opening of advert {} : {} ms", advertUrl, System.currentTimeMillis() - phoneStartTime);
     }
 
     private String getAddress() {
-        return driver
+        return webDriver.get()
                 .findElement(By.className("item-view-main"))
                 .findElement(By.cssSelector(".item-map-address [itemprop=streetAddress]"))
                 .getAttribute("innerText")
@@ -222,21 +181,21 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     }
 
     private long getPhone() {
-        String phoneVal = driver
+        String phoneVal = webDriver.get()
                 .findElement(By.cssSelector(".item-phone-big-number img"))
                 .getAttribute("src");
         return avitoPhoneParser.parseNumbersFromImage(phoneVal);
     }
 
     private Integer getPrice() {
-        return getNumberInsideOf(driver
+        return getNumberInsideOf(webDriver.get()
                 .findElement(By.className("item-price"))
                 .findElement(By.className("price-value-string"))
                 .getAttribute("innerText"));
     }
 
     private Integer getRooms() {
-        List<WebElement> itemParams = driver
+        List<WebElement> itemParams = webDriver.get()
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
@@ -244,7 +203,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     }
 
     private Integer getFloor() {
-        List<WebElement> itemParams = driver
+        List<WebElement> itemParams = webDriver.get()
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
@@ -252,7 +211,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     }
 
     private Integer getMaxFloor() {
-        List<WebElement> itemParams = driver
+        List<WebElement> itemParams = webDriver.get()
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
@@ -260,7 +219,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     }
 
     private Integer getSq() {
-        List<WebElement> itemParams = driver
+        List<WebElement> itemParams = webDriver.get()
                 .findElement(By.className("item-view-main"))
                 .findElement(By.className("item-params"))
                 .findElements(By.className("item-params-list-item"));
@@ -268,13 +227,13 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     }
 
     private String getDescription() {
-        return driver
+        return webDriver.get()
                 .findElement(By.className("item-view-main"))
                 .findElement(By.cssSelector(".item-description-text p")).getAttribute("innerText");
     }
 
     private Pair<Double, Double> getCoordinates() {
-        WebElement searchMap = driver.findElement(By.className("b-search-map"));
+        WebElement searchMap = webDriver.get().findElement(By.className("b-search-map"));
         String latVal = searchMap.getAttribute("data-map-lat");
         String lonVal = searchMap.getAttribute("data-map-lon");
 
@@ -284,12 +243,12 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
     }
 
     private String getUserName() {
-        WebElement contacts = driver.findElement(By.className("item-view-contacts"));
+        WebElement contacts = webDriver.get().findElement(By.className("item-view-contacts"));
         return contacts.findElement(By.className("seller-info-name")).getAttribute("innerText").trim();
     }
 
     private int getTrustRate() {
-        WebElement sellerInfoLabel = driver
+        WebElement sellerInfoLabel = webDriver.get()
                 .findElement(By.className("seller-info"))
                 .findElement(By.className("seller-info-label"));
         if ("агентство".equals(sellerInfoLabel.getAttribute("innerText").trim().toLowerCase())) {
@@ -300,7 +259,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider, AutoCloseable {
 
     private List<String> getPhotos() {
         try {
-            List<WebElement> photos = driver.findElement(By.className("item-view-gallery"))
+            List<WebElement> photos = webDriver.get().findElement(By.className("item-view-gallery"))
                     .findElements(By.className("gallery-list-item-link"));
 
             return photos.stream()
