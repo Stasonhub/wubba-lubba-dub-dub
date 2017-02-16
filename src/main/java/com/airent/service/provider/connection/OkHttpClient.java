@@ -1,10 +1,8 @@
 package com.airent.service.provider.connection;
 
-import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -19,15 +17,6 @@ public class OkHttpClient {
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .proxy(proxyServer.getProxy())
-                .proxyAuthenticator(new Authenticator() {
-                    @Override
-                    public Request authenticate(Route route, Response response) throws IOException {
-                        String credential = Credentials.basic(proxyServer.getUserName(), proxyServer.getPassword());
-                        return response.request().newBuilder()
-                                .header("Proxy-Authorization", credential)
-                                .build();
-                    }
-                })
                 .build();
     }
 

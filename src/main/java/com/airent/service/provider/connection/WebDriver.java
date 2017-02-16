@@ -5,10 +5,10 @@ import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import io.github.bonigarcia.wdm.PhantomJsDriverManager;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class WebDriver implements AutoCloseable {
         if (null == webDriver) {
             synchronized (WebDriver.class) {
                 if (null == webDriver) {
-                    this.webDriver = createPhantomJs();
+                    this.webDriver = createChrome();
                     return webDriver;
                 }
             }
@@ -49,11 +49,11 @@ public class WebDriver implements AutoCloseable {
                 "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 (KHTML, like Gecko) Chrome/15.0.87");
         capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
                 new String[]{
-                        //"--debug=true",
+                        "--debug=true",
                         "--load-images=no",
-                        "--proxy=" + proxyServer.getAddress(),
-                        "--proxy-type=http",
-                        "--proxy-auth=" + proxyServer.getAuthentication()
+//                        "--proxy=" + proxyServer.getAddress(),
+                        "--proxy-type=http"//,
+//                        "--proxy-auth=" + proxyServer.getAuthentication()
                 });
 
         PhantomJSDriver driver = new PhantomJSDriver(capabilities);
@@ -70,12 +70,14 @@ public class WebDriver implements AutoCloseable {
     private org.openqa.selenium.WebDriver createChrome() {
         ChromeDriverManager.getInstance().setup();
 
-        ChromeOptions chromeOptions = new ChromeOptions();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(CapabilityType.PROXY, proxyServer.getSeleniumProxy());
+
 //        chromeOptions.addArguments("--proxy-server=socks5://" + proxyServer.getAddress()
 //                + " --proxy-user-and-password=" + proxyServer.getAuthentication());
-        chromeOptions.addArguments("--headless");
+        //chromeOptions.addArguments("--headless");
 
-        ChromeDriver chromeDriver = new ChromeDriver(chromeOptions);
+        ChromeDriver chromeDriver = new ChromeDriver(capabilities);
         return chromeDriver;
     }
 

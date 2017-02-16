@@ -62,7 +62,7 @@ public class ProxyServerTest extends AbstractTestNGSpringContextTests {
         logger.info("Original ip {}, proxied ip {}", originalIpJson, ipString);
 
         if (originalIpJson.equals(ipString)) {
-            throw new IllegalArgumentException("Proxy method " + proxyServer.getAddress() + " is not working");
+            throw new IllegalArgumentException("Proxy method " + proxyServer.getProxy() + " is not working");
         }
     }
 
