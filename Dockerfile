@@ -6,10 +6,19 @@ RUN \
   apt-get install -y --no-install-recommends libfontconfig1 libfontconfig1-dev
 
 RUN \
-  apt-get install -y --no-install-recommends libc6
+  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list && \
+  apt-get update && \
+  apt-get install -y google-chrome-stable xvfb && \
+  rm -rf /var/lib/apt/lists/*
 
 VOLUME /tmp
 ADD build/libs/airent-0.0.1-SNAPSHOT.jar app.jar
+ADD run_app.sh run_app.sh
+
 RUN sh -c 'touch /app.jar'
+RUN sh -c 'touch /run_app.sh'
+
 ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+
+CMD sh /run_app.sh

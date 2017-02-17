@@ -3,14 +3,18 @@ package com.airent.service.provider.connection;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import io.github.bonigarcia.wdm.PhantomJsDriverManager;
+import org.apache.commons.io.IOUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.internal.Base64Encoder;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,51 +45,30 @@ public class WebDriver implements AutoCloseable {
         return webDriver;
     }
 
-    private org.openqa.selenium.WebDriver createPhantomJs() {
-        PhantomJsDriverManager.getInstance().setup("2.1.1");
-
-        DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
-        capabilities.setCapability("phantomjs.page.settings.userAgent",
-                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 (KHTML, like Gecko) Chrome/15.0.87");
-        capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
-                new String[]{
-                        "--debug=true",
-                        "--load-images=no",
-//                        "--proxy=" + proxyServer.getAddress(),
-                        "--proxy-type=http"//,
-//                        "--proxy-auth=" + proxyServer.getAuthentication()
-                });
-
-        PhantomJSDriver driver = new PhantomJSDriver(capabilities);
-        driver.manage().window().setSize(new Dimension(1920, 1080));
-        driver.executePhantomJS("this.onResourceRequested = function(requestData, networkRequest) {\n" +
-                "  var match = requestData.url.match(/^http[s]*:\\/\\/[www]*[/.]*avito/g);\n" +
-                "  if (match == null) {\n" +
-                "    networkRequest.cancel(); \n" +
-                "  }" +
-                "};");
-        return driver;
-    }
-
     private org.openqa.selenium.WebDriver createChrome() {
-        ChromeDriverManager.getInstance().setup();
+        try {
+            ChromeDriverManager.getInstance().setup();
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(CapabilityType.PROXY, proxyServer.getSeleniumProxy());
+            ClassPathResource classPathResource = new ClassPathResource("chrome/extensions/Block-image_v1.1.crx");
+            String encoded = new Base64Encoder().encode(IOUtils.toByteArray(classPathResource.getInputStream()));
 
-//        chromeOptions.addArguments("--proxy-server=socks5://" + proxyServer.getAddress()
-//                + " --proxy-user-and-password=" + proxyServer.getAuthentication());
-        //chromeOptions.addArguments("--headless");
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addEncodedExtensions(encoded);
+            chromeOptions.addArguments("--start-maximized");
+            chromeOptions.addArguments("--disable-web-security");
+            chromeOptions.addArguments("--allow-running-insecure-content");
+            //chromeOptions.addArguments("--headless"); is not working yet
+            chromeOptions.addArguments("--no-sandbox");
 
-        ChromeDriver chromeDriver = new ChromeDriver(capabilities);
-        return chromeDriver;
-    }
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setCapability(CapabilityType.PROXY, proxyServer.getSeleniumProxy());
+            capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+            capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 
-    private org.openqa.selenium.WebDriver createFirefox() {
-        FirefoxDriverManager.getInstance().setup();
-
-        FirefoxDriver firefoxDriver = new FirefoxDriver(DesiredCapabilities.firefox());
-        return firefoxDriver;
+            return new ChromeDriver(capabilities);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

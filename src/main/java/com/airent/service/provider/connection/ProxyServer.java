@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProxyServer {
@@ -19,6 +21,8 @@ public class ProxyServer {
     private org.openqa.selenium.Proxy seleniumProxy;
     private Proxy proxy;
 
+    private List<String> whitelistPatterns;
+
     public ProxyServer(@Value("${proxy.host}") String proxyHost,
                        @Value("${proxy.port}") int proxyPort,
                        @Value("${proxy.username}") String userName,
@@ -26,6 +30,17 @@ public class ProxyServer {
         browserMobProxy = new BrowserMobProxyServer();
         browserMobProxy.setChainedProxy(new InetSocketAddress(proxyHost, proxyPort));
         browserMobProxy.chainedProxyAuthorization(userName, password, AuthType.BASIC);
+        browserMobProxy.setTrustAllServers(true);
+
+
+        whitelistPatterns = new ArrayList<>();
+        whitelistPatterns.add("^https?://(www)?\\.?avito\\..*");
+        whitelistPatterns.add("^https?://api\\.ipify\\.org.*");
+        browserMobProxy.whitelistRequests(whitelistPatterns, 410);
+    }
+
+    public List<String> getWhitelistPatterns() {
+        return whitelistPatterns;
     }
 
     @PostConstruct

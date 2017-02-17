@@ -1,13 +1,10 @@
 FROM openjdk:8
 
 RUN \
+  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list && \
   apt-get update && \
-  apt-get install -y --no-install-recommends libfreetype6 libfreetype6-dev && \
-  apt-get install -y --no-install-recommends libfontconfig1 libfontconfig1-dev && \
-  apt-get install -y --no-install-recommends libc6
+  apt-get install -y google-chrome-stable xvfb && \
+  rm -rf /var/lib/apt/lists/*
 
-
-RUN \
- apt-get install -y  --no-install-recommends ca-certificates \
-                                             bzip2 \
-                                             libfontconfig
+ENV DISPLAY :99
