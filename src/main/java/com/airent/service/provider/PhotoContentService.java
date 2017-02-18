@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
+import javax.imageio.spi.IIORegistry;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -57,7 +58,7 @@ public class PhotoContentService {
 
         byte[] image = loadImage(imageUrl);
 
-        long hash = writeImageContent(path, image);
+        long hash = writeImageContent(imageUrl, path, image);
 
         Photo photo = new Photo();
         photo.setPath(MvcConfig.STORAGE_FILES_PREFIX + File.separator + type + File.separator + photosPath + File.separator + index + ".jpg");
@@ -76,13 +77,18 @@ public class PhotoContentService {
                 .body().bytes();
     }
 
-    private long writeImageContent(String path, byte[] image) throws IOException {
+    private long writeImageContent(String imageUrl, String path, byte[] image) throws IOException {
         if (testMode) {
             return UUID.randomUUID().getLeastSignificantBits();
         }
 
-        BufferedImage bufferedImage =
-                removeAvitoSign(ImageIO.read(new ByteArrayInputStream(image)));
+        BufferedImage sourceBufferedImage = ImageIO.read(new ByteArrayInputStream(image));
+        if (sourceBufferedImage == null) {
+            throw new IllegalStateException("Failed to get buffered image from input " + imageUrl);
+        }
+
+
+        BufferedImage bufferedImage = removeAvitoSign(sourceBufferedImage);
         try (FileOutputStream out = new FileOutputStream(new java.io.File(path))) {
             ImageIO.write(bufferedImage, "jpeg", out);
         }

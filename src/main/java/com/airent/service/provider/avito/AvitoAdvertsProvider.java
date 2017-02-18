@@ -166,7 +166,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
         } catch (WebDriverException e) {
             logger.error("Failed to find element on page", e);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Interrupted while waiting on advert page", e);
         }
 
         logger.info("Spend time for phone opening of advert {} : {} ms", advertUrl, System.currentTimeMillis() - phoneStartTime);
@@ -243,7 +243,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
     }
 
     private String getUserName() {
-        WebElement contacts = webDriver.get().findElement(By.className("item-view-contacts"));
+        WebElement contacts = new WebDriverWait(webDriver.get(), 30)
+                .until(ExpectedConditions.presenceOfElementLocated(By.className("item-view-contacts")));
         return contacts.findElement(By.className("seller-info-name")).getAttribute("innerText").trim();
     }
 

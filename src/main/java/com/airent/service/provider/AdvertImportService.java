@@ -84,10 +84,13 @@ public class AdvertImportService {
     }
 
     private void runImport(AdvertsProvider advertsProvider) {
+        logger.info("Started import {}", advertsProvider.getType());
+
         long lastImportTime = advertImportMapper.getLastImportTime(advertsProvider.getType());
 
         Long firstAdvertTs = null;
         Iterator<ParsedAdvertHeader> adverts = advertsProvider.getHeaders();
+        logger.info("Got headers for type {}", advertsProvider.getType());
         int maxItemsToScan = advertsProvider.getMaxItemsToScan();
         for (int i = 0; i < maxItemsToScan && adverts.hasNext(); adverts.next()) {
             ParsedAdvertHeader advertHeader = adverts.next();
@@ -99,19 +102,23 @@ public class AdvertImportService {
             }
             try {
                 ParsedAdvert advert = advertsProvider.getAdvert(advertHeader);
+                logger.info("Advert {} for type {}", advert.getPublicationTimestamp(), advertsProvider.getType());
                 if (checkAdvert(advert)) {
-                    if (persistAdvert(advertsProvider, advert)) {
-                        i++;
-                    }
+                    persistAdvert(advertsProvider, advert);
+                } else {
+                    logger.info("Advert {} is not correct, ignored", advert.getPublicationTimestamp(), advertsProvider.getType());
                 }
             } catch (Exception e) {
                 logger.warn("Failed to process advert {}", advertHeader, e);
             }
+
+            i++;
         }
 
 
         // save first advert import time (latest by value)
         if (firstAdvertTs != null) {
+            logger.info("Saving import time {} for {}", firstAdvertTs, advertsProvider.getType());
             advertImportMapper.saveLastImportTime(advertsProvider.getType(), firstAdvertTs);
         }
     }
