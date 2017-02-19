@@ -6,6 +6,7 @@ import com.airent.service.provider.api.ParsedAdvertHeader;
 import com.airent.service.provider.connection.WebDriver;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -160,9 +162,9 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
 
             // find
             new WebDriverWait(webDriver.get(), 50)
-                    .until(ExpectedConditions.presenceOfNestedElementLocatedBy(
+                    .until(cv(ExpectedConditions.presenceOfNestedElementLocatedBy(
                             By.className("item-phone-big-number"),
-                            By.tagName("img")));
+                            By.tagName("img"))));
         } catch (WebDriverException e) {
             logger.error("Failed to find element on page", e);
         } catch (InterruptedException e) {
@@ -244,7 +246,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
 
     private String getUserName() {
         WebElement contacts = new WebDriverWait(webDriver.get(), 30)
-                .until(ExpectedConditions.presenceOfElementLocated(By.className("item-view-contacts")));
+                .until(cv(ExpectedConditions.presenceOfElementLocated(By.className("item-view-contacts"))));
         return contacts.findElement(By.className("seller-info-name")).getAttribute("innerText").trim();
     }
 
@@ -279,6 +281,10 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
             throw new IllegalStateException("Failed to retrieve image from " + fullImageUrl);
         }
         return matcher.group(1);
+    }
+
+    private <T> Function<org.openqa.selenium.WebDriver, T> cv(ExpectedCondition<T> t) {
+        return t::apply;
     }
 
 }
