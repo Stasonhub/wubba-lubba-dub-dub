@@ -237,7 +237,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
     private String getDescription() {
         return webDriver.get()
                 .findElement(By.className("item-view-main"))
-                .findElement(By.className("item-description-html"))
+                .findElement(By.className("item-description-text"))
+                .findElement(By.tagName("p"))
                 .getAttribute("innerText");
     }
 
