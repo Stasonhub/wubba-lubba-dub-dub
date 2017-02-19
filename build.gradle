@@ -86,7 +86,7 @@ task downloadDependencies(type: Exec) {
 
 test {
     useTestNG() {
-        //excludeGroups 'complex'
+        excludeGroups 'complex'
     }
 
     testLogging {
