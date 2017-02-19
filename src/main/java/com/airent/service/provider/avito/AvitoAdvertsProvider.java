@@ -116,7 +116,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
 
     @Override
     public ParsedAdvert getAdvert(ParsedAdvertHeader parsedAdvertHeader) {
-        openPageAndPhone(parsedAdvertHeader.getAdvertUrl());
+        // open adverts page
+        openAdvertPage(parsedAdvertHeader.getAdvertUrl());
 
         ParsedAdvert parsedAdvert = new ParsedAdvert();
 
@@ -134,15 +135,18 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
         parsedAdvert.setPrice(getPrice());
 
         parsedAdvert.setUserName(getUserName());
-        parsedAdvert.setPhone(getPhone());
         parsedAdvert.setTrustRate(getTrustRate());
 
         parsedAdvert.setPhotos(getPhotos());
 
+        // open and parse phone
+        openPhone(parsedAdvertHeader.getAdvertUrl());
+        parsedAdvert.setPhone(getPhone());
+
         return parsedAdvert;
     }
 
-    private void openPageAndPhone(String advertUrl) {
+    private void openAdvertPage(String advertUrl) {
         long startTime = System.currentTimeMillis();
 
         // delete all cookies to emulate new user
@@ -151,7 +155,9 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
         webDriver.get().get(advertUrl);
 
         logger.info("Spend time for opening advert {} : {} ms", advertUrl, System.currentTimeMillis() - startTime);
+    }
 
+    private void openPhone(String advertUrl) {
         long phoneStartTime = System.currentTimeMillis();
 
         try {
@@ -231,7 +237,8 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
     private String getDescription() {
         return webDriver.get()
                 .findElement(By.className("item-view-main"))
-                .findElement(By.cssSelector(".item-description-text p")).getAttribute("innerText");
+                .findElement(By.className("item-description-html"))
+                .getAttribute("innerText");
     }
 
     private Pair<Double, Double> getCoordinates() {
