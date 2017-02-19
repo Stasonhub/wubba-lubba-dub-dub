@@ -5,7 +5,10 @@ import com.airent.service.provider.api.ParsedAdvert;
 import com.airent.service.provider.api.ParsedAdvertHeader;
 import com.airent.service.provider.connection.WebDriver;
 import org.apache.commons.lang3.tuple.Pair;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -116,34 +119,39 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
 
     @Override
     public ParsedAdvert getAdvert(ParsedAdvertHeader parsedAdvertHeader) {
-        // open adverts page
-        openAdvertPage(parsedAdvertHeader.getAdvertUrl());
+        try {
+            // open adverts page
+            openAdvertPage(parsedAdvertHeader.getAdvertUrl());
 
-        ParsedAdvert parsedAdvert = new ParsedAdvert();
+            ParsedAdvert parsedAdvert = new ParsedAdvert();
 
-        parsedAdvert.setPublicationTimestamp(parsedAdvertHeader.getPublicationTimestamp());
-        parsedAdvert.setBedrooms(1);
-        parsedAdvert.setBeds(1);
-        parsedAdvert.setAddress(getAddress());
-        parsedAdvert.setRooms(getRooms());
-        parsedAdvert.setFloor(getFloor());
-        parsedAdvert.setMaxFloor(getMaxFloor());
-        parsedAdvert.setSq(getSq());
-        parsedAdvert.setDescription(getDescription());
-        parsedAdvert.setLatitude(getCoordinates().getLeft());
-        parsedAdvert.setLongitude(getCoordinates().getRight());
-        parsedAdvert.setPrice(getPrice());
+            parsedAdvert.setPublicationTimestamp(parsedAdvertHeader.getPublicationTimestamp());
+            parsedAdvert.setBedrooms(1);
+            parsedAdvert.setBeds(1);
+            parsedAdvert.setAddress(getAddress());
+            parsedAdvert.setRooms(getRooms());
+            parsedAdvert.setFloor(getFloor());
+            parsedAdvert.setMaxFloor(getMaxFloor());
+            parsedAdvert.setSq(getSq());
+            parsedAdvert.setDescription(getDescription());
+            parsedAdvert.setLatitude(getCoordinates().getLeft());
+            parsedAdvert.setLongitude(getCoordinates().getRight());
+            parsedAdvert.setPrice(getPrice());
 
-        parsedAdvert.setUserName(getUserName());
-        parsedAdvert.setTrustRate(getTrustRate());
+            parsedAdvert.setUserName(getUserName());
+            parsedAdvert.setTrustRate(getTrustRate());
 
-        parsedAdvert.setPhotos(getPhotos());
+            parsedAdvert.setPhotos(getPhotos());
 
-        // open and parse phone
-        openPhone(parsedAdvertHeader.getAdvertUrl());
-        parsedAdvert.setPhone(getPhone());
+            // open and parse phone
+            openPhone(parsedAdvertHeader.getAdvertUrl());
+            parsedAdvert.setPhone(getPhone());
 
-        return parsedAdvert;
+            return parsedAdvert;
+        } catch (NoSuchElementException e) {
+            logger.error("Failed to find element {}", webDriver.get().getPageSource());
+            throw e;
+        }
     }
 
     private void openAdvertPage(String advertUrl) {
@@ -162,20 +170,18 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
 
         try {
             Thread.sleep(3_000);
-
-            ((JavascriptExecutor) webDriver.get())
-                    .executeScript("$(\".js-item-phone-button\").click()");
-
-            // find
-            new WebDriverWait(webDriver.get(), 50)
-                    .until(cv(ExpectedConditions.presenceOfNestedElementLocatedBy(
-                            By.className("item-phone-big-number"),
-                            By.tagName("img"))));
-        } catch (WebDriverException e) {
-            logger.error("Failed to find element on page", e);
         } catch (InterruptedException e) {
             logger.error("Interrupted while waiting on advert page", e);
         }
+
+        ((JavascriptExecutor) webDriver.get())
+                .executeScript("$(\".js-item-phone-button\").click()");
+
+        // find
+        new WebDriverWait(webDriver.get(), 50)
+                .until(cv(ExpectedConditions.presenceOfNestedElementLocatedBy(
+                        By.className("item-phone-big-number"),
+                        By.tagName("img"))));
 
         logger.info("Spend time for phone opening of advert {} : {} ms", advertUrl, System.currentTimeMillis() - phoneStartTime);
     }
@@ -253,9 +259,10 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
     }
 
     private String getUserName() {
-        WebElement contacts = new WebDriverWait(webDriver.get(), 30)
-                .until(cv(ExpectedConditions.presenceOfElementLocated(By.className("item-view-contacts"))));
-        return contacts.findElement(By.className("seller-info-name")).getAttribute("innerText").trim();
+        return webDriver.get()
+                .findElement(By.className("item-view-contacts"))
+                .findElement(By.className("seller-info-name"))
+                .getAttribute("innerText").trim();
     }
 
     private int getTrustRate() {
