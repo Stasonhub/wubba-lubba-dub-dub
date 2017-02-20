@@ -6,6 +6,7 @@ import com.airent.service.PhotoService;
 import com.airent.service.provider.api.ParsedAdvert;
 import com.airent.service.provider.connection.OkHttpClient;
 import okhttp3.Request;
+import org.apache.commons.io.output.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,9 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class PhotoContentService {
@@ -75,24 +71,19 @@ public class PhotoContentService {
         Request request = new Request.Builder()
                 .url(imageUrl)
                 .header("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
-                .addHeader("Content-Type", "application/json")
                 .build();
         return okHttpClient.get().newCall(request).execute()
                 .body().bytes();
     }
 
     private long writeImageContent(String imageUrl, String path, byte[] image) throws IOException {
-        if (testMode) {
-            return UUID.randomUUID().getLeastSignificantBits();
-        }
-
         BufferedImage sourceBufferedImage = readImage(image);
         if (sourceBufferedImage == null) {
-            throw new IllegalStateException("Failed to get buffered image from input " + imageUrl);
+            throw new IllegalStateException("Failed to get buffered image from input " + imageUrl + ". Image size (bytes): " + image.length);
         }
 
         BufferedImage bufferedImage = removeAvitoSign(sourceBufferedImage);
-        try (FileOutputStream out = new FileOutputStream(new java.io.File(path))) {
+        try (OutputStream out = testMode ? new NullOutputStream() : new FileOutputStream(new java.io.File(path))) {
             ImageIO.write(bufferedImage, "jpeg", out);
         }
         return photoService.calculateHash(bufferedImage);
@@ -100,7 +91,6 @@ public class PhotoContentService {
 
 
     public BufferedImage readImage(byte[] image) throws IOException {
-        logger.info("Reading image with {} bytes length. First 64 bytes is: {}", image.length, Arrays.copyOf(image, 64));
         return ImageIO.read(new ByteArrayInputStream(image));
     }
 

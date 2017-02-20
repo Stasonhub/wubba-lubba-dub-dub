@@ -40,6 +40,8 @@ public class ProxyServerTest extends AbstractTestNGSpringContextTests {
         List<String> whitelistPatterns = proxyServer.getWhitelistPatterns();
         assertTrue(checkIsInWhitelist(whitelistPatterns, "https://www.avito.st"));
         assertTrue(checkIsInWhitelist(whitelistPatterns, "http://avito.ru/asd/asd"));
+        assertTrue(checkIsInWhitelist(whitelistPatterns, "http://53.img.avito.st/640x480/2834141253.jpg"));
+        assertTrue(checkIsInWhitelist(whitelistPatterns, "http://53.Img.avito.st/640x480/2834141253.jpg"));
         assertTrue(checkIsInWhitelist(whitelistPatterns, checkerSite));
     }
 

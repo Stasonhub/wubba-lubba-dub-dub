@@ -12,6 +12,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ProxyServer {
@@ -28,13 +29,14 @@ public class ProxyServer {
                        @Value("${proxy.username}") String userName,
                        @Value("${proxy.password}") String password) {
         browserMobProxy = new BrowserMobProxyServer();
+        browserMobProxy.setConnectTimeout(90, TimeUnit.SECONDS);
+        browserMobProxy.setRequestTimeout(90, TimeUnit.SECONDS);
         browserMobProxy.setChainedProxy(new InetSocketAddress(proxyHost, proxyPort));
         browserMobProxy.chainedProxyAuthorization(userName, password, AuthType.BASIC);
         browserMobProxy.setTrustAllServers(true);
 
-
         whitelistPatterns = new ArrayList<>();
-        whitelistPatterns.add("^https?://(www)?\\.?avito\\..*");
+        whitelistPatterns.add("^https?://[a-zA-z0-9.]*avito\\..*");
         whitelistPatterns.add("^https?://api\\.ipify\\.org.*");
         browserMobProxy.whitelistRequests(whitelistPatterns, 410);
     }
