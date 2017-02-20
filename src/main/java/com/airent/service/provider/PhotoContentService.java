@@ -6,18 +6,20 @@ import com.airent.service.PhotoService;
 import com.airent.service.provider.api.ParsedAdvert;
 import com.airent.service.provider.connection.OkHttpClient;
 import okhttp3.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
-import javax.imageio.spi.IIORegistry;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +27,8 @@ import java.util.UUID;
 public class PhotoContentService {
 
     private static final int SIGN_HEIGHT = 40;
+
+    private Logger logger = LoggerFactory.getLogger(PhotoContentService.class);
 
     private OkHttpClient okHttpClient;
     private PhotoService photoService;
@@ -82,17 +86,22 @@ public class PhotoContentService {
             return UUID.randomUUID().getLeastSignificantBits();
         }
 
-        BufferedImage sourceBufferedImage = ImageIO.read(new ByteArrayInputStream(image));
+        BufferedImage sourceBufferedImage = readImage(image);
         if (sourceBufferedImage == null) {
             throw new IllegalStateException("Failed to get buffered image from input " + imageUrl);
         }
-
 
         BufferedImage bufferedImage = removeAvitoSign(sourceBufferedImage);
         try (FileOutputStream out = new FileOutputStream(new java.io.File(path))) {
             ImageIO.write(bufferedImage, "jpeg", out);
         }
         return photoService.calculateHash(bufferedImage);
+    }
+
+
+    public BufferedImage readImage(byte[] image) throws IOException {
+        logger.info("Reading image with {} bytes length. First 64 bytes is: {}", image.length, Arrays.copyOf(image, 64));
+        return ImageIO.read(new ByteArrayInputStream(image));
     }
 
     private BufferedImage removeAvitoSign(BufferedImage originalImage) {
