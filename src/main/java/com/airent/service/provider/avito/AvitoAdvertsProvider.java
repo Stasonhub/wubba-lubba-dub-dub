@@ -241,11 +241,19 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
     }
 
     private String getDescription() {
-        return webDriver.get()
-                .findElement(By.className("item-view-main"))
-                .findElement(By.className("item-description-text"))
-                .findElement(By.tagName("p"))
-                .getAttribute("innerText");
+        WebElement itemViewMain = webDriver.get()
+                .findElement(By.className("item-view-main"));
+        try {
+            return itemViewMain
+                    .findElement(By.className("item-description-text"))
+                    .findElement(By.tagName("p"))
+                    .getAttribute("innerText");
+        } catch (Exception e) {
+            return itemViewMain
+                    .findElement(By.className("item-description-html"))
+                    .findElement(By.tagName("p"))
+                    .getAttribute("innerText");
+        }
     }
 
     private Pair<Double, Double> getCoordinates() {
