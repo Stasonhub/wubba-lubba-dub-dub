@@ -102,7 +102,7 @@ public class AdvertImportService {
             }
             try {
                 ParsedAdvert advert = advertsProvider.getAdvert(advertHeader);
-                logger.info("Advert {} for type {}", advert.getPublicationTimestamp(), advertsProvider.getType());
+                logger.info("Checking/persisting advert {} for type {}", advert.getPublicationTimestamp(), advertsProvider.getType());
                 if (checkAdvert(advert)) {
                     persistAdvert(advertsProvider, advert);
                 } else {

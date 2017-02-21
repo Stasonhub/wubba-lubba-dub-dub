@@ -33,14 +33,14 @@ public class AvitoAdvertsProviderComplexTest extends AbstractTestNGSpringContext
     @Autowired
     private UserMapper userMapper;
 
-    @Test(timeOut = 90_000)
+    @Test//(timeOut = 90_000)
     public void getAdverts() throws Exception {
-        assertTrue(avitoProviderMaxItems == 1);
+        assertTrue(avitoProviderMaxItems == 20);
 
         advertImportService.runImport("AVT");
 
         List<Advert> adverts = filterTestAdverts(advertMapper.getNextAdvertsBeforeTime(Long.MAX_VALUE, avitoProviderMaxItems));
-        assertEquals(avitoProviderMaxItems, adverts.size());
+        assertEquals(adverts.size(), avitoProviderMaxItems);
         adverts.forEach(this::checkAdvert);
     }
 

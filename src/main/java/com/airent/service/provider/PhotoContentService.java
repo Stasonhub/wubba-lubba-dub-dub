@@ -17,7 +17,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PhotoContentService {
@@ -45,25 +47,42 @@ public class PhotoContentService {
     public List<Photo> savePhotos(String type, ParsedAdvert parsedAdvert) throws IOException {
         List<Photo> photos = new ArrayList<>();
         String photosPath = String.valueOf(System.currentTimeMillis());
+        Set<Long> hashes = new HashSet<>();
         for (int i = 0; i < parsedAdvert.getPhotos().size(); i++) {
             String imageUrl = parsedAdvert.getPhotos().get(i);
-            photos.add(savePhoto(type, photosPath, i, imageUrl));
+            photos.add(savePhoto(hashes, type, photosPath, i, imageUrl));
         }
         return photos;
     }
 
-    private Photo savePhoto(String type, String photosPath, int index, String imageUrl) throws IOException {
+    private Photo savePhoto(Set<Long> hashes, String type, String photosPath, int index, String imageUrl) throws IOException {
         String path = storagePath + File.separator + type + File.separator + photosPath + File.separator + index + ".jpg";
         new File(path).getParentFile().mkdirs();
 
         byte[] image = loadImage(imageUrl);
 
-        long hash = writeImageContent(imageUrl, path, image);
+        BufferedImage processedImage = processImage(image);
 
+        long currentImageHash = photoService.calculateHash(processedImage);
+
+        if (hashes.contains(currentImageHash)) {
+            logger.warn("Ignoring image {} is duplicate in advert.", imageUrl);
+            return null;
+        }
+
+        // save content
+        try (OutputStream out = testMode ? new NullOutputStream() : new FileOutputStream(new java.io.File(path))) {
+            ImageIO.write(processedImage, "jpeg", out);
+        }
+
+        // create photo
         Photo photo = new Photo();
         photo.setPath(MvcConfig.STORAGE_FILES_PREFIX + File.separator + type + File.separator + photosPath + File.separator + index + ".jpg");
         photo.setMain(index == 0);
-        photo.setHash(hash);
+        photo.setHash(currentImageHash);
+
+        // add to global hashes list
+        hashes.add(currentImageHash);
         return photo;
     }
 
@@ -76,17 +95,12 @@ public class PhotoContentService {
                 .body().bytes();
     }
 
-    private long writeImageContent(String imageUrl, String path, byte[] image) throws IOException {
+    private BufferedImage processImage(byte[] image) throws IOException {
         BufferedImage sourceBufferedImage = readImage(image);
         if (sourceBufferedImage == null) {
-            throw new IllegalStateException("Failed to get buffered image from input " + imageUrl + ". Image size (bytes): " + image.length);
+            throw new IllegalStateException("Failed to get buffered image from input. Image size (bytes): " + image.length);
         }
-
-        BufferedImage bufferedImage = removeAvitoSign(sourceBufferedImage);
-        try (OutputStream out = testMode ? new NullOutputStream() : new FileOutputStream(new java.io.File(path))) {
-            ImageIO.write(bufferedImage, "jpeg", out);
-        }
-        return photoService.calculateHash(bufferedImage);
+        return removeAvitoSign(sourceBufferedImage);
     }
 
 

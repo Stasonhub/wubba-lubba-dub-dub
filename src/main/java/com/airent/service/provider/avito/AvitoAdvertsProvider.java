@@ -151,7 +151,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
 
             return parsedAdvert;
         } catch (NoSuchElementException e) {
-            logger.error("Failed to find element {}", webDriver.get().getPageSource());
+            //logger.error("Failed to find element {}", webDriver.get().getPageSource());
             throw e;
         }
     }
@@ -250,11 +250,18 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
                     .findElement(By.className("item-description-text"))
                     .findElement(By.tagName("p"))
                     .getAttribute("innerText");
-        } catch (Exception e) {
-            return itemViewMain
-                    .findElement(By.className("item-description-html"))
-                    .findElement(By.tagName("p"))
-                    .getAttribute("innerText");
+        } catch (NoSuchElementException e1) {
+            try {
+                return itemViewMain
+                        .findElement(By.className("item-description-html"))
+                        .findElement(By.tagName("p"))
+                        .getAttribute("innerText");
+            } catch (NoSuchElementException e2) {
+                return itemViewMain
+                        .findElement(By.className("item-description-html"))
+                        .getAttribute("innerText");
+            }
+
         }
     }
 
