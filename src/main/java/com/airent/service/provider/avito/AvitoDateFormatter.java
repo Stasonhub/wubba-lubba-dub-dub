@@ -4,34 +4,41 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 @Component
 public class AvitoDateFormatter {
 
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
+    private ZoneId zoneId = ZoneId.of("UTC+03:00");
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy").withZone(zoneId);
 
     public long getTimestamp(String date) {
         return parseDateTime(toStrictFormat(date)).toInstant(ZoneOffset.UTC).toEpochMilli();
     }
 
+    /**
+     * @return time in formatted, zoneId zone
+     */
     String toStrictFormat(String date) {
+        LocalDate now = LocalDate.now(zoneId);
+
         String dateFormatted = date.toLowerCase().trim();
         if (dateFormatted.startsWith("сегодня")) {
-            int dayOfMonth = LocalDate.now().getDayOfMonth();
-            int monthValue = LocalDate.now().getMonthValue();
+            int dayOfMonth = now.getDayOfMonth();
+            int monthValue = now.getMonthValue();
             return String.format("%s %02d.%02d.%d", dateFormatted.split(" ")[1], dayOfMonth, monthValue,
-                    LocalDate.now().getYear());
+                    now.getYear());
         } else if (dateFormatted.startsWith("вчера")) {
-            int dayOfMonth = LocalDate.now().minusDays(1).getDayOfMonth();
-            int monthValue = LocalDate.now().minusDays(1).getMonthValue();
+            int dayOfMonth = now.minusDays(1).getDayOfMonth();
+            int monthValue = now.minusDays(1).getMonthValue();
             return String.format("%s %02d.%02d.%d", dateFormatted.split(" ")[1], dayOfMonth, monthValue,
-                    LocalDate.now().getYear());
+                    now.getYear());
         }
 
         String[] parts = dateFormatted.split(" ");
-        return String.format("%s %02d.%02d.%d", parts[2], Integer.valueOf(parts[0]), replaceMonth(parts[1]), LocalDate.now().getYear());
+        return String.format("%s %02d.%02d.%d", parts[2], Integer.valueOf(parts[0]), replaceMonth(parts[1]), now.getYear());
     }
 
     private int replaceMonth(String monthString) {
@@ -74,6 +81,9 @@ public class AvitoDateFormatter {
         throw new IllegalArgumentException("Unknown month: " + monthString);
     }
 
+    /**
+     * Parses formatted dateTime in zoneId zone
+     */
     LocalDateTime parseDateTime(String dateTimeText) {
         return LocalDateTime.parse(dateTimeText, dateTimeFormatter);
     }
