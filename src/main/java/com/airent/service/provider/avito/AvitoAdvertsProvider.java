@@ -92,7 +92,9 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
                         webDriver.get().get(MAIN_PAGE_URL + PAGE_INDEX_SUFFIX + pageNumber);
                     }
                     currentPageHeaders = webDriver.get()
-                            .findElements(By.className("item")).stream()
+                            .findElement(By.className("js-catalog_after-ads"))
+                            .findElements(By.className("item"))
+                            .stream()
                             .map(header -> {
                                 ParsedAdvertHeader parsedAdvertHeader = new ParsedAdvertHeader();
                                 parsedAdvertHeader.setAdvertUrl(
