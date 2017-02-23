@@ -22,4 +22,9 @@ public class ParsedAdvertHeader {
         this.advertUrl = advertUrl;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return advertUrl + "\\" + publicationTimestamp;
+    }
 }

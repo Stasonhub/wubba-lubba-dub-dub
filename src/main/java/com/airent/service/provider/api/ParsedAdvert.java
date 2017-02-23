@@ -166,4 +166,9 @@ public class ParsedAdvert {
         this.trustRate = trustRate;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return publicationTimestamp + "\\" + address;
+    }
 }

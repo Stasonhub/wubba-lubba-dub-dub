@@ -50,11 +50,17 @@ public class PhotoContentService {
         Set<Long> hashes = new HashSet<>();
         for (int i = 0; i < parsedAdvert.getPhotos().size(); i++) {
             String imageUrl = parsedAdvert.getPhotos().get(i);
-            photos.add(savePhoto(hashes, type, photosPath, i, imageUrl));
+            Photo photo = savePhoto(hashes, type, photosPath, i, imageUrl);
+            if (photo != null) {
+                photos.add(photo);
+            }
         }
         return photos;
     }
 
+    /**
+     * @return could be null
+     */
     private Photo savePhoto(Set<Long> hashes, String type, String photosPath, int index, String imageUrl) throws IOException {
         String path = storagePath + File.separator + type + File.separator + photosPath + File.separator + index + ".jpg";
         new File(path).getParentFile().mkdirs();
