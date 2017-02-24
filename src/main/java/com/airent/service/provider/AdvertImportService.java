@@ -95,6 +95,8 @@ public class AdvertImportService {
         for (int i = 0; i < maxItemsToScan && adverts.hasNext(); adverts.next()) {
             ParsedAdvertHeader advertHeader = adverts.next();
             if (advertHeader.getPublicationTimestamp() <= (lastImportTime + 60_000)) {
+                logger.info("Stopping scan. Last import ts={}, advert publication is {}. Advert {}",
+                        lastImportTime, advertHeader.getPublicationTimestamp(), advertHeader.getAdvertUrl());
                 break;
             }
             if (firstAdvertTs == null) {
