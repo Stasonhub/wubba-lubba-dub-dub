@@ -92,9 +92,9 @@ public class AdvertImportService {
         Iterator<ParsedAdvertHeader> adverts = advertsProvider.getHeaders();
         logger.info("Got headers for type {}", advertsProvider.getType());
         int maxItemsToScan = advertsProvider.getMaxItemsToScan();
-        for (int i = 0; i < maxItemsToScan && adverts.hasNext(); adverts.next()) {
+        for (int i = 0; i < maxItemsToScan && adverts.hasNext();) {
             ParsedAdvertHeader advertHeader = adverts.next();
-            if (advertHeader.getPublicationTimestamp() <= (lastImportTime + 60_000)) {
+            if (advertHeader.getPublicationTimestamp() <= lastImportTime) {
                 logger.info("Stopping scan. Last import ts={}, advert publication is {}. Advert {}",
                         lastImportTime, advertHeader.getPublicationTimestamp(), advertHeader.getAdvertUrl());
                 break;
