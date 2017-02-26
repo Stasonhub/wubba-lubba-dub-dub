@@ -78,9 +78,10 @@ public class AdvertImportService {
     }
 
     public void runImport() {
-        for (AdvertsProvider advertsProvider : advertsProviders) {
-            runImport(advertsProvider);
-        }
+        // run for importers
+        advertsProviders.stream().filter(v -> !v.isVerifier()).forEach(this::runImport);
+        // run for verifiers
+        advertsProviders.stream().filter(AdvertsProvider::isVerifier).forEach(this::runImport);
     }
 
     private void runImport(AdvertsProvider advertsProvider) {
@@ -92,7 +93,7 @@ public class AdvertImportService {
         Iterator<ParsedAdvertHeader> adverts = advertsProvider.getHeaders();
         logger.info("Got headers for type {}", advertsProvider.getType());
         int maxItemsToScan = advertsProvider.getMaxItemsToScan();
-        for (int i = 0; i < maxItemsToScan && adverts.hasNext();) {
+        for (int i = 0; i < maxItemsToScan && adverts.hasNext(); ) {
             ParsedAdvertHeader advertHeader = adverts.next();
             if (advertHeader.getPublicationTimestamp() <= lastImportTime) {
                 logger.info("Stopping scan. Last import ts={}, advert publication is {}. Advert {}",
@@ -105,10 +106,14 @@ public class AdvertImportService {
             try {
                 ParsedAdvert advert = advertsProvider.getAdvert(advertHeader);
                 logger.info("Checking/persisting advert {} for type {}", advert.getPublicationTimestamp(), advertsProvider.getType());
-                if (checkAdvert(advert)) {
-                    persistAdvert(advertsProvider, advert);
+                if (advertsProvider.isVerifier()) {
+                    verifyAdvert(advert);
                 } else {
-                    logger.info("Advert {} is not correct, ignored", advert.getPublicationTimestamp(), advertsProvider.getType());
+                    if (checkAdvert(advert)) {
+                        persistAdvert(advertsProvider, advert);
+                    } else {
+                        logger.info("Advert {} is not correct, ignored", advert.getPublicationTimestamp(), advertsProvider.getType());
+                    }
                 }
             } catch (Exception e) {
                 logger.warn("Failed to process advert {}", advertHeader, e);
@@ -142,11 +147,36 @@ public class AdvertImportService {
         return true;
     }
 
+    private void verifyAdvert(ParsedAdvert parsedAdvert) throws IOException {
+        Advert matchingAdvert = advertMapper.findBySqPriceCoords(parsedAdvert.getSq(), parsedAdvert.getPrice(), parsedAdvert.getLatitude(), parsedAdvert.getLongitude());
+        if (matchingAdvert != null) {
+            // find match by advert/partial user phone
+            List<User> matchingUsers = userMapper.findByStartingFourNumbers(parsedAdvert.getPhone());
+            if (matchingUsers.isEmpty()) {
+                logger.warn("Verification. Failed to find user for advert {} with number {}", parsedAdvert, parsedAdvert.getPhone());
+                return;
+            }
+
+            if (matchingUsers.size() > 1) {
+                logger.warn("Verification. Found more than one matching users for advert {}. Number {}. Users {}", parsedAdvert, parsedAdvert.getPhone(),
+                        matchingUsers.stream().map(User::getId).collect(Collectors.toList()));
+                return;
+            }
+
+            // set current user new rate
+            // set other users /4 rate
+            userMapper.arrangeRate(matchingAdvert.getId(), matchingUsers.get(0).getId(), parsedAdvert.getTrustRate(), 0.25);
+        } else {
+            logger.warn("Verification. Failed to find advert {}", parsedAdvert);
+        }
+
+    }
+
     private boolean persistAdvert(AdvertsProvider advertsProvider, ParsedAdvert parsedAdvert) throws IOException {
         List<Photo> photos = photoContentService.savePhotos(advertsProvider.getType(), parsedAdvert);
 
-        Advert matchingAdvert = findMatchingAdvert(photos);
-        User matchingUser = findMatchingUser(parsedAdvert);
+        Advert matchingAdvert = findMatchingAdvertByPhotos(photos);
+        User matchingUser = userMapper.findByPhone(parsedAdvert.getPhone());
 
         if (matchingAdvert != null) {
             /* full duplicate */
@@ -208,7 +238,7 @@ public class AdvertImportService {
         return true;
     }
 
-    private Advert findMatchingAdvert(List<Photo> photos) {
+    private Advert findMatchingAdvertByPhotos(List<Photo> photos) {
         Map<Long, Long> allPhotoHashes = photoMapper.getAllPhotoHashes().stream()
                 .collect(Collectors.toMap(Photo::getHash, Photo::getAdvertId, (adv1, adv2) -> {
                     logger.warn("Adverts {} and {} has the same photos", adv1, adv2);
@@ -223,10 +253,6 @@ public class AdvertImportService {
             return advertMapper.findById(anyValue.get());
         }
         return null;
-    }
-
-    private User findMatchingUser(ParsedAdvert parsedAdvert) {
-        return userMapper.findByPhone(parsedAdvert.getPhone());
     }
 
     private boolean checkAndWarn(Supplier<Boolean> checker, Runnable warner) {

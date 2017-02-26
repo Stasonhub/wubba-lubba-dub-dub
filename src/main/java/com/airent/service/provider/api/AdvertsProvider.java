@@ -12,4 +12,8 @@ public interface AdvertsProvider {
 
     int getMaxItemsToScan();
 
+    default boolean isVerifier() {
+        return false;
+    }
+
 }
