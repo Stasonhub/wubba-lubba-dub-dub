@@ -17,9 +17,10 @@ class TestDbConfig {
 
     @Bean(destroyMethod = "shutdown")
     public EmbeddedDatabase dataSource() {
-        return new EmbeddedDatabaseBuilder().
-                setType(EmbeddedDatabaseType.H2).
-                build();
+        return new EmbeddedDatabaseBuilder()
+                .setName("testdb;DATABASE_TO_UPPER=false;MODE=PostgreSQL")
+                .setType(EmbeddedDatabaseType.H2)
+                .build();
     }
 
     @Bean
