@@ -31,7 +31,7 @@ public class PhotoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testPhotoCreate() {
-        Advert advert = TestUtil.createAdvert(userMapper, advertMapper).getKey();
+        Advert advert = TestUtil.createAdvert(advertMapper);
 
         Photo photo = new Photo();
         photo.setPath("/path/to/photo.jpg");
@@ -42,7 +42,7 @@ public class PhotoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testGetPhotoForAdvert() {
-        Advert advert = TestUtil.createAdvert(userMapper, advertMapper).getKey();
+        Advert advert = TestUtil.createAdvert(advertMapper);
 
         Photo photo = new Photo();
         photo.setPath("/path/to/photo.jpg");
@@ -72,7 +72,7 @@ public class PhotoTest extends AbstractTestNGSpringContextTests {
         int advertsCount = 5;
 
         for (int i = 0; i < advertsCount; i++) {
-            Advert advert = TestUtil.createAdvert(userMapper, advertMapper).getKey();
+            Advert advert = TestUtil.createAdvert(advertMapper);
             advertList.add(advert);
 
             for (int j = 0; j < 2; j++) {

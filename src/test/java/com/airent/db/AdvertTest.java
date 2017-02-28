@@ -2,7 +2,6 @@ package com.airent.db;
 
 import com.airent.config.OyoSpringTest;
 import com.airent.mapper.AdvertMapper;
-import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.District;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +18,11 @@ import static org.testng.Assert.*;
 public class AdvertTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
     private AdvertMapper advertMapper;
 
     @Test
     public void testCreateAdvertWithPhotos() {
-        Advert advert = TestUtil.createAdvert(userMapper, advertMapper).getKey();
+        Advert advert = TestUtil.createAdvert(advertMapper);
 
         Advert selectedAdvert = advertMapper.findById(advert.getId());
 
@@ -41,7 +37,7 @@ public class AdvertTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testSearchAdvert() {
-        Advert advert = TestUtil.createAdvert(userMapper, advertMapper).getKey();
+        Advert advert = TestUtil.createAdvert(advertMapper);
 
         List<District> districtList = Collections.singletonList(advert.getDistrict());
         List<Integer> rooms = Collections.singletonList(advert.getRooms());
@@ -49,6 +45,15 @@ public class AdvertTest extends AbstractTestNGSpringContextTests {
 
         assertNotNull(adverts);
         assertTrue(adverts.stream().map(Advert::getId).collect(Collectors.toList()).contains(advert.getId()));
+    }
+
+    @Test
+    public void testFindBySqPriceCoords() {
+        Advert advert = TestUtil.createAdvert(advertMapper);
+
+        List<Advert> foundAdverts = advertMapper.findBySqPriceCoords(advert.getSq(), advert.getPrice(), advert.getLatitude(), advert.getLongitude());
+        assertEquals(1, foundAdverts.size());
+        assertEquals(advert.getId(), foundAdverts.get(0).getId());
     }
 
 }

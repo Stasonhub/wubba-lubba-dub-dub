@@ -45,12 +45,20 @@ public class PhotoContentService {
     }
 
     public List<Photo> savePhotos(String type, ParsedAdvert parsedAdvert) throws IOException {
+        return getPhotos(type, parsedAdvert, !testMode);
+    }
+
+    public List<Photo> getPhotosWithoutSave(String type, ParsedAdvert parsedAdvert) throws IOException {
+        return getPhotos(type, parsedAdvert, false);
+    }
+
+    private List<Photo> getPhotos(String type, ParsedAdvert parsedAdvert, boolean save) throws IOException {
         List<Photo> photos = new ArrayList<>();
         String photosPath = String.valueOf(System.currentTimeMillis());
         Set<Long> hashes = new HashSet<>();
         for (int i = 0; i < parsedAdvert.getPhotos().size(); i++) {
             String imageUrl = parsedAdvert.getPhotos().get(i);
-            Photo photo = savePhoto(hashes, type, photosPath, i, imageUrl);
+            Photo photo = savePhoto(hashes, type, photosPath, i, imageUrl,save);
             if (photo != null) {
                 photos.add(photo);
             }
@@ -61,7 +69,7 @@ public class PhotoContentService {
     /**
      * @return could be null
      */
-    private Photo savePhoto(Set<Long> hashes, String type, String photosPath, int index, String imageUrl) throws IOException {
+    private Photo savePhoto(Set<Long> hashes, String type, String photosPath, int index, String imageUrl, boolean save) throws IOException {
         String path = storagePath + File.separator + type + File.separator + photosPath + File.separator + index + ".jpg";
         new File(path).getParentFile().mkdirs();
 
@@ -77,7 +85,7 @@ public class PhotoContentService {
         }
 
         // save content
-        try (OutputStream out = testMode ? new NullOutputStream() : new FileOutputStream(new java.io.File(path))) {
+        try (OutputStream out = save ? new NullOutputStream() : new FileOutputStream(new java.io.File(path))) {
             ImageIO.write(processedImage, "jpeg", out);
         }
 

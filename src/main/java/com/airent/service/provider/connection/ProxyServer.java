@@ -38,6 +38,7 @@ public class ProxyServer {
         whitelistPatterns = new ArrayList<>();
         whitelistPatterns.add("^https?://[a-zA-z0-9.]*avito\\..*");
         whitelistPatterns.add("^https?://api\\.ipify\\.org.*");
+        whitelistPatterns.add("^http?://kazan.totook.*");
         browserMobProxy.whitelistRequests(whitelistPatterns, 410);
     }
 

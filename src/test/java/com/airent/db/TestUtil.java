@@ -5,7 +5,6 @@ import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.District;
 import com.airent.model.User;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,13 +17,7 @@ public class TestUtil {
         return adverts.stream().filter(advert -> !TEST_ADVERT_DESC.equals(advert.getDescription())).collect(Collectors.toList());
     }
 
-    public static Pair<Advert, User> createAdvert(UserMapper userMapper, AdvertMapper advertMapper) {
-        User user = new User();
-        user.setName("Aidar");
-        user.setPhone(12345);
-
-        userMapper.createUser(user);
-
+    public static Advert createAdvert(AdvertMapper advertMapper) {
         Advert advert = new Advert();
         advert.setPublicationDate(2L);
         advert.setConditions(2);
@@ -36,10 +29,21 @@ public class TestUtil {
         advert.setSq(32);
         advert.setPrice(42_000);
         advert.setRooms(1);
+        advert.setLatitude(Math.random());
+        advert.setLongitude(Math.random());
         advert.setWithPublicServices(true);
         advert.setDescription("Bla bla bla");
-
         advertMapper.createAdvert(advert);
-        return Pair.of(advert, user);
+        return advert;
     }
+
+    public static User createUser(UserMapper userMapper, long phone) {
+        User user = new User();
+        user.setName("Aidar");
+        user.setPhone(phone);
+        user.setTrustRate(1_000);
+        userMapper.createUser(user);
+        return user;
+    }
+
 }
