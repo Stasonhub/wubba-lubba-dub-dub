@@ -20,11 +20,14 @@ public interface UserMapper {
     User getUserForAdvert(long advertId);
 
 
-    List<User> findByStartingFourNumbers(long phoneStartingNumbers);
+    /**
+     * @param phoneStartingNumbers phone left 6 digits
+     */
+    List<User> findByStartingSixNumbers(@Param("advertId") long advertId, @Param("phoneStartingNumbers") long phoneStartingNumbers);
 
     /**
      * Set rate for specified user, and set different rate for others (rate*othersRateDecrease)
      */
-    void arrangeRate(long advertId, long userId, int rate, double othersRateDecrease);
+    void arrangeRate(@Param("advertId") long advertId, @Param("userId") long userId, @Param("trustRate") int trustRate, @Param("othersRateDecrease") double othersRateDecrease);
 
 }

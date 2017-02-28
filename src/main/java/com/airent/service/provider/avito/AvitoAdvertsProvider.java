@@ -132,6 +132,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
             parsedAdvert.setBeds(1);
             parsedAdvert.setAddress(getAddress());
             parsedAdvert.setRooms(getRooms());
+            parsedAdvert.setRooms(parsedAdvert.getRooms() == null ? 1 : parsedAdvert.getRooms());
             parsedAdvert.setFloor(getFloor());
             parsedAdvert.setMaxFloor(getMaxFloor());
             parsedAdvert.setSq(getSq());

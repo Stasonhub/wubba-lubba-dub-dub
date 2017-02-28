@@ -93,7 +93,9 @@ public class AdvertImportService {
         Iterator<ParsedAdvertHeader> adverts = advertsProvider.getHeaders();
         logger.info("Got headers for type {}", advertsProvider.getType());
         int maxItemsToScan = advertsProvider.getMaxItemsToScan();
-        for (int i = 0; i < maxItemsToScan && adverts.hasNext(); ) {
+        int i = 0;
+        int verified = 0;
+        while (i < maxItemsToScan && adverts.hasNext()) {
             ParsedAdvertHeader advertHeader = adverts.next();
             if (advertHeader.getPublicationTimestamp() <= lastImportTime) {
                 logger.info("Stopping scan. Last import ts={}, advert publication is {}. Advert {}",
@@ -107,7 +109,9 @@ public class AdvertImportService {
                 ParsedAdvert advert = advertsProvider.getAdvert(advertHeader);
                 logger.info("Checking/persisting advert {} for type {}", advert.getPublicationTimestamp(), advertsProvider.getType());
                 if (advertsProvider.isVerifier()) {
-                    verifyAdvert(advert);
+                    if (verifyAdvert(advert)) {
+                        verified++;
+                    }
                 } else {
                     if (checkAdvert(advert)) {
                         persistAdvert(advertsProvider, advert);
@@ -122,6 +126,9 @@ public class AdvertImportService {
             i++;
         }
 
+        if (advertsProvider.isVerifier()) {
+            logger.info("Advert provider {} verification rate is {} on {} adverts", advertsProvider.getType(), verified / (float) i, i);
+        }
 
         // save first advert import time (latest by value)
         if (firstAdvertTs != null) {
@@ -147,29 +154,36 @@ public class AdvertImportService {
         return true;
     }
 
-    private void verifyAdvert(ParsedAdvert parsedAdvert) throws IOException {
-        Advert matchingAdvert = advertMapper.findBySqPriceCoords(parsedAdvert.getSq(), parsedAdvert.getPrice(), parsedAdvert.getLatitude(), parsedAdvert.getLongitude());
-        if (matchingAdvert != null) {
-            // find match by advert/partial user phone
-            List<User> matchingUsers = userMapper.findByStartingFourNumbers(parsedAdvert.getPhone());
-            if (matchingUsers.isEmpty()) {
-                logger.warn("Verification. Failed to find user for advert {} with number {}", parsedAdvert, parsedAdvert.getPhone());
-                return;
-            }
-
-            if (matchingUsers.size() > 1) {
-                logger.warn("Verification. Found more than one matching users for advert {}. Number {}. Users {}", parsedAdvert, parsedAdvert.getPhone(),
-                        matchingUsers.stream().map(User::getId).collect(Collectors.toList()));
-                return;
-            }
-
-            // set current user new rate
-            // set other users /4 rate
-            userMapper.arrangeRate(matchingAdvert.getId(), matchingUsers.get(0).getId(), parsedAdvert.getTrustRate(), 0.25);
-        } else {
-            logger.warn("Verification. Failed to find advert {}", parsedAdvert);
+    private boolean verifyAdvert(ParsedAdvert parsedAdvert) throws IOException {
+        List<Advert> matchingAdverts = advertMapper.findBySqPriceCoords(parsedAdvert.getSq(), parsedAdvert.getPrice(), parsedAdvert.getLatitude(), parsedAdvert.getLongitude());
+        if (matchingAdverts.isEmpty()) {
+            logger.warn("Verification. Failed to find advert by sq price lat lon: {}", parsedAdvert);
+            return false;
         }
 
+        if (matchingAdverts.size() > 1) {
+            logger.warn("Verification. Found more than one matching adverts for {}", parsedAdvert);
+            return false;
+        }
+
+        Advert matchingAdvert = matchingAdverts.get(0);
+        // find match by advert/partial user phone
+        List<User> matchingUsers = userMapper.findByStartingSixNumbers(matchingAdvert.getId(), parsedAdvert.getPhone());
+        if (matchingUsers.isEmpty()) {
+            logger.warn("Verification. Failed to find user for advert {} with number {}", parsedAdvert, parsedAdvert.getPhone());
+            return false;
+        }
+
+        if (matchingUsers.size() > 1) {
+            logger.warn("Verification. Found more than one matching users for advert {}. Number {}. Users {}", parsedAdvert, parsedAdvert.getPhone(),
+                    matchingUsers.stream().map(User::getId).collect(Collectors.toList()));
+            return false;
+        }
+
+        // set current user new rate
+        // set other users /4 rate
+        userMapper.arrangeRate(matchingAdvert.getId(), matchingUsers.get(0).getId(), parsedAdvert.getTrustRate(), 0.25);
+        return true;
     }
 
     private boolean persistAdvert(AdvertsProvider advertsProvider, ParsedAdvert parsedAdvert) throws IOException {

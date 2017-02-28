@@ -41,4 +41,22 @@
                   LIMIT 1)
     </select>
 
+
+    <select id="findByStartingSixNumbers" resultType="com.airent.model.User">
+        SELECT *
+        FROM sys_user
+        WHERE id in (SELECT userId
+                  FROM advert_author
+                  WHERE advertId=#{advertId}) AND CAST(LEFT(phone::text,6) as INT)=#{phoneStartingNumbers}
+    </select>
+
+    <update id="arrangeRate">
+        UPDATE sys_user SET
+        trustrate =
+                   CASE WHEN id=#{userId} THEN #{trustRate} ELSE (trustrate::DOUBLE * #{othersRateDecrease})::BIGINT END
+        WHERE id in
+                  (SELECT userId
+                  FROM advert_author
+                  WHERE advertId=#{advertId})
+    </update>
 </mapper>

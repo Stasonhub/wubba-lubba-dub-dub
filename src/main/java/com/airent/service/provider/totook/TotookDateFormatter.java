@@ -1,7 +1,5 @@
 package com.airent.service.provider.totook;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,8 +11,6 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class TotookDateFormatter {
 
-    private Logger logger = LoggerFactory.getLogger(TotookDateFormatter.class);
-
     private ZoneId zoneId = ZoneId.of("UTC+03:00");
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy").withZone(zoneId);
 
@@ -23,8 +19,6 @@ public class TotookDateFormatter {
     }
 
     String toStrictFormat(String date) {
-        logger.info("Converting date {}", date);
-
         LocalDate now = LocalDate.now(zoneId);
 
         String dateInLowerCase = date.toLowerCase().trim();

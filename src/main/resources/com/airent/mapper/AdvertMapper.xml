@@ -67,8 +67,7 @@
     <select id="findBySqPriceCoords" resultType="com.airent.model.Advert">
         SELECT *
         FROM advert
-        WHERE sq=#{sq} AND price=#{price} AND (lat-#{lat})<0.0001 AND (lon-#{lon})
-        findBySqPriceCoords(int sq, int price, double lat, double lon);
+        WHERE sq=#{sq} AND price=#{price} AND round(latitude,6)=round(#{lat},6) AND round(longitude,6)=round(#{lon},6)
     </select>
 
 </mapper>

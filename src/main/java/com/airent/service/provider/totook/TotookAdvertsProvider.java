@@ -3,7 +3,7 @@ package com.airent.service.provider.totook;
 import com.airent.service.provider.api.AdvertsProvider;
 import com.airent.service.provider.api.ParsedAdvert;
 import com.airent.service.provider.api.ParsedAdvertHeader;
-import okhttp3.OkHttpClient;
+import com.airent.service.provider.connection.OkHttpClient;
 import okhttp3.Request;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Jsoup;
@@ -20,6 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.airent.service.provider.common.Util.getLongNumberInsideOf;
 import static com.airent.service.provider.common.Util.getNumberInsideOf;
 
 @Service
@@ -28,7 +29,7 @@ public class TotookAdvertsProvider implements AdvertsProvider {
     private Logger logger = LoggerFactory.getLogger(TotookAdvertsProvider.class);
 
     private int MAX_PAGES = 10;
-    private Pattern headerPattern = Pattern.compile(".*([0-9])-комн.*([0-9]+) м");
+    private Pattern headerPattern = Pattern.compile(".*([0-9])-комн. квартира, ([0-9]+) м");
     private Pattern coordinatesPattern = Pattern.compile(".*coordinates: \\[([0-9]+.[0-9]+), ([0-9]+.[0-9]+)\\].*", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 
     private OkHttpClient okHttpClient;
@@ -47,6 +48,11 @@ public class TotookAdvertsProvider implements AdvertsProvider {
     @Override
     public String getType() {
         return "TTK";
+    }
+
+    @Override
+    public boolean isVerifier() {
+        return true;
     }
 
     @Override
@@ -70,13 +76,13 @@ public class TotookAdvertsProvider implements AdvertsProvider {
                     long startTime = System.currentTimeMillis();
 
                     pageNumber++;
-                    Document document = doGet("http://kazan.totook.ru/catalog/?PARENT_SECTION=28&period=4&PAGEN_1=" + pageNumber);
+                    Document document = doGet("http://kazan.totook.ru/catalog/?PARENT_SECTION=28&type=1&price_from=0&price_to=100000&period=4&PAGEN_1=" + pageNumber);
                     currentPageHeaders = document.select(".b-catalog__object")
                             .stream()
                             .filter(v -> !v.hasClass("access"))
                             .map(header -> {
                                 ParsedAdvertHeader parsedAdvertHeader = new ParsedAdvertHeader();
-                                parsedAdvertHeader.setAdvertUrl(header.select("a").attr("href"));
+                                parsedAdvertHeader.setAdvertUrl("http://kazan.totook.ru" + header.select("a").attr("href"));
                                 parsedAdvertHeader.setPublicationTimestamp(totookDateFormatter.getTimestamp(
                                         header.select(".b-catalog__object__date").text()));
                                 return parsedAdvertHeader;
@@ -85,6 +91,11 @@ public class TotookAdvertsProvider implements AdvertsProvider {
                     logger.info("Spend time for headers page opening {} : {} ms", pageNumber, System.currentTimeMillis() - startTime);
 
                 }
+
+                if (!currentPageHeaders.hasNext()) {
+                    logger.error("Iterator has no next element.");
+                }
+
                 return currentPageHeaders.next();
             }
         };
@@ -96,14 +107,17 @@ public class TotookAdvertsProvider implements AdvertsProvider {
         Document advertPage = doGet(parsedAdvertHeader.getAdvertUrl());
         logger.info("Spend time for opening advert {} : {} ms", parsedAdvertHeader.getAdvertUrl(), System.currentTimeMillis() - startTime);
 
-        // sq/price/coordinates/phone
+        // address/sq/price/coordinates/phone
+        String address = advertPage.select(".b-detail__address").text();
         Integer sq = getSqFromHeader(advertPage.select(".main-inner h1").text());
         Integer price = getNumberInsideOf(advertPage.select(".b-detail__description__price__summ").text());
         Pair<Double, Double> coordinates = getCoordinates(advertPage.select(".b-detail__map + script")
                 .iterator().next().data());
-        long phone = getNumberInsideOf(advertPage.select(".b-detail__phone-button__phone").text().substring(2) + "0000");
+        long phone = getLongNumberInsideOf(advertPage.select(".b-detail__phone-button__phone").text().substring(2) + "0000");
 
         ParsedAdvert parsedAdvert = new ParsedAdvert();
+        parsedAdvert.setAddress(address);
+        parsedAdvert.setPublicationTimestamp(parsedAdvertHeader.getPublicationTimestamp());
         parsedAdvert.setSq(sq);
         parsedAdvert.setPrice(price);
         parsedAdvert.setLatitude(coordinates.getLeft());
@@ -120,9 +134,14 @@ public class TotookAdvertsProvider implements AdvertsProvider {
 
     private Document doGet(String url) {
         try {
-            return Jsoup.parse(okHttpClient.newCall(new Request.Builder()
+            Request request = new Request.Builder()
                     .url(url)
-                    .build()).execute().body().string());
+                    .build();
+            String html = okHttpClient.get().newCall(request)
+                    .execute()
+                    .body()
+                    .string();
+            return Jsoup.parse(html);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

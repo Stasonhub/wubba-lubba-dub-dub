@@ -32,6 +32,6 @@ public interface AdvertMapper {
 
     void bindToUser(@Param("advertId") long advertId, @Param("userId") long userId);
 
-    Advert findBySqPriceCoords(int sq, int price, double lat, double lon);
+    List<Advert> findBySqPriceCoords(@Param("sq") int sq, @Param("price") int price, @Param("lat") double lat, @Param("lon") double lon);
 
 }
