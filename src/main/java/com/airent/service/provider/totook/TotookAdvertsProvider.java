@@ -123,6 +123,7 @@ public class TotookAdvertsProvider implements AdvertsProvider {
         parsedAdvert.setLatitude(coordinates.getLeft());
         parsedAdvert.setLongitude(coordinates.getRight());
         parsedAdvert.setPhone(phone);
+        parsedAdvert.setTrustRate(20_000);
 
         return parsedAdvert;
     }
