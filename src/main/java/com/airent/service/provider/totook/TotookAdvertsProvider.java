@@ -113,7 +113,7 @@ public class TotookAdvertsProvider implements AdvertsProvider {
         Integer price = getNumberInsideOf(advertPage.select(".b-detail__description__price__summ").text());
         Pair<Double, Double> coordinates = getCoordinates(advertPage.select(".b-detail__map + script")
                 .iterator().next().data());
-        long phone = getLongNumberInsideOf(advertPage.select(".b-detail__phone-button__phone").text().substring(2) + "0000");
+        long phone = getLongNumberInsideOf(advertPage.select(".b-detail__phone-button__phone").text().substring(2));
 
         ParsedAdvert parsedAdvert = new ParsedAdvert();
         parsedAdvert.setAddress(address);
