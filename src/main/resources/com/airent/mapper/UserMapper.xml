@@ -53,7 +53,7 @@
     <update id="arrangeRate">
         UPDATE sys_user SET
         trustrate =
-                   CASE WHEN id=#{userId} THEN #{trustRate} ELSE (trustrate::DOUBLE * #{othersRateDecrease})::BIGINT END
+                   CASE WHEN id=#{userId} THEN #{trustRate} ELSE (trustrate::NUMERIC * #{othersRateDecrease})::BIGINT END
         WHERE id in
                   (SELECT userId
                   FROM advert_author
