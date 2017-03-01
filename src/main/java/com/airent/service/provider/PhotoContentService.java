@@ -48,17 +48,13 @@ public class PhotoContentService {
         return getPhotos(type, parsedAdvert, !testMode);
     }
 
-    public List<Photo> getPhotosWithoutSave(String type, ParsedAdvert parsedAdvert) throws IOException {
-        return getPhotos(type, parsedAdvert, false);
-    }
-
     private List<Photo> getPhotos(String type, ParsedAdvert parsedAdvert, boolean save) throws IOException {
         List<Photo> photos = new ArrayList<>();
         String photosPath = String.valueOf(System.currentTimeMillis());
         Set<Long> hashes = new HashSet<>();
         for (int i = 0; i < parsedAdvert.getPhotos().size(); i++) {
             String imageUrl = parsedAdvert.getPhotos().get(i);
-            Photo photo = savePhoto(hashes, type, photosPath, i, imageUrl,save);
+            Photo photo = savePhoto(hashes, type, photosPath, i, imageUrl, save);
             if (photo != null) {
                 photos.add(photo);
             }
@@ -85,7 +81,7 @@ public class PhotoContentService {
         }
 
         // save content
-        try (OutputStream out = save ? new NullOutputStream() : new FileOutputStream(new java.io.File(path))) {
+        try (OutputStream out = save ? new FileOutputStream(new java.io.File(path)) : new NullOutputStream()) {
             ImageIO.write(processedImage, "jpeg", out);
         }
 
