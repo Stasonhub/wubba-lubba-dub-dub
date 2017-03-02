@@ -11,9 +11,10 @@
                 <figure>
                     <!-- use div with fixed width and background repeat -->
                     <div
-                         th:style="${'background-image:  url('+mainPhotos.get(advert.getId()).getPath()+');'}"
-                         class="adv-img-title-div">
-                    <span class="tag" th:inline="text">[[${advert.sq}]] м<sup>2</sup></span>
+                            th:style="${'background-image:  url('+mainPhotos.get(advert.getId()).getPath()+');'}"
+                            class="adv-img-title-div">
+                        <span class="tag" th:inline="text">[[${advert.sq}]] м<sup>2</sup></span>
+                    </div>
                 </figure>
                 <div class="fh5co-property-innter">
                     <h3><span class="street-span" th:text="${advert.address}"></span></h3>

@@ -65,6 +65,7 @@ docker run --name ${appContainerName} \
          -v ${appLogPath}:/logs \
          -v /tmp/.m2:/root/.m2 \
          -e LOG_DIR=/logs \
+         -e spring.profiles.active=prod \
          -e airent.db.url=jdbc:postgresql://postgres-oyouin:5432/postgres \
          -d \
          ${appImageName}

@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 public class AvitoDateFormatter {
 
     private ZoneId zoneId = ZoneId.of("UTC+03:00");
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy").withZone(zoneId);
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
 
     public long getTimestamp(String date) {
         return parseDateTime(toStrictFormat(date)).toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -85,6 +85,7 @@ public class AvitoDateFormatter {
      * Parses formatted dateTime in zoneId zone
      */
     LocalDateTime parseDateTime(String dateTimeText) {
-        return LocalDateTime.parse(dateTimeText, dateTimeFormatter);
+        // TODO: do this elegant
+        return LocalDateTime.parse(dateTimeText, dateTimeFormatter).minusHours(3);
     }
 }
