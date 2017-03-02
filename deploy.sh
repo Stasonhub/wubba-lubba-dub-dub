@@ -60,7 +60,7 @@ fi
 echo "Run app container"
 docker run --name ${appContainerName} \
          --link ${pgContainerName} \
-         -p 3212:8080 \
+         -p 80:8080 \
          -v ${appStaticImagePath}:/photos \
          -v ${appLogPath}:/logs \
          -v /tmp/.m2:/root/.m2 \
