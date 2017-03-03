@@ -11,13 +11,13 @@
 
     <select id="findById" resultType="com.airent.model.Advert">
         SELECT *
-        FROM advert
+        FROM rt_adverts
         WHERE id=#{id}
   </select>
 
     <select id="getNextAdvertsBeforeTime" resultType="com.airent.model.Advert">
         SELECT *
-        FROM advert
+        FROM rt_adverts
         WHERE #{timestamp} > publicationDate
         ORDER BY publicationDate
         DESC limit #{limit}
@@ -25,7 +25,7 @@
 
     <select id="searchNextAdvertsBeforeTime" resultType="com.airent.model.Advert">
         SELECT *
-        FROM advert
+        FROM rt_adverts
         WHERE
         district in
         <foreach item="district" index="index" collection="districts" open="(" separator="," close=")">
@@ -49,14 +49,14 @@
 
     <select id="getCount" resultType="java.lang.Integer">
     SELECT COUNT(*)
-    FROM advert
+    FROM rt_adverts
   </select>
 
     <select id="getAdvertPrices" resultType="com.airent.model.ui.AdvertPrices">
         SELECT
         min(price) as priceMin,
         max(price) as priceMax
-        FROM advert
+        FROM rt_adverts
   </select>
 
     <insert id="bindToUser">
