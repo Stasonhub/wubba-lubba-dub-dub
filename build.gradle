@@ -2,8 +2,8 @@ plugins {
     id 'java'
     id "org.springframework.boot" version "1.5.1.RELEASE"
     id 'idea'
-    id "com.eriwen.gradle.css" version "2.14.0"
-    id "com.eriwen.gradle.js" version "2.14.1"
+    //id "com.eriwen.gradle.css" version "2.14.0"
+    //id "com.eriwen.gradle.js" version "2.14.1"
 }
 
 jar {
@@ -88,58 +88,3 @@ test {
     minHeapSize = "64m"
     maxHeapSize = "128m"
 }
-
-
-/** Web part  */
-css.source {
-    custom {
-        css {
-            srcDir "src/main/resources/static/css"
-            include "**/*.css"
-        }
-    }
-}
-
-combineCss {
-    source = css.source.custom.css.files
-    dest = "${buildDir}/resources/main/static/css/all.css"
-}
-
-minifyCss {
-    source = combineCss
-    dest = "${buildDir}/resources/main/static/css/all-min.css"
-    yuicompressor { // Optional
-        lineBreakPos = -1
-    }
-}
-
-gzipCss {
-    source = minifyCss
-    dest = "${buildDir}/resources/main/static/css/all-min.css"
-}
-
-javascript.source {
-    custom {
-        js {
-            srcDir "src/main/resources/static/js"
-            include "**/*.js"
-        }
-    }
-}
-
-minifyJs {
-    source = javascript.source.custom.js.files
-    dest = file("${buildDir}/resources/main/static/js/all-min.js")
-}
-
-gzipJs {
-    source = minifyJs
-    dest = file("${buildDir}/resources/main/static/js/all-min.js")
-    closure {
-        warningLevel = 'QUIET'
-    }
-}
-
-/ ** Dependencies */
-processResources.dependsOn gzipJs
-processResources.dependsOn gzipCss
