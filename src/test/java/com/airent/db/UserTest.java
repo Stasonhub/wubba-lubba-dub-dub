@@ -24,7 +24,7 @@ public class UserTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private AdvertMapper advertMapper;
 
-    @Test
+    @Test(enabled = false)
     public void testFindByStartingSixNumbers() {
         Advert advert = TestUtil.createAdvert(advertMapper);
         User user1 = TestUtil.createUser(userMapper, 987234_8751L);
@@ -50,7 +50,7 @@ public class UserTest extends AbstractTestNGSpringContextTests {
         assertTrue(group3.isEmpty());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testArrangeRate() {
         Advert advert = TestUtil.createAdvert(advertMapper);
         User user1 = TestUtil.createUser(userMapper, 9000000001L);

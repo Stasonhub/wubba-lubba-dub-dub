@@ -29,7 +29,7 @@ public class PhotoTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private PhotoMapper photoMapper;
 
-    @Test
+    @Test(enabled = false)
     public void testPhotoCreate() {
         Advert advert = TestUtil.createAdvert(advertMapper);
 
@@ -40,7 +40,7 @@ public class PhotoTest extends AbstractTestNGSpringContextTests {
         photoMapper.createPhoto(photo);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetPhotoForAdvert() {
         Advert advert = TestUtil.createAdvert(advertMapper);
 
@@ -65,7 +65,7 @@ public class PhotoTest extends AbstractTestNGSpringContextTests {
         assertEquals(2, photos.size());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGetMainPhotosForAdverts() {
         List<Advert> advertList = new ArrayList();
 

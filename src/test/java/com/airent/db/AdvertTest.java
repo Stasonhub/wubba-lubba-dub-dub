@@ -25,7 +25,7 @@ public class AdvertTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private UserMapper userMapper;
 
-    @Test
+    @Test(enabled = false)
     public void testCreateAdvertWithPhotos() {
         Advert advert = TestUtil.createAdvert(advertMapper);
         User user = TestUtil.createUser(userMapper, 900_000_00_01L);
@@ -42,7 +42,7 @@ public class AdvertTest extends AbstractTestNGSpringContextTests {
         assertEquals(advert.getPrice(), selectedAdvert.getPrice());
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSearchAdvert() {
         Advert advert = TestUtil.createAdvert(advertMapper);
         User user = TestUtil.createUser(userMapper, 900_000_00_02L);
@@ -56,7 +56,7 @@ public class AdvertTest extends AbstractTestNGSpringContextTests {
         assertTrue(adverts.stream().map(Advert::getId).collect(Collectors.toList()).contains(advert.getId()));
     }
 
-    @Test
+    @Test(enabled = false)
     public void testFindBySqPriceCoords() {
         Advert advert = TestUtil.createAdvert(advertMapper);
 
