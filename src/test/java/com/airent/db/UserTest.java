@@ -61,11 +61,11 @@ public class UserTest extends AbstractTestNGSpringContextTests {
         advertMapper.bindToUser(advert.getId(), user2.getId());
         advertMapper.bindToUser(advert.getId(), user3.getId());
 
-        userMapper.arrangeRate(advert.getId(), user1.getId(), 5_000, 0.25d);
+        userMapper.arrangeRate(advert.getId(), user1.getId(), 15_000, 0.25d);
 
-        assertEquals(userMapper.findById(user1.getId()).getTrustRate(), 5_000);
-        assertEquals(userMapper.findById(user2.getId()).getTrustRate(), 250);
-        assertEquals(userMapper.findById(user3.getId()).getTrustRate(), 250);
+        assertEquals(userMapper.findById(user1.getId()).getTrustRate(), 15_000);
+        assertEquals(userMapper.findById(user2.getId()).getTrustRate(), 2500);
+        assertEquals(userMapper.findById(user3.getId()).getTrustRate(), 2500);
     }
 
 }

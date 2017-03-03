@@ -2,8 +2,10 @@ package com.airent.db;
 
 import com.airent.config.OyoSpringTest;
 import com.airent.mapper.AdvertMapper;
+import com.airent.mapper.UserMapper;
 import com.airent.model.Advert;
 import com.airent.model.District;
+import com.airent.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
@@ -20,9 +22,14 @@ public class AdvertTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private AdvertMapper advertMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Test
     public void testCreateAdvertWithPhotos() {
         Advert advert = TestUtil.createAdvert(advertMapper);
+        User user = TestUtil.createUser(userMapper, 900_000_00_01L);
+        advertMapper.bindToUser(advert.getId(), user.getId());
 
         Advert selectedAdvert = advertMapper.findById(advert.getId());
 
@@ -38,6 +45,8 @@ public class AdvertTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testSearchAdvert() {
         Advert advert = TestUtil.createAdvert(advertMapper);
+        User user = TestUtil.createUser(userMapper, 900_000_00_02L);
+        advertMapper.bindToUser(advert.getId(), user.getId());
 
         List<District> districtList = Collections.singletonList(advert.getDistrict());
         List<Integer> rooms = Collections.singletonList(advert.getRooms());

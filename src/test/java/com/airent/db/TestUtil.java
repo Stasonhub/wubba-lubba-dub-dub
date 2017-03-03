@@ -41,7 +41,7 @@ public class TestUtil {
         User user = new User();
         user.setName("Aidar");
         user.setPhone(phone);
-        user.setTrustRate(1_000);
+        user.setTrustRate(10_000);
         userMapper.createUser(user);
         return user;
     }
