@@ -1,12 +1,20 @@
 import com.eriwen.gradle.css.CssMinifier
 import com.eriwen.gradle.js.JsMinifier
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.eriwen:gradle-js-plugin:2.12.0"
+        classpath "com.eriwen:gradle-css-plugin:2.12.0"
+    }
+}
+
 plugins {
     id 'java'
     id "org.springframework.boot" version "1.5.1.RELEASE"
     id 'idea'
-    id "com.eriwen.gradle.css" version "2.14.0"
-    id "com.eriwen.gradle.js" version "2.14.1"
 }
 
 jar {
@@ -94,50 +102,37 @@ test {
 }
 
 /** Web part */
-javascript.source {
-    my {
-        js {
-            srcDir "src/main/resources/static/js"
-            include "**/*.js"
-            exclude "**/*.min.js"
-        }
-    }
-}
-
-css.source {
-    my {
-        css {
-            srcDir "src/main/resources/static/css"
-            include "*.css"
-            exclude "*.min.css"
-        }
-    }
-}
-
 task minifyAllJs {
-    JsMinifier MINIFIER = new JsMinifier()
-    for (File file : javascript.source.my.js.files) {
-        println "Js minify file ${file.getAbsolutePath()}"
-        MINIFIER.minifyJsFile(Collections.singleton(file), [] as Set<File>,
-                "${buildDir}/resources/main/static/js/${file.getName()}" as File,
-                null,
-                null,
-                "QUIET",
-                "SIMPLE_OPTIMIZATIONS")
+    doLast {
+        def minifier = new JsMinifier()
+        def files = fileTree("src/main/resources/static/js")
+                .include('**/*.js').exclude('**/*min.js')
+        for (File file : files) {
+            println "Js minify file ${file.getAbsolutePath()}"
+            minifier.minifyJsFile(Collections.singleton(file), [] as Set<File>,
+                    "${buildDir}/resources/main/static/js/${file.getName()}" as File,
+                    null,
+                    null,
+                    "QUIET",
+                    "SIMPLE_OPTIMIZATIONS")
+        }
     }
 }
 
 task minifyAllCss {
-    CssMinifier MINIFIER = new CssMinifier()
-    for (File file : css.source.my.css.files) {
-        println "Css minify file ${file.getAbsolutePath()}"
-        MINIFIER.minifyCssFile(file,
-                "${buildDir}/resources/main/static/css/${file.getName()}" as File,
-                -1)
+    doLast {
+        def minifier = new CssMinifier()
+        def files = fileTree("src/main/resources/static/css")
+                .include('**/*.css').exclude('**/*min.css')
+        for (File file : files) {
+            println "Css minify file ${file.getAbsolutePath()}"
+            minifier.minifyCssFile(file,
+                    "${buildDir}/resources/main/static/css/${file.getName()}" as File,
+                    -1)
+        }
     }
 }
 
 / ** Dependencies */
-processResources.dependsOn minifyAllJs
-processResources.dependsOn minifyAllCss
-
+jar.dependsOn minifyAllJs
+jar.dependsOn minifyAllCss
