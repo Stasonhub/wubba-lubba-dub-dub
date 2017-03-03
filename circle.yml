@@ -14,13 +14,6 @@ dependencies:
     - docker info
     - docker pull java:openjdk-8
 
-test:
-  override:
-    - ./gradlew test
-  post:
-    - mkdir -p $CIRCLE_TEST_REPORTS/reports/
-    - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/reports/ \;
-
 deployment:
   production:
     branch: master
