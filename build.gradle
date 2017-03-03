@@ -1,15 +1,19 @@
+import com.eriwen.gradle.css.CssMinifier
+import com.eriwen.gradle.js.JsMinifier
+
 plugins {
     id 'java'
     id "org.springframework.boot" version "1.5.1.RELEASE"
     id 'idea'
-    //id "com.eriwen.gradle.css" version "2.14.0"
-    //id "com.eriwen.gradle.js" version "2.14.1"
+    id "com.eriwen.gradle.css" version "2.14.0"
+    id "com.eriwen.gradle.js" version "2.14.1"
 }
 
 jar {
     baseName = 'airent'
     version = '0.0.1-SNAPSHOT'
 }
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -88,3 +92,52 @@ test {
     minHeapSize = "64m"
     maxHeapSize = "128m"
 }
+
+/** Web part */
+javascript.source {
+    my {
+        js {
+            srcDir "src/main/resources/static/js"
+            include "**/*.js"
+            exclude "**/*.min.js"
+        }
+    }
+}
+
+css.source {
+    my {
+        css {
+            srcDir "src/main/resources/static/css"
+            include "*.css"
+            exclude "*.min.css"
+        }
+    }
+}
+
+task minifyAllJs {
+    JsMinifier MINIFIER = new JsMinifier()
+    for (File file : javascript.source.my.js.files) {
+        println "Js minify file ${file.getAbsolutePath()}"
+        MINIFIER.minifyJsFile(Collections.singleton(file), [] as Set<File>,
+                "${buildDir}/resources/main/static/js/${file.getName()}" as File,
+                null,
+                null,
+                "QUIET",
+                "SIMPLE_OPTIMIZATIONS")
+    }
+}
+
+task minifyAllCss {
+    CssMinifier MINIFIER = new CssMinifier()
+    for (File file : css.source.my.css.files) {
+        println "Css minify file ${file.getAbsolutePath()}"
+        MINIFIER.minifyCssFile(file,
+                "${buildDir}/resources/main/static/css/${file.getName()}" as File,
+                -1)
+    }
+}
+
+/ ** Dependencies */
+processResources.dependsOn minifyAllJs
+processResources.dependsOn minifyAllCss
+
