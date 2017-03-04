@@ -24,21 +24,4 @@
         });
 
     });
-
-    ymaps.ready(function () {
-        var latitude = $('#geo-data').attr('latitude');
-        var longitude = $('#geo-data').attr('longitude')
-
-        var map = new ymaps.Map("adv-detail-map", {
-            center: [latitude, longitude],
-            controls: ["zoomControl"],
-            zoom: 11
-        });
-        map.behaviors.disable('scrollZoom');
-
-        var myPlacemark = new ymaps.Placemark([latitude, longitude], {}, {
-            preset: 'islands#redIcon'
-        });
-        map.geoObjects.add(myPlacemark);
-    });
 }());

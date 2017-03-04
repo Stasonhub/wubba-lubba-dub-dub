@@ -32,7 +32,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
             registry
                     .addResourceHandler(STORAGE_FILES_PREFIX + "/**")
                     .addResourceLocations("file:" + externalStoragePath + STORAGE_FILES_PREFIX)
-                    .setCachePeriod(3600)
+                    .setCachePeriod(259200)
                     .resourceChain(true)
                     .addResolver(pathResourceResolver);
         } catch (MalformedURLException e) {
