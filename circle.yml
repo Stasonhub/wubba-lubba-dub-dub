@@ -26,7 +26,9 @@ deployment:
     branch: master
     commands:
       - ./gradlew build -x test
-      - docker build --rm=false -t oyouin/main .
+      - docker build --rm=false -f docker/main/Dockerfile -t oyouin/main .
+      - docker build --rm=false -f docker/static/Dockerfile -t oyouin/oyouin_statics .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push oyouin/main
+      - docker push oyouin/oyouin_statics
       - ssh circleci@oyouin.prod 'bash -s $DOCKER_USER $DOCKER_PASS' < deploy.sh

@@ -27,6 +27,8 @@ pgBackupPath=/data/backup/postgres
 
 appContainerName=oyouin-main
 appImageName=oyouin/main
+nginxContainerName=oyouin_statics
+nginxImageName=oyouin/oyouin_statics
 appStaticImagePath=/data/photos
 appLogPath=/data/logs
 
@@ -56,11 +58,9 @@ then
   docker rm ${appContainerName}
 fi
 
-### -- Step 5 -- ###
 echo "Run app container"
 docker run --name ${appContainerName} \
          --link ${pgContainerName} \
-         -p 80:8080 \
          -v ${appStaticImagePath}:/photos \
          -v ${appLogPath}:/logs \
          -v /tmp/.m2:/root/.m2 \
@@ -69,6 +69,22 @@ docker run --name ${appContainerName} \
          -e airent.db.url=jdbc:postgresql://postgres-oyouin:5432/postgres \
          -d \
          ${appImageName}
+
+### -- Step 5 --- ###
+docker pull  ${nginxImageName}
+if docker ps -a | grep -q ${nginxContainerName}
+then
+  echo "Stop & remove nginx container"
+  docker stop ${nginxContainerName}
+  docker rm ${nginxContainerName}
+fi
+
+echo "Run nginx container"
+docker run --name ${nginxContainerName} \
+         --link ${appContainerName} \
+         -p 80:80 \
+         -d \
+         ${nginxImageName}
 
 ### -- Step 6 -- ###
 # Check postgres connectivity at first

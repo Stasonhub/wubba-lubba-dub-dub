@@ -14,7 +14,7 @@ RUN \
 
 VOLUME /tmp
 ADD build/libs/airent-0.0.1-SNAPSHOT.jar app.jar
-ADD run_app.sh run_app.sh
+ADD docker/main/run_app.sh run_app.sh
 
 RUN sh -c 'touch /app.jar'
 RUN sh -c 'touch /run_app.sh'
