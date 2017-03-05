@@ -167,6 +167,22 @@
 
 <script async src="/js/advertDetail.js"></script>
 <script async src="/js/login.js"></script>
+<script>
+    // immediate section
+    var phoneRegex = new RegExp("\\+7 \\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$");
+    var loginButtonUpdater = function () {
+        $("#login-button").prop('disabled', !phoneRegex.test($('#login_phone').val()) | $('#login_password').val().length == 0 | grecaptcha.getResponse().length == 0);
+        $("#lost-button").prop('disabled', $('#lost_phone').length == 0 | grecaptcha.getResponse().length == 0);
+        $("#register-button").prop('disabled', $('#register_username').length == 0 | $('#register_phone').length === 0 | grecaptcha.getResponse().length == 0);
+    };
+    function gCaptchaLoadedCallback() {
+        grecaptcha.render('login-captcha', {
+            'sitekey': '6Le2fgsUAAAAABHgQv4YGApILBc451B2Yhrqlh5k',
+            'callback': loginButtonUpdater,
+            'expired-callback': loginButtonUpdater
+        });
+    }
+</script>
 <script async defer
         src="https://www.google.com/recaptcha/api.js?onload=gCaptchaLoadedCallback&render=explicit&hl=ru"></script>
 

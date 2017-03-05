@@ -1,19 +1,3 @@
-// immediate section
-var phoneRegex = new RegExp("\\+7 \\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$");
-var loginButtonUpdater = function () {
-    $("#login-button").prop('disabled', !phoneRegex.test($('#login_phone').val()) | $('#login_password').val().length == 0 | grecaptcha.getResponse().length == 0);
-    $("#lost-button").prop('disabled', $('#lost_phone').length == 0 | grecaptcha.getResponse().length == 0);
-    $("#register-button").prop('disabled', $('#register_username').length == 0 | $('#register_phone').length === 0 | grecaptcha.getResponse().length == 0);
-};
-
-var gCaptchaLoadedCallback = function () {
-    grecaptcha.render('login-captcha', {
-        'sitekey': '6Le2fgsUAAAAABHgQv4YGApILBc451B2Yhrqlh5k',
-        'callback': loginButtonUpdater,
-        'expired-callback': loginButtonUpdater
-    });
-};
-
 $(function () {
     var $formLogin = $('#login-form');
     var $formLost = $('#lost-form');
