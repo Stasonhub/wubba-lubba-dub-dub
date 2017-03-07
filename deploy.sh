@@ -84,7 +84,7 @@ fi
 echo "Run nginx container"
 docker run --name ${nginxContainerName} \
          --link ${appContainerName} \
-         -p 80:80 \
+         -p 443:443 \
          -v ${nginxCertPath}:/etc/letsencrypt/ \
          -d \
          ${nginxImageName}
