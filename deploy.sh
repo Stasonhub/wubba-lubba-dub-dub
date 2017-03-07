@@ -27,10 +27,12 @@ pgBackupPath=/data/backup/postgres
 
 appContainerName=oyouin-main
 appImageName=oyouin/main
-nginxContainerName=oyouin_statics
-nginxImageName=oyouin/oyouin_statics
 appStaticImagePath=/data/photos
 appLogPath=/data/logs
+
+nginxContainerName=oyouin_statics
+nginxImageName=oyouin/oyouin_statics
+nginxCertPath=/data/letsencrypt
 
 # Disabled docker login
 #echo "Login to docker hub as ${dockerUser}."
@@ -83,6 +85,7 @@ echo "Run nginx container"
 docker run --name ${nginxContainerName} \
          --link ${appContainerName} \
          -p 80:80 \
+         -v ${nginxCertPath}:/etc/letsencrypt/ \
          -d \
          ${nginxImageName}
 

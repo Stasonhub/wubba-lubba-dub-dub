@@ -7,6 +7,7 @@ RUN \
 
 RUN rm /etc/nginx/conf.d/default.conf
 RUN mkdir /challenge
+RUN mkdir /etc/letsencrypt/
 
 COPY build/resources/main/static /static
 COPY docker/static/nginx.conf /etc/nginx/conf.d
