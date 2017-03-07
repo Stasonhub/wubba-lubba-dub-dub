@@ -3,10 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Квартира в Казани</title>
+    <title th:text="${'Сдается квартира по адресу ' + advert.address}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Сдается квартира в Казани"/>
-    <meta name="keywords" content="жилье, сдается квартира"/>
+    <meta name="description" th:content="${T(com.airent.template.Utils).getStringPart(advert.description, 50)}"/>
 
     <link rel="prefetch" href="/js/modernizr-2.6.2.min.js" as="script">
     <link rel="prefetch" href="/js/jquery.min.js" as="script">
@@ -76,7 +75,7 @@
                     <div class="col-md-9">
                         <div class="adv-param-container">
                             <div class="row">
-                                <h1 class="adv-param-header" th:text="${advert.header}"></h1>
+                                <!--h1 class="adv-param-header" th:text="${advert.header}"></h1-->
                                 <h2 class="adv-param-address" th:text="${advert.address}">г.Казань, ул. Мира, 6</h2>
                             </div>
                             <div class="row adv-opt-row">

@@ -2,6 +2,10 @@ package com.airent.template;
 
 public class Utils {
 
+    public static String getStringPart(String description, int maxLength) {
+        return (null == description) ? "" : description.substring(0, Math.min(maxLength, description.length())) + "...";
+    }
+
     public static String getRoomsText(int roomsCount) {
         if (roomsCount == 1) {
             return "комната";
