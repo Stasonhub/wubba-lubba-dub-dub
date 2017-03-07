@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Снять недвижимость в Казани на длительный срок без комиссии. Каталог объявлений для облегчения поиска жилья напрямую от собственников."/>
     <meta name="keywords" content="снять квартиру, аренда квартиры, квартиры без посредников"/>
+    <meta name="yandex-verification" content="a2ce000841d68151" />
 
     <link rel="prefetch" href="/js/modernizr-2.6.2.min.js" as="script">
     <link rel="prefetch" href="/js/jquery.min.js" as="script">
@@ -23,6 +24,36 @@
     <link rel="stylesheet" href="/css/bootstrap-slider.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/login.css">
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter43298174 = new Ya.Metrika({
+                        id:43298174,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true,
+                        webvisor:true
+                    });
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                    s = d.createElement("script"),
+                    f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/43298174" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
 </head>
 <body>
 <div th:replace="fragments/login-popup :: login-popup"/>
