@@ -11,7 +11,7 @@
 
     <select id="findById" resultType="com.airent.model.Advert">
         SELECT *
-        FROM adverts
+        FROM advert
         WHERE id=#{id}
   </select>
 
