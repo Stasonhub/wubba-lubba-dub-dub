@@ -6,7 +6,7 @@
 <div th:fragment="advertsForm (adverts)" th:count=${adverts.size()}
      th:timestamp="${!adverts.isEmpty() ? adverts.get(adverts.size()-1).publicationDate : 0}">
     <div th:each="advert : ${adverts}" class="col-md-4 item-block animate-box" data-animate-effect="fadeIn">
-        <a th:href="'/advert/'+${advert.id}">
+        <a th:href="'/advert/'+${advert.id}" target="_blank">
             <div class="fh5co-property">
                 <figure>
                     <!-- use div with fixed width and background repeat -->
