@@ -60,8 +60,9 @@ public class SitemapController {
                         .build());
 
                 // fill sitemap by batches
+                long timestamp = System.currentTimeMillis();
                 while (true) {
-                    List<Advert> adverts = advertMapper.getNextAdvertsBeforeTime(0L, 100);
+                    List<Advert> adverts = advertMapper.getNextAdvertsBeforeTime(timestamp, 100);
                     for (Advert advert : adverts) {
                         wsg.addUrl(new WebSitemapUrl.Options(domainLink + "/advert/" + advert.getId())
                                 .lastMod(new Date(advert.getPublicationDate()))
@@ -72,6 +73,7 @@ public class SitemapController {
                     if (adverts.isEmpty()) {
                         break;
                     }
+                    timestamp = adverts.get(adverts.size() - 1).getPublicationDate();
                 }
 
                 List<File> sitemapFiles = wsg.write();
@@ -82,7 +84,7 @@ public class SitemapController {
                 sitemap = sitemapFiles.get(0);
             }
 
-            try (InputStream sitemapStream = FileUtils.openInputStream(sitemap)){
+            try (InputStream sitemapStream = FileUtils.openInputStream(sitemap)) {
                 response.setContentType("application/xml");
                 IOUtils.copy(sitemapStream, response.getOutputStream());
                 response.flushBuffer();
