@@ -5,4 +5,4 @@ Disallow: /user
 Disallow: /add
 
 Host: https://fatirlar.ru
-Sitemap: http://fatirlar.ru/sitemap.xml
+Sitemap: https://fatirlar.ru/sitemap.xml
