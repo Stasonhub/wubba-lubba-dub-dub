@@ -62,6 +62,9 @@ dependencies {
     compile "org.bytedeco.javacpp-presets:leptonica:1.73-1.2:linux-x86_64"
     compile "com.twelvemonkeys.imageio:imageio-jpeg:3.3.2"
 
+    // --- sitemap ---
+    compile "com.github.dfabulich:sitemapgen4j:1.0.6"
+
     // --- common ---
     compile 'org.apache.commons:commons-lang3:3.5'
     compile 'commons-io:commons-io:2.5'
