@@ -6371,6 +6371,15 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 @media (min-height: 40.125em) {
   .picker--time .picker__box {
     margin-bottom: 5em; } }
+header, main, footer {
+  padding-left: 300px; }
+
+header, main, footer {
+  padding-left: 300px; }
+
+.search-side-nav {
+  padding: 20px; }
+
 .advert-card .card-title {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
