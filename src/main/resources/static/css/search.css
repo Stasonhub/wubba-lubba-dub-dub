@@ -6373,12 +6373,34 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
     margin-bottom: 5em; } }
 header, main, footer {
   padding-left: 300px; }
+  @media only screen and (max-width: 992px) {
+    header, main, footer {
+      padding-left: 0; } }
 
-header, main, footer {
-  padding-left: 300px; }
+.button-collapse.top-nav {
+  line-height: 104px;
+  position: absolute;
+  text-align: center;
+  height: 48px;
+  width: 48px;
+  left: 7.5%;
+  top: 0;
+  float: none;
+  margin-left: 1.5rem;
+  color: #fff;
+  font-size: 36px;
+  z-index: 2; }
 
 .search-side-nav {
   padding: 20px; }
+
+.top-nav {
+  text-align: center;
+  height: 104px;
+  box-shadow: none; }
+  .top-nav .page-title {
+    line-height: 104px;
+    font-size: 36px; }
 
 .advert-card .card-title {
   width: 100%;
