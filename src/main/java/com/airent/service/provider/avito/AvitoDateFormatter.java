@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @Component
 public class AvitoDateFormatter {
@@ -24,21 +25,29 @@ public class AvitoDateFormatter {
     String toStrictFormat(String date) {
         LocalDate now = LocalDate.now(zoneId);
 
-        String dateFormatted = date.toLowerCase().trim();
+        String dateFormatted = date.toLowerCase().replace("\u00A0"," ").trim();
         if (dateFormatted.startsWith("сегодня")) {
             int dayOfMonth = now.getDayOfMonth();
             int monthValue = now.getMonthValue();
-            return String.format("%s %02d.%02d.%d", dateFormatted.split(" ")[1], dayOfMonth, monthValue,
+            return String.format("%s %02d.%02d.%d", splitAndValidate(dateFormatted, 2)[1], dayOfMonth, monthValue,
                     now.getYear());
         } else if (dateFormatted.startsWith("вчера")) {
             int dayOfMonth = now.minusDays(1).getDayOfMonth();
             int monthValue = now.minusDays(1).getMonthValue();
-            return String.format("%s %02d.%02d.%d", dateFormatted.split(" ")[1], dayOfMonth, monthValue,
+            return String.format("%s %02d.%02d.%d", splitAndValidate(dateFormatted, 2)[1], dayOfMonth, monthValue,
                     now.getYear());
         }
 
-        String[] parts = dateFormatted.split(" ");
+        String[] parts = splitAndValidate(dateFormatted, 3);
         return String.format("%s %02d.%02d.%d", parts[2], Integer.valueOf(parts[0]), replaceMonth(parts[1]), now.getYear());
+    }
+
+    private String[] splitAndValidate(String dateFormatted, int count) {
+        String[] parts = dateFormatted.split("\\s+");
+        if (parts.length != count) {
+            throw new IllegalArgumentException("Failed to extract from date: '" + dateFormatted + "'. Part " + count + " actual " + Arrays.toString(parts));
+        }
+        return parts;
     }
 
     private int replaceMonth(String monthString) {
