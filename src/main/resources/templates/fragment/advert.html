@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div th:fragment="advertCard (advert)">
+    <div class="col s12 m6 l4">
+        <a th:href="'/advert/'+${advert.id}" target="_blank">
+            <div class="advert-card card large">
+                <div class="card-image">
+                    <img th:src="{mainPhotos.get(advert.getId()).getPath()}">
+                    <div class="card-title">
+                        <span class="address" th:text="${advert.address}"></span>
+                        <span class="sq" th:inline="text">[[${advert.sq}]] м<sup>2</sup></span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="price" th:text="${#numbers.formatInteger(advert.price, 0, 'WHITESPACE')}+'Р'+${advert.withPublicServices ? '+ к.у.' : ''}"></p>
+                    <p class="description" th:text="${advert.description}"></p>
+                </div>
+                <div class="card-action">
+                    <span class="district" th:text="${advert.district.getDesc()}"></span>
+                    <span class="rooms" th:text="${advert.rooms + T(com.airent.template.Utils).getRoomsText(advert.rooms)}">1 комната</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

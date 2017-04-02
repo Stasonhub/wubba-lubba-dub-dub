@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+<div th:fragment="adverts-list (adverts)">
+    <div th:each="advert : ${adverts}">
+        <div th:replace="fragment/advert :: advert"/>
+    </div>
+</div>
+</body>
+</html>
