@@ -23,7 +23,23 @@
         DESC limit #{limit}
   </select>
 
-    <select id="searchNextAdvertsBeforeTime" resultType="com.airent.model.Advert">
+    <select id="getAdvertsCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM rt_adverts
+        WHERE
+        district in
+        <foreach item="district" index="index" collection="districts" open="(" separator="," close=")">
+            '${district}'
+        </foreach>
+        AND price >= #{priceFrom}
+        AND #{priceTo} >= price
+        AND rooms in
+        <foreach item="room" index="index" collection="rooms" open="(" separator="," close=")">
+            ${room}
+        </foreach>
+    </select>
+
+    <select id="getAdverts" resultType="com.airent.model.Advert">
         SELECT *
         FROM rt_adverts
         WHERE
@@ -37,9 +53,9 @@
         <foreach item="room" index="index" collection="rooms" open="(" separator="," close=")">
             ${room}
         </foreach>
-        AND #{timestamp} > publicationDate
-        ORDER BY publicationDate
-        DESC limit #{limit}
+        ORDER BY publicationDate DESC
+        LIMIT #{limit}
+        OFFSET #{offset}
     </select>
 
     <delete id="deleteAdvert">

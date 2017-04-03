@@ -3,9 +3,9 @@
 <head>
 </head>
 <body>
-<div th:fragment="adverts-list (adverts)">
+<div th:fragment="adverts-list (adverts, mainPhotos)">
     <div th:each="advert : ${adverts}">
-        <div th:replace="fragment/advert :: advert"/>
+        <div th:replace="fragment/advert :: advertCard(advert=${advert}, mainPhotos=${mainPhotos})"/>
     </div>
 </div>
 </body>

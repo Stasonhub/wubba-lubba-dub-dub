@@ -15,8 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,42 +38,22 @@ public class AdvertController {
         List<Advert> adverts = advertService.getAdvertsForMainPage();
         model.addAttribute("adverts", adverts);
         model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
-        model.addAttribute("sb", getSearchBoxDefaultState(advertService.getAdvertPrices()));
         model.addAttribute("currentUser", loginService.getCurrentUser());
         return "main";
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/add")
-    public String addAdvert(Model model) {
-        model.addAttribute("currentUser", loginService.getCurrentUser());
-        return "in-progress";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/loadMore")
-    public String loadMoreAdverts(@RequestParam long timestampUntil, Model model) {
-        List<Advert> adverts = advertService.getAdvertsForMainPageFrom(timestampUntil);
-        model.addAttribute("adverts", adverts);
-        model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
-        return "fragments/advert :: advertsForm";
-    }
-
     @RequestMapping(method = RequestMethod.GET, path = "/search")
     public String searchAdverts(SearchRequest searchRequest, Model model) {
-        List<Advert> adverts = advertService.searchAdvertsUntilTime(searchRequest, System.currentTimeMillis());
+        SearchRequest normalized = normalize(searchRequest);
+
+        List<Advert> adverts = advertService.getAdverts(normalized);
+        int pagesCount = advertService.getPagesCount(normalized);
         model.addAttribute("adverts", adverts);
         model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
-        model.addAttribute("searchRequest", searchRequest);
-        model.addAttribute("sb", getSearchBoxState(searchRequest, advertService.getAdvertPrices()));
+        model.addAttribute("searchRequest", normalized);
+        model.addAttribute("pagesCount", pagesCount);
         model.addAttribute("currentUser", loginService.getCurrentUser());
         return "search";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/search/loadMore")
-    public String searchLoadMoreAdverts(SearchRequest searchRequest, @RequestParam long timestampUntil, Model model) {
-        List<Advert> adverts = advertService.searchAdvertsUntilTime(searchRequest, timestampUntil);
-        model.addAttribute("adverts", adverts);
-        model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
-        return "fragments/advert :: advertsForm";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/advert/{advertId}")
@@ -89,6 +70,34 @@ public class AdvertController {
         model.addAttribute("otherPhotos", photos.stream().filter(v -> !v.isMain()).collect(Collectors.toList()));
         model.addAttribute("currentUser", loginService.getCurrentUser());
         return "advert-detail";
+    }
+
+    private SearchRequest normalize(SearchRequest searchRequest) {
+        SearchRequest normalized = new SearchRequest();
+
+        normalized.setDistricts(searchRequest.getDistricts() == null ? Collections.emptyList() : searchRequest.getDistricts());
+
+        if (!searchRequest.isRoom1() && !searchRequest.isRoom2() && !searchRequest.isRoom3()) {
+            normalized.setRoom1(true);
+        } else {
+            normalized.setRoom1(searchRequest.isRoom1());
+            normalized.setRoom2(searchRequest.isRoom2());
+            normalized.setRoom3(searchRequest.isRoom3());
+        }
+
+        List<Integer> priceRange = searchRequest.getPriceRange();
+        if (priceRange != null && priceRange.size() == 2 && priceRange.get(0) > 0 && priceRange.get(1) > 0 && priceRange.get(1) > priceRange.get(0)) {
+            normalized.setPriceRange(priceRange);
+        } else {
+            List<Integer> defaultPriceRange = new ArrayList<>();
+            defaultPriceRange.add(8);
+            defaultPriceRange.add(60);
+            normalized.setPriceRange(defaultPriceRange);
+        }
+
+        normalized.setPage(searchRequest.getPage());
+
+        return normalized;
     }
 
     private SearchBoxState getSearchBoxDefaultState(AdvertPrices advertPrices) {
@@ -121,9 +130,9 @@ public class AdvertController {
         searchBoxState.setNsSelected(searchRequest.getDistricts().contains(District.NS));
         searchBoxState.setPvSelected(searchRequest.getDistricts().contains(District.PV));
         searchBoxState.setCvSelected(searchRequest.getDistricts().contains(District.CV));
-        searchBoxState.setRooms1Pressed(searchRequest.isRooms1());
-        searchBoxState.setRooms2Pressed(searchRequest.isRooms2());
-        searchBoxState.setRooms3Pressed(searchRequest.isRooms3());
+        searchBoxState.setRooms1Pressed(searchRequest.isRoom1());
+        searchBoxState.setRooms2Pressed(searchRequest.isRoom2());
+        searchBoxState.setRooms3Pressed(searchRequest.isRoom3());
         searchBoxState.setPriceMin(advertPrices.getPriceMin() / 1000);
         searchBoxState.setPriceMax(advertPrices.getPriceMax() / 1000);
         searchBoxState.setPriceFrom(Math.max(searchBoxState.getPriceMin(), searchRequest.getPriceRange().get(0)));

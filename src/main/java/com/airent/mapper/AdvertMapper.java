@@ -16,13 +16,18 @@ public interface AdvertMapper {
 
     List<Advert> getNextAdvertsBeforeTime(@Param("timestamp") long timestamp, @Param("limit") int limit);
 
-    List<Advert> searchNextAdvertsBeforeTime(
-            @Param("districts") Collection<District> districts,
-            @Param("priceFrom") int priceFrom,
-            @Param("priceTo") int priceTo,
-            @Param("rooms") List<Integer> rooms,
-            @Param("timestamp") long timestamp,
-            @Param("limit") int limit);
+    List<Advert> getAdverts(@Param("districts") Collection<District> districts,
+                            @Param("priceFrom") int priceFrom,
+                            @Param("priceTo") int priceTo,
+                            @Param("rooms") List<Integer> rooms,
+                            @Param("offset") int offset,
+                            @Param("limit") int limit);
+
+    int getAdvertsCount(@Param("districts") Collection<District> districts,
+                        @Param("priceFrom") int priceFrom,
+                        @Param("priceTo") int priceTo,
+                        @Param("rooms") List<Integer> rooms);
+
 
     AdvertPrices getAdvertPrices();
 
