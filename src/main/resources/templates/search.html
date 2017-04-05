@@ -4,7 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
-    <title>Parallax Template - Materialize</title>
+    <title>Снять квартиру в Казани без посредников</title>
+
+    <meta name="description" content="Снять недвижимость в Казани на длительный срок без комиссии. Каталог объявлений для облегчения поиска жилья напрямую от собственников."/>
+    <meta name="keywords" content="снять квартиру, аренда квартиры, квартиры без посредников"/>
 
     <link rel="stylesheet" href="/css/materialize.css" media="screen,projection"/>
     <link rel="stylesheet" href="/css/material-icons.css"/>
@@ -12,9 +15,6 @@
     <link rel="stylesheet" href="/css/global.css" media="screen,projection">
     <link rel="stylesheet" href="/css/search.css" media="screen,projection">
     <link rel="stylesheet" href="/css/advert-card.css" media="screen,projection">
-
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
 <body>
@@ -31,61 +31,79 @@
     </div>
     <div id="slide-out" class="side-nav fixed search-side-nav" style="transform: translateX(0%);">
         <div class="section">
-            <img height="140" src="/images/logo_high.png">
+            <a href="/" style="display:inline-block; background-color: transparent !important;">
+                <img height="140" src="/images/logo/logo_high.png" alt="Логотип Fatirlar.ru">
+            </a>
         </div>
 
         <form id="search-form" action="/search">
 
-        <div class="section">
-            <label>Район</label>
-            <div class="input-field col s12" style="margin-top: 0rem;">
-                <select id="district" name="districts" multiple>
-                    <option value="" disabled th:selected="${searchRequest.getDistricts().isEmpty()}">Все районы
-                    </option>
-                    <option value="AV"
-                            th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).AV)}">Авиастроительный</option>
-                    <option value="KR"
-                            th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).KR)}">Кировский</option>
-                    <option value="VH"
-                            th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).VH)}">Вахитовский</option>
-                    <option value="MS"
-                            th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).MS)}">Московский</option>
-                    <option value="CV"
-                            th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).CV)}">Советский</option>
-                    <option value="PV"
-                            th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).PV)}">Приволжский</option>
-                    <option value="NS"
-                            th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).NS)}">Ново-Савиновский</option>
-                </select>
+            <div class="section">
+                <label>Район</label>
+                <div class="input-field col s12" style="margin-top: 0rem;">
+                    <select id="district" name="districts" multiple>
+                        <option value="" disabled th:selected="${searchRequest.getDistricts().isEmpty()}">Все районы
+                        </option>
+                        <option value="AV"
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).AV)}">
+                            Авиастроительный
+                        </option>
+                        <option value="KR"
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).KR)}">
+                            Кировский
+                        </option>
+                        <option value="VH"
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).VH)}">
+                            Вахитовский
+                        </option>
+                        <option value="MS"
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).MS)}">
+                            Московский
+                        </option>
+                        <option value="CV"
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).CV)}">
+                            Советский
+                        </option>
+                        <option value="PV"
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).PV)}">
+                            Приволжский
+                        </option>
+                        <option value="NS"
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).NS)}">
+                            Ново-Савиновский
+                        </option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <div class="section">
-            <label>Цена, x 1000P</label>
-            <div class="input-field col s12">
-                <input type="hidden" id="price-range-input" name="priceRange">
-                <div class="sliders" id="price-range-slider" name="asd" th:initial-range="${searchRequest.priceRange}"></div>
+            <div class="section">
+                <label>Цена, x 1000P</label>
+                <div class="input-field col s12">
+                    <input type="hidden" id="price-range-input" name="priceRange">
+                    <div class="sliders" id="price-range-slider" name="asd"
+                         th:initial-range="${searchRequest.priceRange}"></div>
+                </div>
             </div>
-        </div>
 
-        <div class="section">
-            <label>Комнат</label>
-            <div class="input-field col s12" style="margin-top: 0rem;">
-                <input name="room1" type="checkbox" id="room1" th:checked="${searchRequest.isRoom1()}"/>
-                <label for="room1">1-комн.</label>
+            <div class="section">
+                <label>Комнат</label>
+                <div class="input-field col s12" style="margin-top: 0rem;">
+                    <input name="room1" type="checkbox" id="room1" th:checked="${searchRequest.isRoom1()}"/>
+                    <label for="room1">1-комн.</label>
 
-                <input name="room2" type="checkbox" id="room2" th:checked="${searchRequest.isRoom2()}"/>
-                <label for="room2">2-комн.</label>
+                    <input name="room2" type="checkbox" id="room2" th:checked="${searchRequest.isRoom2()}"/>
+                    <label for="room2">2-комн.</label>
 
-                <input name="room3" type="checkbox" id="room3" th:checked="${searchRequest.isRoom3()}"/>
-                <label for="room3">3-комн.</label>
+                    <input name="room3" type="checkbox" id="room3" th:checked="${searchRequest.isRoom3()}"/>
+                    <label for="room3">3-комн.</label>
+                </div>
             </div>
-        </div>
 
-        <div class="section">
-            <input type="hidden" id="page-number-input" name="page" th:value="${searchRequest.page}">
-            <a type="submit" class="waves-effect waves-light btn" id="search-button"><i class="material-icons right">search</i>Найти</a>
-        </div>
+            <div class="section">
+                <input type="hidden" id="page-number-input" name="page" th:value="${searchRequest.page}">
+                <a type="submit" class="waves-effect waves-light btn" id="search-button"><i
+                        class="material-icons right">search</i>Найти</a>
+            </div>
         </form>
     </div>
 </header>
@@ -94,26 +112,32 @@
     <div class="row">
         <div th:replace="fragment/adverts :: adverts-list (adverts=${adverts},mainPhotos=${mainPhotos})"/>
 
+        <div th:if="${adverts.size() == 0}" class="col s12">
+            <h5>К сожалению, ничего не найдено. Попробуйте поменять параметры поиска.</h5>
+        </div>
+
         <div th:if="${pagesCount>1}" class="col s12">
             <ul class="pagination center">
                 <li th:class="${searchRequest.page > 0 ? 'waves-effect' : 'disabled'}">
-                    <a th:onclick="${searchRequest.page > 0 ? 'clickOnPageLink('+ (searchRequest.page-1) +')' : ''}"><i class="material-icons">chevron_left</i></a>
+                    <a th:onclick="${searchRequest.page > 0 ? 'clickOnPageLink('+ (searchRequest.page-1) +')' : ''}"><i
+                            class="material-icons">chevron_left</i></a>
                 </li>
-                <li th:each="i : ${#numbers.sequence(0, pagesCount-1)}" th:class="${i == searchRequest.page ? 'active' : 'waves-effect' }">
+                <li th:each="i : ${#numbers.sequence(0, pagesCount-1)}"
+                    th:class="${i == searchRequest.page ? 'active' : 'waves-effect' }">
                     <a th:text="${i+1}" th:onclick="${'clickOnPageLink('+i+')'}"></a>
                 </li>
                 <li th:class="${searchRequest.page < pagesCount-1 ?  'waves-effect' : 'disabled'}">
-                    <a th:onclick="${searchRequest.page < pagesCount-1 ? 'clickOnPageLink('+ (searchRequest.page+1) +')' : ''}"><i class="material-icons">chevron_right</i></a>
+                    <a th:onclick="${searchRequest.page < pagesCount-1 ? 'clickOnPageLink('+ (searchRequest.page+1) +')' : ''}"><i
+                            class="material-icons">chevron_right</i></a>
                 </li>
             </ul>
         </div>
     </div>
 </main>
 
-<!--Import jQuery before materialize.js-->
-<script src="/js/nouislider.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+<script type="text/javascript" src="/js/nouislider.min.js"></script>
+<script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/js/materialize.min.js"></script>
 <script>
     $(document).ready(function () {
         $('select').material_select();
@@ -137,12 +161,12 @@
     });
 
     var priceRangeInput = document.getElementById('price-range-input');
-    slider.noUiSlider.on('slide', function(values, handle, unencoded, tap, positions) {
+    slider.noUiSlider.on('slide', function (values, handle, unencoded, tap, positions) {
         console.log("Slide event", values);
         priceRangeInput.value = values;
     });
 
-    document.getElementById("search-button").onclick = function() {
+    document.getElementById("search-button").onclick = function () {
         pageNumberInput.value = 0;
         document.getElementById("search-form").submit();
     }

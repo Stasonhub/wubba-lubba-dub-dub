@@ -16,7 +16,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, path = "/user")
     public String getUserForAdvert(long advertId, Model model) {
         model.addAttribute("user", userService.getUserForAdvert(advertId));
-        return "fragments/user-info :: userInfo";
+        return "fragment/user-info :: userInfo";
     }
 
 }

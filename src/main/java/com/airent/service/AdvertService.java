@@ -13,7 +13,7 @@ import java.util.*;
 @Service
 public class AdvertService {
 
-    private static final int ADVERTS_PER_REQUEST = 2;
+    private static final int ADVERTS_PER_REQUEST = 15;
     private static final int ADVERTS_ON_MAIN_PAGE = 9;
 
     @Autowired

@@ -16,12 +16,14 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <p class="price" th:text="${#numbers.formatInteger(advert.price, 0, 'WHITESPACE')}+'Р'+${advert.withPublicServices ? '+ к.у.' : ''}"></p>
+                    <p class="price"
+                       th:text="${#numbers.formatInteger(advert.price, 0, 'WHITESPACE')}+'Р'+${advert.withPublicServices ? '+ к.у.' : ''}"></p>
                     <p class="description" th:text="${advert.description}"></p>
                 </div>
                 <div class="card-action">
                     <span class="district" th:text="${advert.district.getDesc()}"></span>
-                    <span class="rooms" th:text="${advert.rooms + ' ' + T(com.airent.template.Utils).getRoomsText(advert.rooms)}">1 комната</span>
+                    <span class="rooms"
+                          th:text="${advert.rooms + ' ' + T(com.airent.template.Utils).getRoomsText(advert.rooms)}">1 комната</span>
                 </div>
             </div>
         </a>
