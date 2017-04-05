@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,gBAAgB;EACd,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,KAAK;EACb,MAAM,EAAE,OAAO;EACf,UAAU,EAAE,iBAAiB;EAC7B,eAAe,EAAE,KAAK;;AAGtB,qBAAE;EACA,SAAS,EAAE,MAAM;EACjB,KAAK,EAAE,UAAU;;AAErB,UAAU;EACR,SAAS,EAAE,MAAM;EACjB,KAAK,EAAE,IAAI;;AAEb,eAAe;EACb,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,KAAK",
+"sources": ["../sass/advert-details.sass"],
+"names": [],
+"file": "advert-details.css"
+}

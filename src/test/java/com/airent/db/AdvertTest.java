@@ -50,7 +50,7 @@ public class AdvertTest extends AbstractTestNGSpringContextTests {
 
         List<District> districtList = Collections.singletonList(advert.getDistrict());
         List<Integer> rooms = Collections.singletonList(advert.getRooms());
-        List<Advert> adverts = advertMapper.searchNextAdvertsBeforeTime(districtList, 6_000, 45_000, rooms, System.currentTimeMillis(), 10);
+        List<Advert> adverts = advertMapper.getAdverts(districtList, 6_000, 45_000, rooms, 0, 100);
 
         assertNotNull(adverts);
         assertTrue(adverts.stream().map(Advert::getId).collect(Collectors.toList()).contains(advert.getId()));

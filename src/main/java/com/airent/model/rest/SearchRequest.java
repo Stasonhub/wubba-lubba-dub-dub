@@ -6,10 +6,11 @@ import java.util.List;
 
 public class SearchRequest {
     private List<District> districts;
-    private boolean rooms1;
-    private boolean rooms2;
-    private boolean rooms3;
     private List<Integer> priceRange;
+    private boolean room1;
+    private boolean room2;
+    private boolean room3;
+    private int page;
 
     public List<District> getDistricts() {
         return districts;
@@ -19,28 +20,28 @@ public class SearchRequest {
         this.districts = districts;
     }
 
-    public boolean isRooms1() {
-        return rooms1;
+    public boolean isRoom1() {
+        return room1;
     }
 
-    public void setRooms1(boolean rooms1) {
-        this.rooms1 = rooms1;
+    public void setRoom1(boolean room1) {
+        this.room1 = room1;
     }
 
-    public boolean isRooms2() {
-        return rooms2;
+    public boolean isRoom2() {
+        return room2;
     }
 
-    public void setRooms2(boolean rooms2) {
-        this.rooms2 = rooms2;
+    public void setRoom2(boolean room2) {
+        this.room2 = room2;
     }
 
-    public boolean isRooms3() {
-        return rooms3;
+    public boolean isRoom3() {
+        return room3;
     }
 
-    public void setRooms3(boolean rooms3) {
-        this.rooms3 = rooms3;
+    public void setRoom3(boolean room3) {
+        this.room3 = room3;
     }
 
     public List<Integer> getPriceRange() {
@@ -49,5 +50,14 @@ public class SearchRequest {
 
     public void setPriceRange(List<Integer> priceRange) {
         this.priceRange = priceRange;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public SearchRequest setPage(int page) {
+        this.page = page;
+        return this;
     }
 }

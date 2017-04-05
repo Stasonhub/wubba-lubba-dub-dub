@@ -1,0 +1,37 @@
+@import "materialize.scss"
+
+$font-stack: Helvetica, sans-serif
+$primary-color: #333
+$top-line-height: 104px
+
+header, main, footer
+  padding-left: 300px
+  @media only screen and (max-width: 992px)
+    padding-left: 0
+
+.button-collapse
+  &.top-nav
+    line-height: $top-line-height
+    position: absolute
+    text-align: center
+    height: 48px
+    width: 48px
+    left: 7.5%
+    top: 0
+    float: none
+    margin-left: 1.5rem
+    color: #fff
+    font-size: 36px
+    z-index: 2
+
+.search-side-nav
+  padding: 20px
+
+.top-nav
+  text-align: center
+  height: $top-line-height
+  box-shadow: none
+
+  .page-title
+    line-height: $top-line-height
+    font-size: 36px
