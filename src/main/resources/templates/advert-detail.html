@@ -23,17 +23,19 @@
 <div th:replace="fragment/header :: header"/>
 
 <div>
-    <div id="photo-gallery">
-        <div class="gallery-item adverts-gallery"
-             th:style="${'background-image:  url('+mainPhoto.path+');'}"
-             th:href="${mainPhoto.path}">
-            <img th:src="${mainPhoto.path}" style="display: none;"/>
-        </div>
-        <div th:each="otherPhoto : ${otherPhotos}"
-             th:href="${otherPhoto.path}"
-             class="gallery-item"
-             style="display: none;">
-            <img th:src="${otherPhoto.path}"/>
+    <div style="position: relative;">
+        <div id="photo-gallery">
+            <div class="gallery-item adverts-gallery"
+                 th:style="${'background-image:  url('+mainPhoto.path+');'}"
+                 th:href="${mainPhoto.path}">
+                <img th:src="${mainPhoto.path}" style="display: none;"/>
+            </div>
+            <div th:each="otherPhoto : ${otherPhotos}"
+                 th:href="${otherPhoto.path}"
+                 class="gallery-item"
+                 style="display: none;">
+                <img th:src="${otherPhoto.path}"/>
+            </div>
         </div>
         <div class="photo-tooltip">
             <div class="chip">
