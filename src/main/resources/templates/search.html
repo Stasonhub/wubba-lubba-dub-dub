@@ -6,7 +6,8 @@
 
     <title>Снять квартиру в Казани без посредников</title>
 
-    <meta name="description" content="Снять недвижимость в Казани на длительный срок без комиссии. Каталог объявлений для облегчения поиска жилья напрямую от собственников."/>
+    <meta name="description"
+          content="Снять недвижимость в Казани на длительный срок без комиссии. Каталог объявлений для облегчения поиска жилья напрямую от собственников."/>
     <meta name="keywords" content="снять квартиру, аренда квартиры, квартиры без посредников"/>
 
     <link rel="shortcut icon" href="/images/logo/favicon.ico">
@@ -47,32 +48,32 @@
                         <option value="" disabled th:selected="${searchRequest.getDistricts().isEmpty()}">Все районы
                         </option>
                         <option value="AV"
-                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).AV)}">
-                            Авиастроительный
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).AV)}"
+                                th:text="'Авиастроительный'">
                         </option>
                         <option value="KR"
-                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).KR)}">
-                            Кировский
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).KR)}"
+                                th:text="'Кировский'">
                         </option>
                         <option value="VH"
-                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).VH)}">
-                            Вахитовский
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).VH)}"
+                                th:text="'Вахитовский'">
                         </option>
                         <option value="MS"
-                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).MS)}">
-                            Московский
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).MS)}"
+                                th:text="'Московский'">
                         </option>
                         <option value="CV"
-                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).CV)}">
-                            Советский
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).CV)}"
+                                th:text="'Советский'">
                         </option>
                         <option value="PV"
-                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).PV)}">
-                            Приволжский
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).PV)}"
+                                th:text="'Приволжский'">
                         </option>
                         <option value="NS"
-                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).NS)}">
-                            Ново-Савиновский
+                                th:selected="${searchRequest.getDistricts().contains(T(com.airent.model.District).NS)}"
+                                th:text="'Ново-Савиновский'">
                         </option>
                     </select>
                 </div>
