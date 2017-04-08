@@ -7,7 +7,7 @@
 <div th:fragment="advertCard (advert, mainPhotos)">
     <div class="col s12 m6 l4">
         <a th:href="'/advert/'+${advert.id}" target="_blank">
-            <div class="advert-card card large">
+            <div class="advert-card card large hoverable">
                 <div class="card-image">
                     <img th:src="${mainPhotos.get(advert.getId()).getPath()}">
                     <div class="card-title">
