@@ -190,7 +190,7 @@ public class AdvertImportService {
     private boolean persistAdvert(AdvertsProvider advertsProvider, ParsedAdvert parsedAdvert) throws IOException {
         List<Photo> photos = photoContentService.savePhotos(advertsProvider.getType(), parsedAdvert);
 
-        Advert matchingAdvert = findMatchingAdvertByPhotos(photos);
+        Advert matchingAdvert = findMatchingAdvertByPhotos(parsedAdvert, photos);
         User matchingUser = userMapper.findByPhone(parsedAdvert.getPhone());
 
         if (matchingAdvert != null) {
@@ -253,7 +253,7 @@ public class AdvertImportService {
         return true;
     }
 
-    private Advert findMatchingAdvertByPhotos(List<Photo> photos) {
+    private Advert findMatchingAdvertByPhotos(ParsedAdvert parsedAdvert, List<Photo> photos) {
         Map<Long, Long> allPhotoHashes = photoMapper.getAllPhotoHashes().stream()
                 .collect(Collectors.toMap(Photo::getHash, Photo::getAdvertId, (adv1, adv2) -> {
                     logger.warn("Adverts {} and {} has the same photos", adv1, adv2);
@@ -265,6 +265,7 @@ public class AdvertImportService {
                 .filter(val -> val != null)
                 .findAny();
         if (anyValue.isPresent()) {
+            logger.warn("Decided that incoming value {} is duplication of original {}", parsedAdvert.getPublicationTimestamp(), anyValue.get());
             return advertMapper.findById(anyValue.get());
         }
         return null;
