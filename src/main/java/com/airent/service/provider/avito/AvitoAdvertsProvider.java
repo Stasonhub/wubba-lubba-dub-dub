@@ -19,17 +19,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.airent.service.provider.common.Util.getNumberInsideOf;
+import static com.airent.service.provider.common.Util.overwriteLast3Digit;
 
 @Service
 public class AvitoAdvertsProvider implements AdvertsProvider {
 
     private Logger logger = LoggerFactory.getLogger(AvitoAdvertsProvider.class);
+
+    private static final AtomicLong counter = new AtomicLong();
 
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok";
     private static final String PAGE_INDEX_SUFFIX = "?p=";
@@ -99,8 +103,10 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
                                 ParsedAdvertHeader parsedAdvertHeader = new ParsedAdvertHeader();
                                 parsedAdvertHeader.setAdvertUrl(
                                         header.findElement(By.className("item-description-title-link")).getAttribute("href"));
-                                parsedAdvertHeader.setPublicationTimestamp(avitoDateFormatter.getTimestamp(
-                                        header.findElement(By.className("date")).getAttribute("innerText")));
+                                parsedAdvertHeader.setPublicationTimestamp(overwriteLast3Digit(
+                                        avitoDateFormatter.getTimestamp(header.findElement(By.className("date"))
+                                                .getAttribute("innerText")),
+                                        counter.incrementAndGet()));
                                 return parsedAdvertHeader;
                             }).collect(Collectors.toList()).iterator();
 

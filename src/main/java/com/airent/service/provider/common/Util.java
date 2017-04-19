@@ -3,6 +3,8 @@ package com.airent.service.provider.common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class Util {
 
     private static Logger logger = LoggerFactory.getLogger(Util.class);
@@ -35,6 +37,12 @@ public class Util {
             //throw new IllegalArgumentException("There is no number in: " + val);
         }
         return result.toString();
+    }
+
+
+    public static long overwriteLast3Digit(long publicationDate, long counter) {
+        int val = (int) (counter % 1000);
+        return (publicationDate - (publicationDate % 1000)) + val;
     }
 
 
