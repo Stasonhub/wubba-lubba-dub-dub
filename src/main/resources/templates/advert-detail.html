@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
-    <title th:text="${'Сдается квартира по адресу ' + advert.address}"></title>
+    <title th:text="${'Сдается квартира по адресу ' + advert.address + ' - Fatirlar'}"></title>
     <meta name="description" th:content="${T(com.airent.template.Utils).getStringPart(advert.description, 50)}"/>
 
     <link rel="shortcut icon" href="/images/logo/favicon.ico">
@@ -69,7 +69,20 @@
                                         th:text="${advert.floor+'/'+advert.maxFloor+' этаж'}"></span></li>
                             </ul>
                             <div class="card-action" id="user-info">
-                                <a class="waves-effect waves-light btn" th:onclick="${'showUser('+advert.id+')'}"><i
+                                <div id="loader-spinner" style="display: none" class="preloader-wrapper small active">
+                                    <div class="spinner-layer spinner-green-only">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="gap-patch">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a id="loader-button" class="waves-effect waves-light btn" th:onclick="${'showUser('+advert.id+')'}"><i
                                         class="material-icons left">phone</i>Телефон</a>
                             </div>
                         </div>
@@ -147,6 +160,8 @@
 
 
     function showUser(id) {
+        document.getElementById('loader-button').style.display = "none";
+        document.getElementById('loader-spinner').style.display = "block";
         $.post("/user", {"advertId": id}, function (data, status) {
             document.getElementById('user-info').innerHTML = data;
         });

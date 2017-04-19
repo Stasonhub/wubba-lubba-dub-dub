@@ -53,7 +53,7 @@ public class SitemapController {
                         .priority(1.0)
                         .changeFreq(ChangeFreq.HOURLY)
                         .build());
-                wsg.addUrl(new WebSitemapUrl.Options(domainLink + "/search/?districts=AV,VH,KR,MS,NS,PV,CV&rooms1=false&rooms2=false&rooms3=false&priceRange=4,100")
+                wsg.addUrl(new WebSitemapUrl.Options(domainLink + "/search")
                         .lastMod(new Date())
                         .priority(1.0)
                         .changeFreq(ChangeFreq.HOURLY)
@@ -66,8 +66,8 @@ public class SitemapController {
                     for (Advert advert : adverts) {
                         wsg.addUrl(new WebSitemapUrl.Options(domainLink + "/advert/" + advert.getId())
                                 .lastMod(new Date(advert.getPublicationDate()))
-                                .priority(0.5)
-                                .changeFreq(ChangeFreq.MONTHLY)
+                                .priority(0.7)
+                                .changeFreq(ChangeFreq.DAILY)
                                 .build());
                     }
                     if (adverts.isEmpty()) {
