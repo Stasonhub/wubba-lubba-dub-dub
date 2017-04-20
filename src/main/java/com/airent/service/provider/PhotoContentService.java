@@ -50,7 +50,7 @@ public class PhotoContentService {
 
     private List<Photo> getPhotos(String type, ParsedAdvert parsedAdvert, boolean save) throws IOException {
         List<Photo> photos = new ArrayList<>();
-        String photosPath = String.valueOf(System.currentTimeMillis());
+        String photosPath = String.valueOf(parsedAdvert.getPublicationTimestamp());
         Set<Long> hashes = new HashSet<>();
         for (int i = 0; i < parsedAdvert.getPhotos().size(); i++) {
             String imageUrl = parsedAdvert.getPhotos().get(i);
@@ -66,7 +66,12 @@ public class PhotoContentService {
      * @return could be null
      */
     private Photo savePhoto(Set<Long> hashes, String type, String photosPath, int index, String imageUrl, boolean save) throws IOException {
-        String path = storagePath + File.separator + type + File.separator + photosPath + File.separator + index + ".jpg";
+        String folder =  storagePath + File.separator + type + File.separator + photosPath;
+        if (new File(folder).exists()) {
+            logger.error("DUPLICATED PUBLICATION TIMESTAMPS {}. PHOTOS COULD BE LOST.", folder);
+        }
+
+        String path = folder + File.separator + index + ".jpg";
         new File(path).getParentFile().mkdirs();
 
         byte[] image = loadImage(imageUrl);

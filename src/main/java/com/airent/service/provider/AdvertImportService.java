@@ -265,7 +265,7 @@ public class AdvertImportService {
                 .filter(val -> val != null)
                 .findAny();
         if (anyValue.isPresent()) {
-            logger.warn("Decided that incoming value {} is duplication of original {}", parsedAdvert.getPublicationTimestamp(), anyValue.get());
+            logger.warn("Decided that incoming value {} is duplication of original {}", parsedAdvert, anyValue.get());
             return advertMapper.findById(anyValue.get());
         }
         return null;
