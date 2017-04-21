@@ -52,6 +52,12 @@ public class PhotoContentService {
         List<Photo> photos = new ArrayList<>();
         String photosPath = String.valueOf(parsedAdvert.getPublicationTimestamp());
         Set<Long> hashes = new HashSet<>();
+
+        String folder = storagePath + File.separator + type + File.separator + photosPath;
+        if (new File(folder).exists()) {
+            logger.error("DUPLICATED PUBLICATION TIMESTAMPS {}. PHOTOS COULD BE LOST.", folder);
+        }
+
         for (int i = 0; i < parsedAdvert.getPhotos().size(); i++) {
             String imageUrl = parsedAdvert.getPhotos().get(i);
             Photo photo = savePhoto(hashes, type, photosPath, i, imageUrl, save);
@@ -66,12 +72,7 @@ public class PhotoContentService {
      * @return could be null
      */
     private Photo savePhoto(Set<Long> hashes, String type, String photosPath, int index, String imageUrl, boolean save) throws IOException {
-        String folder =  storagePath + File.separator + type + File.separator + photosPath;
-        if (new File(folder).exists()) {
-            logger.error("DUPLICATED PUBLICATION TIMESTAMPS {}. PHOTOS COULD BE LOST.", folder);
-        }
-
-        String path = folder + File.separator + index + ".jpg";
+        String path = storagePath + File.separator + type + File.separator + photosPath + File.separator + index + ".jpg";
         new File(path).getParentFile().mkdirs();
 
         byte[] image = loadImage(imageUrl);
