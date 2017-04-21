@@ -66,7 +66,7 @@ public class PhotoService {
      */
     public static class ImagePHash {
 
-        private int DISTANCE_MAX = 8;
+        private int DISTANCE_MAX = 3;
 
         private int size = 32;
         private int smallerSize = 8;
