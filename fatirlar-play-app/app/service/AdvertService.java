@@ -5,6 +5,7 @@ import model.District;
 import model.rest.SearchRequest;
 import model.ui.AdvertPrices;
 import repository.AdvertRepository;
+import repository.interops.AdvertRepositoryJv;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,7 +19,7 @@ public class AdvertService {
     private static final int ADVERTS_ON_MAIN_PAGE = 9;
 
     @Inject
-    private AdvertRepository advertMapper;
+    private AdvertRepositoryJv advertMapper;
 
     public List<Advert> getAdvertsForMainPage() {
         return advertMapper.getNextAdvertsBeforeTime(System.currentTimeMillis(), ADVERTS_ON_MAIN_PAGE);

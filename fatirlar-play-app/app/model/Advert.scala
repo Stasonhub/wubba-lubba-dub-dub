@@ -1,7 +1,7 @@
 package model
 
 case class Advert(
-                   id: Long,
+                   id: Int,
                    publicationDate: Long,
                    district: District,
                    address: String,
@@ -9,13 +9,12 @@ case class Advert(
                    maxFloor: Int,
                    rooms: Int,
                    sq: Int,
-                   price: Long,
+                   price: Int,
                    withPublicServices: Boolean,
-                   withDeposit: Boolean,
+                   conditions: Int,
                    description: String,
-                   conditions: Long,
-                   bedrooms: Int,
-                   beds: Int,
                    latitude: Double,
-                   longitude: Double
+                   longitude: Double,
+                   beds: Int,
+                   bedrooms: Int
                  )

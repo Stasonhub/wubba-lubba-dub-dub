@@ -3,10 +3,9 @@ package service.provider;
 import model.Advert;
 import model.Photo;
 import model.User;
-import repository.AdvertImportRepository;
-import repository.AdvertRepository;
-import repository.PhotoRepository;
-import repository.UserRepository;
+import repository.*;
+import repository.interops.AdvertImportRepositoryJv;
+import repository.interops.AdvertRepositoryJv;
 import service.LocationService;
 import service.PhotoService;
 import service.provider.api.AdvertsProvider;
@@ -32,18 +31,19 @@ public class AdvertImportService {
     private List<AdvertsProvider> advertsProviders;
 
     private LocationService locationService;
-    private AdvertImportRepository advertImportMapper;
-    private AdvertRepository advertMapper;
+    private AdvertImportRepositoryJv advertImportMapper;
+    private AdvertRepositoryJv advertMapper;
     private PhotoRepository photoMapper;
     private UserRepository userMapper;
     private PhotoService photoService;
     private PhotoContentService photoContentService;
+    private DbConnection dbConnection;
 
     @Inject
     public AdvertImportService(List<AdvertsProvider> advertsProviders,
                                LocationService locationService,
-                               AdvertImportRepository advertImportMapper,
-                               AdvertRepository advertMapper,
+                               AdvertImportRepositoryJv advertImportMapper,
+                               AdvertRepositoryJv advertMapper,
                                PhotoRepository photoMapper,
                                UserRepository userMapper,
                                PhotoService photoService,
@@ -216,7 +216,7 @@ public class AdvertImportService {
             return false;
         }
 
-        Advert advert = advertMapper.createAdvert(new Advert(0L,
+        Advert advert = advertMapper.createAdvert(new Advert(0,
                 parsedAdvert.getPublicationTimestamp(),
                 locationService.getDistrictFromAddress(parsedAdvert.getLatitude(), parsedAdvert.getLongitude()),
                 parsedAdvert.getAddress(),
@@ -226,13 +226,13 @@ public class AdvertImportService {
                 parsedAdvert.getSq(),
                 parsedAdvert.getPrice(),
                 true,
-                false,
+                0,
                 parsedAdvert.getDescription(),
-                0L,
-                parsedAdvert.getBedrooms(),
-                parsedAdvert.getBeds(),
                 parsedAdvert.getLatitude(),
-                parsedAdvert.getLongitude()));
+                parsedAdvert.getLongitude(),
+                parsedAdvert.getBedrooms(),
+                parsedAdvert.getBeds()
+                ));
 
         if (matchingUser != null) {
             // found another one advert from the same user

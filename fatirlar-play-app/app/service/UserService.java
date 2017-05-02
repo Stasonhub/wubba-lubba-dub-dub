@@ -4,6 +4,7 @@ import model.Advert;
 import model.User;
 import repository.AdvertRepository;
 import repository.UserRepository;
+import repository.interops.AdvertRepositoryJv;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -12,7 +13,7 @@ import javax.inject.Singleton;
 public class UserService {
 
     @Inject
-    private AdvertRepository advertMapper;
+    private AdvertRepositoryJv advertMapper;
 
     @Inject
     private UserRepository userMapper;
