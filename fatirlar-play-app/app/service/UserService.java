@@ -2,9 +2,8 @@ package service;
 
 import model.Advert;
 import model.User;
-import repository.AdvertRepository;
-import repository.UserRepository;
 import repository.interops.AdvertRepositoryJv;
+import repository.interops.UserRepositoryJv;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -16,9 +15,9 @@ public class UserService {
     private AdvertRepositoryJv advertMapper;
 
     @Inject
-    private UserRepository userMapper;
+    private UserRepositoryJv userMapper;
 
-    public User getUserForAdvert(long advertId) {
+    public User getUserForAdvert(int advertId) {
         Advert advert = advertMapper.findById(advertId);
         if (advert == null) {
             return null;

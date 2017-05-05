@@ -1,8 +1,8 @@
 package model
 
-case class User(id: Long,
+case class User(id: Int,
                 phone: Long,
                 name: String,
-                password: String,
-                trustRate: Int,
+                trustRate: Long,
+                password: Option[String],
                 registered: Boolean)

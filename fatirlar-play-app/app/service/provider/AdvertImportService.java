@@ -6,6 +6,10 @@ import model.User;
 import repository.*;
 import repository.interops.AdvertImportRepositoryJv;
 import repository.interops.AdvertRepositoryJv;
+import repository.interops.PhotoRepositoryJv;
+import repository.interops.UserRepositoryJv;
+import scala.None;
+import scala.Option;
 import service.LocationService;
 import service.PhotoService;
 import service.provider.api.AdvertsProvider;
@@ -33,8 +37,8 @@ public class AdvertImportService {
     private LocationService locationService;
     private AdvertImportRepositoryJv advertImportMapper;
     private AdvertRepositoryJv advertMapper;
-    private PhotoRepository photoMapper;
-    private UserRepository userMapper;
+    private PhotoRepositoryJv photoMapper;
+    private UserRepositoryJv userMapper;
     private PhotoService photoService;
     private PhotoContentService photoContentService;
     private DbConnection dbConnection;
@@ -44,8 +48,8 @@ public class AdvertImportService {
                                LocationService locationService,
                                AdvertImportRepositoryJv advertImportMapper,
                                AdvertRepositoryJv advertMapper,
-                               PhotoRepository photoMapper,
-                               UserRepository userMapper,
+                               PhotoRepositoryJv photoMapper,
+                               UserRepositoryJv userMapper,
                                PhotoService photoService,
                                PhotoContentService photoContentService) {
         this.advertsProviders = advertsProviders;
@@ -170,7 +174,7 @@ public class AdvertImportService {
 
         Advert matchingAdvert = matchingAdverts.get(0);
         // find match by advert/partial user phone
-        List<User> matchingUsers = userMapper.findByStartingSixNumbers(matchingAdvert.id(), parsedAdvert.getPhone());
+        List<User> matchingUsers = userMapper.findByStartingSixNumbers(matchingAdvert.id(), (int) parsedAdvert.getPhone());
         if (matchingUsers.isEmpty()) {
             logger.warn("Verification. Failed to find user for advert {} with number {}", parsedAdvert, parsedAdvert.getPhone());
             return false;
@@ -203,11 +207,11 @@ public class AdvertImportService {
             // found new user for the same advert
             // remove half of trust
             User user = new User(
-                    0L,
+                    0,
                     parsedAdvert.getPhone(),
                     parsedAdvert.getUserName(),
-                    "",
                     parsedAdvert.getTrustRate() / 2,
+                    Option.empty(),
                     false
 
             );
@@ -241,8 +245,8 @@ public class AdvertImportService {
                     matchingUser.id(),
                     matchingUser.phone(),
                     matchingUser.name(),
-                    matchingUser.password(),
                     matchingUser.trustRate() / 4,
+                    matchingUser.password(),
                     matchingUser.registered()
 
             );
@@ -251,11 +255,11 @@ public class AdvertImportService {
         } else {
             // just create new user and bind advert
             User user = userMapper.createUser(new User(
-                    0L,
+                    0,
                     parsedAdvert.getPhone(),
                     parsedAdvert.getUserName(),
-                    "",
                     parsedAdvert.getTrustRate(),
+                    Option.empty(),
                     false
             ));
             advertMapper.bindToUser(advert.id(), user.id());
@@ -264,10 +268,10 @@ public class AdvertImportService {
         // persist photos
         for (Photo photo : photos) {
             photoMapper.createPhoto(new Photo(
-                    0L,
+                    0,
                     advert.id(),
-                    photo.main(),
                     photo.path(),
+                    photo.main(),
                     photo.hash()
             ));
         }
@@ -276,12 +280,12 @@ public class AdvertImportService {
     }
 
     private Advert findMatchingAdvertByPhotos(ParsedAdvert parsedAdvert, List<Photo> photos) {
-        Map<Long, Long> allPhotoHashes = photoMapper.getAllPhotoHashes().stream()
+        Map<Long, Integer> allPhotoHashes = photoMapper.getAllPhotoHashes().stream()
                 .collect(Collectors.toMap(Photo::hash, Photo::advertId, (adv1, adv2) -> {
                     logger.warn("Adverts {} and {} has the same photos", adv1, adv2);
                     return adv1;
                 }));
-        Optional<Long> anyValue = photos.stream()
+        Optional<Integer> anyValue = photos.stream()
                 .map(Photo::hash)
                 .map(hash -> photoService.searchForSame(allPhotoHashes, hash))
                 .filter(val -> val != null)

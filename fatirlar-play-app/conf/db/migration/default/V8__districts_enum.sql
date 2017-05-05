@@ -4,6 +4,12 @@ DROP VIEW rt_adverts;
 
 ALTER TABLE advert ALTER district TYPE districts_enum USING district::districts_enum;
 
+ALTER TABLE photo ALTER COLUMN advertid TYPE integer;
+
+ALTER TABLE advert_author
+  ALTER COLUMN advertid TYPE integer,
+  ALTER COLUMN userid TYPE integer;
+
 CREATE VIEW rt_adverts AS
   SELECT adv.*
   FROM advert adv

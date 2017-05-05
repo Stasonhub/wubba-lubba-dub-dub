@@ -1,7 +1,7 @@
 package model
 
-case class Photo(id: Long,
-                 advertId: Long,
-                 main: Boolean,
+case class Photo(id: Int,
+                 advertId: Int,
                  path: String,
+                 main: Boolean,
                  hash: Long)

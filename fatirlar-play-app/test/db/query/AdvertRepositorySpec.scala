@@ -1,19 +1,14 @@
-package db
+package db.query
 
+import db.TestConnection
 import doobie.specs2.imports._
-import doobie.util.iolite.IOLite
 import model.{Advert, District}
 import org.specs2.mutable._
-import doobie.imports._
-import fs2.interop.cats._
-
 import repository.AdvertRepository
 
-class AdvertSpec extends Specification with AnalysisSpec {
+class AdvertRepositorySpec extends Specification with AnalysisSpec {
 
-  def transactor = DriverManagerTransactor[IOLite](
-    "org.postgresql.Driver", "jdbc:postgresql://localhost:4466/postgres", "postgres", "AQGnthVu73AjBfBF"
-  )
+  def transactor = TestConnection.dbConnection.xa
 
   val advertRepository = new AdvertRepository
 

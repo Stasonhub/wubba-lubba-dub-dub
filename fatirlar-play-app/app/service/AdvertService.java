@@ -88,7 +88,7 @@ public class AdvertService {
         return advertMapper.getAdverts(districts, priceFrom, priceTo, rooms, searchRequest.getPage() * ADVERTS_PER_REQUEST, ADVERTS_PER_REQUEST);
     }
 
-    public Advert getAdvert(long id) {
+    public Advert getAdvert(int id) {
         return advertMapper.findById(id);
     }
 

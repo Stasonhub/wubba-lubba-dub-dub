@@ -2,18 +2,39 @@ package repository.interops
 
 import java.util
 
+import doobie.imports._
+import fs2.interop.cats._
 import model.Photo
+import repository.{DbConnection, PhotoRepository}
 
-class PhotoRepositoryJv {
-  def createPhoto(photo: Photo) = ???
+import scala.collection.JavaConverters._
 
-  def deletePhoto(photo: Photo) = ???
+class PhotoRepositoryJv(dbConnection: DbConnection, photoRepository: PhotoRepository) {
 
-  def getMainPhoto(advertId: Long): Photo = ???
+  def createPhoto(photo: Photo): Unit =
+    photoRepository.createPhoto(photo)
+      .run
+      .transact(dbConnection.xa)
+      .unsafePerformIO
 
-  def getPhotos(advertIds: Long): util.List[Photo] = ???
+  def getPhotos(advertIds: Int): util.List[Photo] =
+    photoRepository.getPhotos(advertIds)
+      .list
+      .transact(dbConnection.xa)
+      .unsafePerformIO
+      .asJava
 
-  def getMainPhotos(advertIds: util.List[Long]): util.List[Photo] = ???
+  def getMainPhotos(advertIds: util.List[Int]): util.List[Photo] =
+    photoRepository.getMainPhotos(advertIds.asScala.toList)
+      .list
+      .transact(dbConnection.xa)
+      .unsafePerformIO
+      .asJava
 
-  def getAllPhotoHashes: util.List[Photo] = ???
+  def getAllPhotoHashes: util.List[Photo] =
+    photoRepository.getAllPhotoHashes
+      .list
+      .transact(dbConnection.xa)
+      .unsafePerformIO
+      .asJava
 }

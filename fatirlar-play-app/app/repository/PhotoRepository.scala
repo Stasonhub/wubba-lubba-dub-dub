@@ -1,19 +1,36 @@
 package repository
 
-import java.util
-
+import cats.implicits._
+import doobie.imports.Fragments.{in, whereAndOpt}
+import doobie.imports._
 import model.Photo
 
 class PhotoRepository {
-  def createPhoto(photo: Photo) = ???
 
-  def deletePhoto(photo: Photo) = ???
+  def createPhoto(photo: Photo): Update0 =
+      sql"""
+       INSERT INTO photo (advertId, path, main, hash)
+       VALUES (${photo.advertId}, ${photo.path}, ${photo.main}, ${photo.hash})
+       """.update
+    // .withUniqueGeneratedKeys[Photo]("id", "advertId", "path", "main", "hash")
 
-  def getMainPhoto(advertId: Long): Photo = ???
+  def getPhotos(advertId: Int): Query0[Photo] =
+      sql"""
+           SELECT *
+           FROM photo
+           WHERE advertid = $advertId
+            """.query[Photo]
 
-  def getPhotos(advertIds: Long): util.List[Photo] = ???
+  def getMainPhotos(advertIds: List[Int]): Query0[Photo] = {
+    val advertIdIn = advertIds.toNel.map(cs => in(fr"advertid", cs))
+    (fr"""
+        SELECT *
+        FROM photo""" ++
+        whereAndOpt(Option(fr"main='true'"), advertIdIn)).query[Photo]
+  }
 
-  def getMainPhotos(advertIds: util.List[Long]): util.List[Photo] = ???
-
-  def getAllPhotoHashes: util.List[Photo] = ???
+  def getAllPhotoHashes: Query0[Photo] =
+      sql"""
+        SELECT *
+        FROM photo""".query[Photo]
 }

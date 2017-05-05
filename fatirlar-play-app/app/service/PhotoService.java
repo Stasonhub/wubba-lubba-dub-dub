@@ -3,11 +3,10 @@ package service;
 import model.Advert;
 import model.Photo;
 import org.apache.commons.lang3.StringUtils;
-import repository.PhotoRepository;
+import repository.interops.PhotoRepositoryJv;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 public class PhotoService {
 
     @Inject
-    private PhotoRepository photoMapper;
+    private PhotoRepositoryJv photoMapper;
 
     private ImagePHash imagePHash = new ImagePHash();
 
@@ -30,7 +29,7 @@ public class PhotoService {
         return photoMapper.getPhotos(advert.id());
     }
 
-    public Map<Long, Photo> getMainPhotos(List<Advert> adverts) {
+    public Map<Integer, Photo> getMainPhotos(List<Advert> adverts) {
         if (adverts.isEmpty()) {
             return Collections.emptyMap();
         }

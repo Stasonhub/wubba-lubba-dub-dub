@@ -89,10 +89,10 @@ public class PhotoContentService {
 
         // create photo
         Photo photo = new Photo(
-                0L,
-                0L,
-                index == 0,
+                0,
+                0,
                 "STORE_PREFIX/"+ File.separator + type + File.separator + photosPath + File.separator + index + ".jpg",
+                index == 0,
                 currentImageHash
         );
 
