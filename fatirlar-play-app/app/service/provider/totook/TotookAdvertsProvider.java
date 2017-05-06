@@ -106,7 +106,7 @@ public class TotookAdvertsProvider implements AdvertsProvider {
     public ParsedAdvert getAdvert(ParsedAdvertHeader parsedAdvertHeader) {
         long startTime = System.currentTimeMillis();
         Document advertPage = doGet(parsedAdvertHeader.getAdvertUrl());
-        logger.info("Spend time for opening advert {} : {} ms", parsedAdvertHeader.getAdvertUrl(), System.currentTimeMillis() - startTime);
+        logger.info("Spend time for opening advertDetail {} : {} ms", parsedAdvertHeader.getAdvertUrl(), System.currentTimeMillis() - startTime);
 
         // address/sq/price/coordinates/phone
         String address = advertPage.select(".b-detail__address").text();

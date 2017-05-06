@@ -1,0 +1,6 @@
+@import model._
+
+@(adverts: List[Advert], mainPhotos: Map[Int, Photo])
+@for(advert <- adverts) {
+   advertDetail(advertDetail, mainPhotos)
+}

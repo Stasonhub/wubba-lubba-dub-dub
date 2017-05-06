@@ -18,7 +18,7 @@ class PhotoRepositoryJvSpec extends Specification with BeforeAll {
     s2"""
       The photo repository should:
          create photo $createPhoto
-         get photos for advert $getPhotosForAdvert
+         get photos for advertDetail $getPhotosForAdvert
          get main photos for adverts $getMainPhotos
          get all photos hashes $getAllPhotosHashes
       """

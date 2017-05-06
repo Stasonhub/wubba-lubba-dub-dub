@@ -1,75 +1,78 @@
-package model.rest;
+package com.airent.controller;
 
-import model.District;
-import model.ui.AdvertPrices;
-import model.ui.SearchBoxState;
+import com.airent.model.Advert;
+import com.airent.model.District;
+import com.airent.model.Photo;
+import com.airent.model.rest.SearchRequest;
+import com.airent.model.ui.AdvertPrices;
+import com.airent.model.ui.SearchBoxState;
+import com.airent.service.AdvertService;
+import com.airent.service.LoginService;
+import com.airent.service.PhotoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class SearchRequest {
-    private List<District> districts;
-    private List<Integer> priceRange;
-    private boolean room1;
-    private boolean room2;
-    private boolean room3;
-    private int page;
+@Controller
+public class AdvertController {
 
-    public List<District> getDistricts() {
-        return districts;
+    @Autowired
+    private AdvertService advertService;
+
+    @Autowired
+    private PhotoService photoService;
+
+    @Autowired
+    private LoginService loginService;
+
+    @RequestMapping(method = RequestMethod.GET, path = "/")
+    public String showMainPage(Model model) {
+        List<Advert> adverts = advertService.getAdvertsForMainPage();
+        model.addAttribute("adverts", adverts);
+        model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
+        model.addAttribute("currentUser", loginService.getCurrentUser());
+        return "main";
     }
 
-    public void setDistricts(List<District> districts) {
-        this.districts = districts;
+    @RequestMapping(method = RequestMethod.GET, path = "/search")
+    public String searchAdverts(SearchRequest searchRequest, Model model) {
+        SearchRequest normalized = normalize(searchRequest);
+
+        List<Advert> adverts = advertService.getAdverts(normalized);
+        int pagesCount = advertService.getPagesCount(normalized);
+        model.addAttribute("adverts", adverts);
+        model.addAttribute("mainPhotos", photoService.getMainPhotos(adverts));
+        model.addAttribute("searchRequest", normalized);
+        model.addAttribute("pagesCount", pagesCount);
+        model.addAttribute("currentUser", loginService.getCurrentUser());
+        return "search";
     }
 
-    public boolean isRoom1() {
-        return room1;
+    @RequestMapping(method = RequestMethod.GET, path = "/advert/{advertId}")
+    public String getAdvertDetails(@PathVariable long advertId, Model model) {
+        Advert advert = advertService.getAdvert(advertId);
+        if (advert == null) {
+            throw new IllegalArgumentException("Объявление не найдено");
+        }
+
+        List<Photo> photos = photoService.getPhotos(advert);
+
+        model.addAttribute("advert", advert);
+        model.addAttribute("mainPhoto", photos.stream().filter(Photo::isMain).findFirst().get());
+        model.addAttribute("otherPhotos", photos.stream().filter(v -> !v.isMain()).collect(Collectors.toList()));
+        model.addAttribute("currentUser", loginService.getCurrentUser());
+        return "advert-detail";
     }
 
-    public void setRoom1(boolean room1) {
-        this.room1 = room1;
-    }
-
-    public boolean isRoom2() {
-        return room2;
-    }
-
-    public void setRoom2(boolean room2) {
-        this.room2 = room2;
-    }
-
-    public boolean isRoom3() {
-        return room3;
-    }
-
-    public void setRoom3(boolean room3) {
-        this.room3 = room3;
-    }
-
-    public List<Integer> getPriceRange() {
-        return priceRange;
-    }
-
-    public void setPriceRange(List<Integer> priceRange) {
-        this.priceRange = priceRange;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public SearchRequest setPage(int page) {
-        this.page = page;
-        return this;
-    }
-
-    public SearchRequest normalize() {
-        return normalize(this);
-    }
-
-    public SearchRequest normalize(SearchRequest searchRequest) {
+    private SearchRequest normalize(SearchRequest searchRequest) {
         SearchRequest normalized = new SearchRequest();
 
         normalized.setDistricts(searchRequest.getDistricts() == null ? Collections.emptyList() : searchRequest.getDistricts());
@@ -136,4 +139,5 @@ public class SearchRequest {
         searchBoxState.setPriceTo(Math.min(searchBoxState.getPriceMax(), searchRequest.getPriceRange().get(1)));
         return searchBoxState;
     }
+
 }

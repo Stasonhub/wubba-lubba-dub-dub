@@ -1,0 +1,163 @@
+@import model._
+
+@(advert: Advert, photos: List[Photo])
+
+@main {
+    <title th:text="${'Сдается квартира по адресу ' + advert.address + ' - Fatirlar'}"></title>
+    <meta name="description" th:content="${T(com.airent.template.Utils).getStringPart(advert.description, 50)}"/>
+
+    <link rel="stylesheet" href="/css/lightgallery.min.css">
+    <link rel="stylesheet" href="/css/search.css" media="screen,projection">
+    <link rel="stylesheet" href="/css/advert-details.css" media="screen,projection">
+} {
+    <div class="grey lighten-4">
+        @fragments.header
+
+        <div>
+            <div style="position: relative;">
+                <div id="photo-gallery">
+                    <div class="gallery-item adverts-gallery"
+                    th:style="${'background-image:  url('+mainPhoto.path+');'}"
+                    th:href="${mainPhoto.path}">
+                        <img th:src="${mainPhoto.path}" style="display: none;"/>
+                    </div>
+                    <div th:each="otherPhoto : ${otherPhotos}"
+                    th:href="${otherPhoto.path}"
+                    class="gallery-item"
+                    style="display: none;">
+                        <img th:src="${otherPhoto.path}"/>
+                    </div>
+                </div>
+                <div class="photo-tooltip">
+                    <div class="chip">
+                        Нажмите для просмотра фотографий
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="container">
+                    <div class="row details-container">
+
+                        <div class="col s12 m12 l5">
+
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-title">
+                                        <h3>Основное</h3>
+                                    </div>
+                                    <ul class="main-info">
+                                        <li th:text="${advert.address}"></li>
+                                        <li th:text="${#numbers.formatInteger(advert.price, 0, 'WHITESPACE') + 'Р' + (advert.withPublicServices ? ' + ку' : '') + (advert.withDeposit ? ' + депозит' : '')}"></li>
+                                    </ul>
+                                    <ul>
+                                        <li><i class="tiny material-icons">view_quilt</i> <span
+                                        th:text="${advert.rooms +' ' + T(com.airent.template.Utils).getRoomsText(advert.rooms)}"></span>
+                                        </li>
+                                        <li><i class="tiny material-icons">aspect_ratio</i> <span th:inline="text">[[${advert.sq}]] м<sup>2</sup></span>
+                                        </li>
+                                        <li><i class="tiny material-icons">trending_up</i> <span
+                                        th:text="${advert.floor+'/'+advert.maxFloor+' этаж'}"></span></li>
+                                    </ul>
+                                    <div class="card-action" id="user-info">
+                                        <div id="loader-spinner" style="display: none" class="preloader-wrapper small active">
+                                            <div class="spinner-layer spinner-green-only">
+                                                <div class="circle-clipper left">
+                                                    <div class="circle"></div>
+                                                </div>
+                                                <div class="gap-patch">
+                                                    <div class="circle"></div>
+                                                </div>
+                                                <div class="circle-clipper right">
+                                                    <div class="circle"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a id="loader-button" class="waves-effect waves-light btn" th:onclick="${'showUser('+advert.id+')'}"><i
+                                        class="material-icons left">phone</i>Телефон</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-title">
+                                        <h3>Описание</h3>
+                                    </div>
+                                    <p th:text="${advert.description}"></p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col s12 m12 l7">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-title">
+                                        <h3>Расположение</h3>
+                                    </div>
+                                    <div id="geo-data" th:latitude="${advert.latitude}" th:longitude="${advert.longitude}"
+                                    th:hint="${advert.address}"></div>
+                                    <div id="adv-detail-map"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="page-footer teal">
+            <div class="footer-copyright teal">
+                <div class="container">
+                    Made by <a class="brown-text text-lighten-3" href="/">Fairlar.ru</a>
+                </div>
+            </div>
+        </footer>
+
+        <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="/js/materialize.min.js"></script>
+        <script type="text/javascript" src="/js/lightgallery-all.min.js"></script>
+        <script>
+                $(document).ready(function () {
+                    $('#photo-gallery').lightGallery({
+                        download: false,
+                        autoplayControls: false,
+                        actualSize: false,
+                        selector: '.gallery-item'
+                    });
+                });
+        </script>
+        <script>
+                function initMap(ymaps) {
+                    var geoData = document.getElementById('geo-data');
+                    var latitude = geoData.getAttribute('latitude');
+                    var longitude = geoData.getAttribute('longitude')
+
+                    var map = new ymaps.Map("adv-detail-map", {
+                        center: [latitude, longitude],
+                        controls: ["zoomControl"],
+                        zoom: 11
+                    });
+                    map.behaviors.disable('scrollZoom');
+
+                    var myPlacemark = new ymaps.Placemark([latitude, longitude], {
+                        hintContent: geoData.getAttribute('hint')
+                    }, {
+                        preset: 'islands#redIcon',
+                    });
+                    map.geoObjects.add(myPlacemark);
+                }
+
+
+                function showUser(id) {
+                    document.getElementById('loader-button').style.display = "none";
+                    document.getElementById('loader-spinner').style.display = "block";
+                    $.post("/user", {"advertId": id}, function (data, status) {
+                        document.getElementById('user-info').innerHTML = data;
+                    });
+                }
+        </script>
+        <script async src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&onload=initMap" type="text/javascript"></script>
+    </div>
+}
