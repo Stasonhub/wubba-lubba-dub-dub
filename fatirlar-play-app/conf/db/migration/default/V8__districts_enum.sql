@@ -17,3 +17,5 @@ CREATE VIEW rt_adverts AS
     LEFT JOIN sys_user usr ON aut.userid = usr.id
   WHERE
     usr.trustrate > 3000 AND TO_TIMESTAMP((adv.publicationdate + 1209600000) / 1000) > CURRENT_TIMESTAMP;
+
+ALTER TABLE sys_user ADD CONSTRAINT phone_uniq UNIQUE (phone);

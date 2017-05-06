@@ -8,7 +8,6 @@ import repository.interops.AdvertImportRepositoryJv;
 import repository.interops.AdvertRepositoryJv;
 import repository.interops.PhotoRepositoryJv;
 import repository.interops.UserRepositoryJv;
-import scala.None;
 import scala.Option;
 import service.LocationService;
 import service.PhotoService;
@@ -280,7 +279,7 @@ public class AdvertImportService {
     }
 
     private Advert findMatchingAdvertByPhotos(ParsedAdvert parsedAdvert, List<Photo> photos) {
-        Map<Long, Integer> allPhotoHashes = photoMapper.getAllPhotoHashes().stream()
+        Map<Long, Integer> allPhotoHashes = photoMapper.getAllPhotos().stream()
                 .collect(Collectors.toMap(Photo::hash, Photo::advertId, (adv1, adv2) -> {
                     logger.warn("Adverts {} and {} has the same photos", adv1, adv2);
                     return adv1;

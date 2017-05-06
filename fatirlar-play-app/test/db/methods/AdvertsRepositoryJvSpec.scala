@@ -1,22 +1,23 @@
 package db.methods
 
 import db.TestConnection
-import model.{Advert, District, User}
+import db.methods.TestData.{defaultAdvert, defaultUser}
+import model.District
 import org.specs2.Specification
-import repository.{AdvertRepository, PhotoRepository, UserRepository}
-import repository.interops.{AdvertRepositoryJv, PhotoRepositoryJv, UserRepositoryJv}
+import org.specs2.specification.BeforeAll
+import repository.interops.{AdvertRepositoryJv, UserRepositoryJv}
+import repository.{AdvertRepository, UserRepository}
 
 import scala.collection.JavaConverters._
 
-class AdvertsTest extends Specification {
+class AdvertsRepositoryJvSpec extends Specification with BeforeAll {
 
   val advertRepositoryJv = new AdvertRepositoryJv(TestConnection.dbConnection, new AdvertRepository())
-  val photoRepositoryJv = new PhotoRepositoryJv(TestConnection.dbConnection, new PhotoRepository())
   val userRepositoryJv = new UserRepositoryJv(TestConnection.dbConnection, new UserRepository())
 
   def is =
     s2"""
-      The advert mapper should:
+      The advert repository should:
          create advert $createAdvert
          find created advert $findCreatedAdvert
          return created adverts by before time $findAdvertsBeforeTime
@@ -58,7 +59,7 @@ class AdvertsTest extends Specification {
     advertRepositoryJv.bindToUser(createdAdvert3.id, createdUser.id)
 
     val adverts = advertRepositoryJv.getNextAdvertsBeforeTime(timestamp + 4, 2).asScala
-    adverts should containTheSameElementsAs(List(createdAdvert3, createdAdvert2))
+    adverts must containTheSameElementsAs(List(createdAdvert3, createdAdvert2))
   }
 
   def searchAdverts = {
@@ -69,7 +70,7 @@ class AdvertsTest extends Specification {
     advertRepositoryJv.bindToUser(createdAdvert1.id, createdUser.id)
     advertRepositoryJv.bindToUser(createdAdvert2.id, createdUser.id)
 
-    val foundAdverts = advertRepositoryJv.getAdverts(List(District.KR).asJava, 0, 15000, List(2).asJava.asInstanceOf[java.util.List[java.lang.Integer]], 0, 5).asScala
+    val foundAdverts = advertRepositoryJv.getAdverts(List(District.KR).asJava, 0, 20000, List(2).asJava.asInstanceOf[java.util.List[java.lang.Integer]], 0, 5).asScala
     foundAdverts should containTheSameElementsAs(List(createdAdvert2))
   }
 
@@ -81,7 +82,7 @@ class AdvertsTest extends Specification {
     advertRepositoryJv.bindToUser(createdAdvert1.id, createdUser.id)
     advertRepositoryJv.bindToUser(createdAdvert2.id, createdUser.id)
 
-    val count = advertRepositoryJv.getAdvertsCount(List(District.MS).asJava, 0, 15000, List(2).asJava.asInstanceOf[java.util.List[java.lang.Integer]])
+    val count = advertRepositoryJv.getAdvertsCount(List(District.MS).asJava, 0, 20000, List(2).asJava.asInstanceOf[java.util.List[java.lang.Integer]])
     count must beEqualTo(1)
   }
 
@@ -100,8 +101,6 @@ class AdvertsTest extends Specification {
     createdAdvert must not beNull
   }
 
-  def defaultAdvert = Advert(0, System.currentTimeMillis(), District.AV, "Address", 3, 5, 2, 42, 12000, false, 0, "desc", 23.24, 25.26, 0, 0)
-
-  def defaultUser = User(0, 9274122334L, "User_1", 500000, Option.empty, false)
+  def beforeAll = TestConnection.cleanUpDb
 
 }

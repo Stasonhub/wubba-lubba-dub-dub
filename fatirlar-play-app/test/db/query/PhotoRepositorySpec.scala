@@ -15,6 +15,6 @@ class PhotoRepositorySpec extends Specification with AnalysisSpec {
   check(photoRepository.createPhoto(Photo(0, 0, "path", false, 0)))
   check(photoRepository.getPhotos(0))
   check(photoRepository.getMainPhotos(List()))
-  check(photoRepository.getAllPhotoHashes)
+  check(photoRepository.getAllPhotos)
 
 }

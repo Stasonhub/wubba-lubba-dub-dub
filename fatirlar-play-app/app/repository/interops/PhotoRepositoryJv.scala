@@ -11,9 +11,9 @@ import scala.collection.JavaConverters._
 
 class PhotoRepositoryJv(dbConnection: DbConnection, photoRepository: PhotoRepository) {
 
-  def createPhoto(photo: Photo): Unit =
+  def createPhoto(photo: Photo): Photo =
     photoRepository.createPhoto(photo)
-      .run
+      .withUniqueGeneratedKeys[Photo]("id", "advertid", "path", "main", "hash")
       .transact(dbConnection.xa)
       .unsafePerformIO
 
@@ -31,8 +31,8 @@ class PhotoRepositoryJv(dbConnection: DbConnection, photoRepository: PhotoReposi
       .unsafePerformIO
       .asJava
 
-  def getAllPhotoHashes: util.List[Photo] =
-    photoRepository.getAllPhotoHashes
+  def getAllPhotos: util.List[Photo] =
+    photoRepository.getAllPhotos
       .list
       .transact(dbConnection.xa)
       .unsafePerformIO

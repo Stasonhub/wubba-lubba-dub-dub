@@ -17,6 +17,10 @@ class AdvertRepositorySpec extends Specification with AnalysisSpec {
   check(advertRepository.getNextAdvertsBeforeTime(0, 0))
   check(advertRepository.getAdverts(List[District](), 0, 0, List[Int](), 0, 0))
   check(advertRepository.getAdvertsCount(List[District](), 0, 0, List[Int]()))
+  check(advertRepository.getAdverts(List(District.MS), 0, 0, List(1), 0, 0))
+  check(advertRepository.getAdvertsCount(List(District.AV), 0, 0, List(3)))
+  check(advertRepository.getAdverts(List(District.MS, District.KR), 0, 0, List(1, 2, 3), 0, 0))
+  check(advertRepository.getAdvertsCount(List(District.NS, District.VH), 0, 0, List(1, 2, 3)))
   check(advertRepository.bindToUser(0, 0))
   check(advertRepository.findBySqPriceCoords(0, 0, 0.0, 0.0))
 

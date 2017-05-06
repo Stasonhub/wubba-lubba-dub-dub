@@ -12,7 +12,6 @@ class PhotoRepository {
        INSERT INTO photo (advertId, path, main, hash)
        VALUES (${photo.advertId}, ${photo.path}, ${photo.main}, ${photo.hash})
        """.update
-    // .withUniqueGeneratedKeys[Photo]("id", "advertId", "path", "main", "hash")
 
   def getPhotos(advertId: Int): Query0[Photo] =
       sql"""
@@ -29,7 +28,7 @@ class PhotoRepository {
         whereAndOpt(Option(fr"main='true'"), advertIdIn)).query[Photo]
   }
 
-  def getAllPhotoHashes: Query0[Photo] =
+  def getAllPhotos: Query0[Photo] =
       sql"""
         SELECT *
         FROM photo""".query[Photo]

@@ -3,7 +3,7 @@ package repository
 import javax.inject.Singleton
 
 import cats.implicits._
-import doobie.imports.Fragments.{andOpt, in}
+import doobie.imports.Fragments.{andOpt, whereAndOpt, in}
 import doobie.imports._
 import doobie.postgres.pgtypes._
 import model.ui.AdvertPrices
@@ -50,12 +50,16 @@ class AdvertRepository {
          FROM advert adv
               LEFT JOIN advert_author aut ON adv.id = aut.advertid
               LEFT JOIN sys_user usr ON aut.userid = usr.id
-         WHERE
-          usr.trustrate > 3000 AND TO_TIMESTAMP((adv.publicationdate + 1209600000) / 1000) > CURRENT_TIMESTAMP""" ++
-      andOpt(districtsF, roomsF) ++
-      fr"""    AND price >= $priceFrom
-          AND $priceTo >= price
-        ORDER BY publicationDate DESC
+         """ ++
+      whereAndOpt(
+         Some(fr"""
+           usr.trustrate > 3000 AND TO_TIMESTAMP((adv.publicationdate + 1209600000) / 1000) > CURRENT_TIMESTAMP
+            AND price >= $priceFrom
+            AND $priceTo >= price
+           """),
+         districtsF,
+         roomsF) ++
+      fr"""ORDER BY publicationDate DESC
         LIMIT $limit
         OFFSET $offset
             """).query[Advert]
@@ -68,13 +72,15 @@ class AdvertRepository {
         SELECT COUNT(*)
         FROM advert adv
              LEFT JOIN advert_author aut ON adv.id = aut.advertid
-             LEFT JOIN sys_user usr ON aut.userid = usr.id
-        WHERE
-          usr.trustrate > 3000 AND TO_TIMESTAMP((adv.publicationdate + 1209600000) / 1000) > CURRENT_TIMESTAMP""" ++
-      andOpt(districtsF, roomsF) ++
-      fr"""AND price >= $priceFrom
-          AND $priceTo >= price
-            """).query[Long]
+             LEFT JOIN sys_user usr ON aut.userid = usr.id """ ++
+      whereAndOpt(
+        Some(fr"""
+            usr.trustrate > 3000 AND TO_TIMESTAMP((adv.publicationdate + 1209600000) / 1000) > CURRENT_TIMESTAMP
+                       AND price >= $priceFrom
+                       AND $priceTo >= price"""),
+        districtsF,
+        roomsF)
+      ).query[Long]
   }
 
   def getAdvertPrices: AdvertPrices = ???
