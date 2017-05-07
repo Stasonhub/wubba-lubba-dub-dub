@@ -17,14 +17,14 @@ class AdvertsRepositoryJvSpec extends Specification with BeforeAll {
 
   def is =
     s2"""
-      The advertDetail repository should:
-         create advertDetail $createAdvert
-         find created advertDetail $findCreatedAdvert
+      The advert repository should:
+         create advert $createAdvert
+         find created advert $findCreatedAdvert
          return created adverts by before time $findAdvertsBeforeTime
-         search advertDetail by parameters $searchAdverts
+         search advert by parameters $searchAdverts
          count searching adverts $countAdverts
-         find created advertDetail by Sq/Price/Coord $findBySqPriceCoords
-         bind advertDetail to user $bindAdvertToUser
+         find created advert by Sq/Price/Coord $findBySqPriceCoords
+         bind advert to user $bindAdvertToUser
       """
 
   def createAdvert =

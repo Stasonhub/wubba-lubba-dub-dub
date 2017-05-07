@@ -6,12 +6,12 @@
     <title th:text="${'Сдается квартира по адресу ' + advert.address + ' - Fatirlar'}"></title>
     <meta name="description" th:content="${T(com.airent.template.Utils).getStringPart(advert.description, 50)}"/>
 
-    <link rel="stylesheet" href="/css/lightgallery.min.css">
-    <link rel="stylesheet" href="/css/search.css" media="screen,projection">
-    <link rel="stylesheet" href="/css/advert-details.css" media="screen,projection">
+    <link rel="stylesheet" href="/assets/css/lightgallery.min.css">
+    <link rel="stylesheet" href="/assets/css/search.css" media="screen,projection">
+    <link rel="stylesheet" href="/assets/css/advert-details.css" media="screen,projection">
 } {
     <div class="grey lighten-4">
-        @fragments.header
+        @fragment.header()
 
         <div>
             <div style="position: relative;">
@@ -115,9 +115,9 @@
             </div>
         </footer>
 
-        <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="/js/materialize.min.js"></script>
-        <script type="text/javascript" src="/js/lightgallery-all.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="/assets/js/materialize.min.js"></script>
+        <script type="text/javascript" src="/assets/js/lightgallery-all.min.js"></script>
         <script>
                 $(document).ready(function () {
                     $('#photo-gallery').lightGallery({

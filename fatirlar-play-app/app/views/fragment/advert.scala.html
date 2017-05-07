@@ -3,8 +3,8 @@
 
 @(advert: Advert, mainPhotos: Map[Int, Photo])
 <div class="col s12 m6 l4">
-    <a href="/advertDetail/@advert.id" target="_blank">
-        <div class="advertDetail-card card large hoverable">
+    <a href="/advert/@advert.id" target="_blank">
+        <div class="advert-card card large hoverable">
             <div class="card-image">
                 <img src="@mainPhotos(advert.id).path">
                 <div class="card-title">

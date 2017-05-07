@@ -12,7 +12,7 @@ class AdvertImportRepositoryJvSpec extends Specification with BeforeAll {
 
   def is =
     s2"""
-      The advertDetail import repository should:
+      The advert import repository should:
          save and get import time $saveAndGetImportTime
       """
 

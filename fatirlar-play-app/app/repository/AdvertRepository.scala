@@ -16,7 +16,7 @@ class AdvertRepository {
 
   def createAdvert(advert: Advert): Update0 =
     sql"""
-         INSERT INTO advertDetail (publicationDate, district, address, floor, maxFloor, rooms,
+         INSERT INTO advert (publicationDate, district, address, floor, maxFloor, rooms,
                               sq, price, withPublicServices, conditions, description, bedrooms, beds, latitude, longitude)
                  VALUES (${advert.publicationDate}, ${advert.district}, ${advert.address}, ${advert.floor}, ${advert.maxFloor}, ${advert.rooms}, ${advert.sq},
                           ${advert.price}, ${advert.withPublicServices}, ${advert.conditions}, ${advert.description}, ${advert.bedrooms}, ${advert.beds}, ${advert.latitude}, ${advert.longitude})
@@ -25,14 +25,14 @@ class AdvertRepository {
   def findById(id: Int): Query0[Advert] =
     sql"""
            SELECT *
-           FROM advertDetail
+           FROM advert
            WHERE id = $id
             """.query[Advert]
 
   def getNextAdvertsBeforeTime(timestamp: Long, limit: Long): Query0[Advert] =
     sql"""
            SELECT adv.*
-           FROM advertDetail adv
+           FROM advert adv
                 LEFT JOIN advert_author aut ON adv.id = aut.advertid
                 LEFT JOIN sys_user usr ON aut.userid = usr.id
            WHERE
@@ -47,7 +47,7 @@ class AdvertRepository {
     val roomsF = rooms.toNel.map(cs => in(fr"rooms", cs))
     (fr"""
          SELECT adv.*
-         FROM advertDetail adv
+         FROM advert adv
               LEFT JOIN advert_author aut ON adv.id = aut.advertid
               LEFT JOIN sys_user usr ON aut.userid = usr.id
          """ ++
@@ -70,7 +70,7 @@ class AdvertRepository {
     val roomsF = rooms.toNel.map(cs => in(fr"rooms", cs))
     (fr"""
         SELECT COUNT(*)
-        FROM advertDetail adv
+        FROM advert adv
              LEFT JOIN advert_author aut ON adv.id = aut.advertid
              LEFT JOIN sys_user usr ON aut.userid = usr.id """ ++
       whereAndOpt(
@@ -96,7 +96,7 @@ class AdvertRepository {
   def findBySqPriceCoords(sq: Int, price: Int, lat: Double, lon: Double): Query0[Advert] =
     sql"""
             SELECT *
-                 FROM advertDetail
+                 FROM advert
                  WHERE sq=$sq AND price=$price AND latitude=$lat AND longitude=$lon
             """.query[Advert]
 

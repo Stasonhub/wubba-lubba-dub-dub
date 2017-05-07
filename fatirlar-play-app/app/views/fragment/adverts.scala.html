@@ -2,5 +2,5 @@
 
 @(adverts: List[Advert], mainPhotos: Map[Int, Photo])
 @for(advert <- adverts) {
-   advertDetail(advertDetail, mainPhotos)
+   advert(advert, mainPhotos)
 }

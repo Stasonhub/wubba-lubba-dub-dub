@@ -20,7 +20,7 @@ object TestConnection {
     sql"""
           DELETE FROM photo;
           DELETE FROM advert_author;
-          DELETE FROM advertDetail;
+          DELETE FROM advert;
           DELETE FROM sys_user;
       """.update.run.transact(dbConnection.xa).unsafePerformIO
   }

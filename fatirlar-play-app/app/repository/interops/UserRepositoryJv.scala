@@ -1,7 +1,7 @@
 package repository.interops
 
 import java.util
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import doobie.imports._
 import fs2.interop.cats._
@@ -11,7 +11,7 @@ import repository.{DbConnection, UserRepository}
 import scala.collection.JavaConverters._
 
 @Singleton
-class UserRepositoryJv(dbConnection: DbConnection, userRepository: UserRepository) {
+class UserRepositoryJv @Inject() (dbConnection: DbConnection, userRepository: UserRepository) {
 
   def createUser(user: User): User =
     userRepository.createUser(user)

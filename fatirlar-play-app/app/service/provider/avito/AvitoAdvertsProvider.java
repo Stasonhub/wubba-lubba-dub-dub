@@ -174,7 +174,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
 
         webDriver.get().get(advertUrl);
 
-        logger.info("Spend time for opening advertDetail {} : {} ms", advertUrl, System.currentTimeMillis() - startTime);
+        logger.info("Spend time for opening advert {} : {} ms", advertUrl, System.currentTimeMillis() - startTime);
     }
 
     private void openPhone(String advertUrl) {
@@ -183,7 +183,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
         try {
             Thread.sleep(3_000);
         } catch (InterruptedException e) {
-            logger.error("Interrupted while waiting on advertDetail page", e);
+            logger.error("Interrupted while waiting on advert page", e);
         }
 
         ((JavascriptExecutor) webDriver.get())
@@ -195,7 +195,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
                         By.className("item-phone-big-number"),
                         By.tagName("img"))));
 
-        logger.info("Spend time for phone opening of advertDetail {} : {} ms", advertUrl, System.currentTimeMillis() - phoneStartTime);
+        logger.info("Spend time for phone opening of advert {} : {} ms", advertUrl, System.currentTimeMillis() - phoneStartTime);
     }
 
     private String getAddress() {

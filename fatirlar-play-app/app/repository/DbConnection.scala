@@ -1,14 +1,16 @@
 package repository
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import config.DbConnectionConfig
 import doobie.imports._
-import cats._, cats.data._, cats.implicits._
+import cats._
+import cats.data._
+import cats.implicits._
 import fs2.interop.cats._
 
 @Singleton
-class DbConnection(dbConnectionConfig: DbConnectionConfig) {
+class DbConnection @Inject() (dbConnectionConfig: DbConnectionConfig) {
 
   val xa = DriverManagerTransactor[IOLite](
     dbConnectionConfig.driver,

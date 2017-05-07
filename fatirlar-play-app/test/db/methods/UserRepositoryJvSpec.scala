@@ -19,7 +19,7 @@ class UserRepositoryJvSpec extends Specification with BeforeAll {
       The user repository should:
          create user $createUser
          update and find by phone user $updateUser
-         find user bound to advertDetail $findUserForAdvert
+         find user bound to advert $findUserForAdvert
          find user by starting phone numbers $findUserByStartingNumbers
          arrange rate between users $arrangeRate
     """

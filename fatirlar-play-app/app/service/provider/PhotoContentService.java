@@ -78,7 +78,7 @@ public class PhotoContentService {
         long currentImageHash = photoService.calculateHash(processedImage);
 
         if (hashes.contains(currentImageHash)) {
-            logger.warn("Ignoring image {} is duplicate in advertDetail.", imageUrl);
+            logger.warn("Ignoring image {} is duplicate in advert.", imageUrl);
             return null;
         }
 

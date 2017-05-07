@@ -43,9 +43,9 @@ class SitemapController @Inject() extends Controller {
                 long timestamp = System.currentTimeMillis();
                 while (true) {
                     List<Advert> adverts = advertMapper.getNextAdvertsBeforeTime(timestamp, 100);
-                    for (Advert advertDetail : adverts) {
-                        wsg.addUrl(new WebSitemapUrl.Options(domainLink + "/advertDetail/" + advertDetail.getId())
-                                .lastMod(new Date(advertDetail.getPublicationDate()))
+                    for (Advert advert : adverts) {
+                        wsg.addUrl(new WebSitemapUrl.Options(domainLink + "/advert/" + advert.getId())
+                                .lastMod(new Date(advert.getPublicationDate()))
                                 .priority(0.7)
                                 .changeFreq(ChangeFreq.DAILY)
                                 .build());

@@ -1,6 +1,7 @@
 package repository.interops
 
 import java.util
+import javax.inject.Inject
 
 import doobie.imports._
 import fs2.interop.cats._
@@ -9,7 +10,7 @@ import repository.{DbConnection, PhotoRepository}
 
 import scala.collection.JavaConverters._
 
-class PhotoRepositoryJv(dbConnection: DbConnection, photoRepository: PhotoRepository) {
+class PhotoRepositoryJv @Inject() (dbConnection: DbConnection, photoRepository: PhotoRepository) {
 
   def createPhoto(photo: Photo): Photo =
     photoRepository.createPhoto(photo)

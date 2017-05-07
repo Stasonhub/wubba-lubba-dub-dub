@@ -102,7 +102,7 @@ public class AdvertImportService {
         while (i < maxItemsToScan && adverts.hasNext()) {
             ParsedAdvertHeader advertHeader = adverts.next();
             if (advertHeader.getPublicationTimestamp() <= lastImportTime) {
-                logger.info("Stopping scan. Last import ts={}, advertDetail publication is {}. Advert {}",
+                logger.info("Stopping scan. Last import ts={}, advert publication is {}. Advert {}",
                         lastImportTime, advertHeader.getPublicationTimestamp(), advertHeader.getAdvertUrl());
                 break;
             }
@@ -112,12 +112,12 @@ public class AdvertImportService {
             try {
                 ParsedAdvert advert = advertsProvider.getAdvert(advertHeader);
                 if (advertsProvider.isVerifier()) {
-                    logger.info("Verifying advertDetail {} for type {}", advert, advertsProvider.getType());
+                    logger.info("Verifying advert {} for type {}", advert, advertsProvider.getType());
                     if (verifyAdvert(advert)) {
                         verified++;
                     }
                 } else {
-                    logger.info("Checking/persisting advertDetail {} for type {}", advert.getPublicationTimestamp(), advertsProvider.getType());
+                    logger.info("Checking/persisting advert {} for type {}", advert.getPublicationTimestamp(), advertsProvider.getType());
                     if (checkAdvert(advert)) {
                         persistAdvert(advertsProvider, advert);
                     } else {
@@ -125,7 +125,7 @@ public class AdvertImportService {
                     }
                 }
             } catch (Exception e) {
-                logger.warn("Failed to process advertDetail {}", advertHeader, e);
+                logger.warn("Failed to process advert {}", advertHeader, e);
             }
 
             i++;
@@ -135,7 +135,7 @@ public class AdvertImportService {
             logger.info("Advert provider {} verification rate is {} on {} adverts", advertsProvider.getType(), verified / (float) i, i);
         }
 
-        // save first advertDetail import time (latest by value)
+        // save first advert import time (latest by value)
         if (firstAdvertTs != null) {
             logger.info("Saving import time {} for {}", firstAdvertTs, advertsProvider.getType());
             advertImportMapper.saveLastImportTime(advertsProvider.getType(), firstAdvertTs);
@@ -144,16 +144,16 @@ public class AdvertImportService {
 
     private boolean checkAdvert(ParsedAdvert parsedAdvert) {
         if (checkAndWarn(() -> StringUtils.isEmpty(parsedAdvert.getAddress()),
-                () -> logger.warn("Address is empty for advertDetail {}", parsedAdvert))) {
+                () -> logger.warn("Address is empty for advert {}", parsedAdvert))) {
             return false;
         } else if (checkAndWarn(() -> parsedAdvert.getRooms() == null,
-                () -> logger.warn("Rooms is null for advertDetail {}", parsedAdvert))) {
+                () -> logger.warn("Rooms is null for advert {}", parsedAdvert))) {
             return false;
         } else if (checkAndWarn(() -> parsedAdvert.getPrice() == null,
-                () -> logger.warn("Price is empty for advertDetail {}", parsedAdvert))) {
+                () -> logger.warn("Price is empty for advert {}", parsedAdvert))) {
             return false;
         } else if (checkAndWarn(() -> parsedAdvert.getPhotos() == null || parsedAdvert.getPhotos().isEmpty(),
-                () -> logger.warn("Photos is empty for advertDetail {}", parsedAdvert))) {
+                () -> logger.warn("Photos is empty for advert {}", parsedAdvert))) {
             return false;
         }
         return true;
@@ -162,7 +162,7 @@ public class AdvertImportService {
     private boolean verifyAdvert(ParsedAdvert parsedAdvert) throws IOException {
         List<Advert> matchingAdverts = advertMapper.findBySqPriceCoords(parsedAdvert.getSq(), parsedAdvert.getPrice(), parsedAdvert.getLatitude(), parsedAdvert.getLongitude());
         if (matchingAdverts.isEmpty()) {
-            logger.warn("Verification. Failed to find advertDetail by sq price lat lon: {}", parsedAdvert);
+            logger.warn("Verification. Failed to find advert by sq price lat lon: {}", parsedAdvert);
             return false;
         }
 
@@ -172,15 +172,15 @@ public class AdvertImportService {
         }
 
         Advert matchingAdvert = matchingAdverts.get(0);
-        // find match by advertDetail/partial user phone
+        // find match by advert/partial user phone
         List<User> matchingUsers = userMapper.findByStartingSixNumbers(matchingAdvert.id(), (int) parsedAdvert.getPhone());
         if (matchingUsers.isEmpty()) {
-            logger.warn("Verification. Failed to find user for advertDetail {} with number {}", parsedAdvert, parsedAdvert.getPhone());
+            logger.warn("Verification. Failed to find user for advert {} with number {}", parsedAdvert, parsedAdvert.getPhone());
             return false;
         }
 
         if (matchingUsers.size() > 1) {
-            logger.warn("Verification. Found more than one matching users for advertDetail {}. Number {}. Users {}", parsedAdvert, parsedAdvert.getPhone(),
+            logger.warn("Verification. Found more than one matching users for advert {}. Number {}. Users {}", parsedAdvert, parsedAdvert.getPhone(),
                     matchingUsers.stream().map(User::id).collect(Collectors.toList()));
             return false;
         }
@@ -203,7 +203,7 @@ public class AdvertImportService {
                 return false;
             }
 
-            // found new user for the same advertDetail
+            // found new user for the same advert
             // remove half of trust
             User user = new User(
                     0,
@@ -238,7 +238,7 @@ public class AdvertImportService {
                 ));
 
         if (matchingUser != null) {
-            // found another one advertDetail from the same user
+            // found another one advert from the same user
             // remove 4x trust
             User user = new User(
                     matchingUser.id(),
@@ -252,7 +252,7 @@ public class AdvertImportService {
             userMapper.updateUser(user);
             advertMapper.bindToUser(advert.id(), matchingUser.id());
         } else {
-            // just create new user and bind advertDetail
+            // just create new user and bind advert
             User user = userMapper.createUser(new User(
                     0,
                     parsedAdvert.getPhone(),

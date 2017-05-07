@@ -1,13 +1,13 @@
 package repository.interops
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import doobie.imports._
 import fs2.interop.cats._
 import repository.{AdvertImportRepository, DbConnection}
 
 @Singleton
-class AdvertImportRepositoryJv(dbConnection: DbConnection, advertImportRepository: AdvertImportRepository) {
+class AdvertImportRepositoryJv @Inject() (dbConnection: DbConnection, advertImportRepository: AdvertImportRepository) {
 
   def saveLastImportTime(typeName: String, lastImportDate: Long) =
     advertImportRepository.saveLastImportTime(typeName, lastImportDate)

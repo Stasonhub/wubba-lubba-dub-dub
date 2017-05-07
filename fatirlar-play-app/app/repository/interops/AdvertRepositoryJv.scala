@@ -1,7 +1,7 @@
 package repository.interops
 
 import java.util
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import doobie.imports._
 import fs2.interop.cats._
@@ -13,7 +13,7 @@ import doobie.postgres.pgtypes._
 import scala.collection.JavaConverters._
 
 @Singleton
-class AdvertRepositoryJv(dbConnection: DbConnection, advertRepository: AdvertRepository) {
+class AdvertRepositoryJv @Inject() (dbConnection: DbConnection, advertRepository: AdvertRepository) {
 
   implicit val districtAtom = pgJavaEnum[District]("districts_enum")
 
