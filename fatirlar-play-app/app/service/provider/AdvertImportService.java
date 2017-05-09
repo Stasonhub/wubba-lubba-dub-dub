@@ -17,6 +17,8 @@ import service.provider.api.ParsedAdvertHeader;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import service.provider.avito.AvitoAdvertsProvider;
+import service.provider.totook.TotookAdvertsProvider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -40,10 +42,10 @@ public class AdvertImportService {
     private UserRepositoryJv userMapper;
     private PhotoService photoService;
     private PhotoContentService photoContentService;
-    private DbConnection dbConnection;
 
     @Inject
-    public AdvertImportService(List<AdvertsProvider> advertsProviders,
+    public AdvertImportService(AvitoAdvertsProvider avitoAdvertsProvider,
+                               TotookAdvertsProvider totookAdvertsProvider,
                                LocationService locationService,
                                AdvertImportRepositoryJv advertImportMapper,
                                AdvertRepositoryJv advertMapper,
@@ -51,7 +53,7 @@ public class AdvertImportService {
                                UserRepositoryJv userMapper,
                                PhotoService photoService,
                                PhotoContentService photoContentService) {
-        this.advertsProviders = advertsProviders;
+        this.advertsProviders = Arrays.asList(avitoAdvertsProvider, totookAdvertsProvider);
         this.locationService = locationService;
         this.advertImportMapper = advertImportMapper;
         this.advertMapper = advertMapper;

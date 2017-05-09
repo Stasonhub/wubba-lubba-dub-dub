@@ -9,11 +9,11 @@
                 <img src="@mainPhotos(advert.id).path">
                 <div class="card-title">
                     <span class="address">@advert.address</span>
-                    <span class="sq">@(advert.sq + 'м') <sup>2</sup></span>
+                    <span class="sq">@(advert.sq + " м")<sup>2</sup></span>
                 </div>
             </div>
             <div class="card-content">
-                <p class="price">@(advert.price + 'P' + (if(advert.withPublicServices) "+к.у." else ""))</p>
+                <p class="price">@(advert.price + "P" + (if(advert.withPublicServices) " + к.у." else ""))</p>
                 <p class="description">@advert.description</p>
             </div>
             <div class="card-action">

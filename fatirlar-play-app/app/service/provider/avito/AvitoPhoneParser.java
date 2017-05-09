@@ -8,38 +8,58 @@ import org.bytedeco.javacpp.tesseract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import play.api.Play;
+import play.api.inject.ApplicationLifecycle;
 
-import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.CompletableFuture;
 
 import static org.bytedeco.javacpp.lept.pixDestroy;
 
 @Singleton
-public class AvitoPhoneParser implements AutoCloseable {
+public class AvitoPhoneParser {
 
     private Logger logger = LoggerFactory.getLogger(AvitoPhoneParser.class);
 
-    private tesseract.TessBaseAPI api;
+    private volatile tesseract.TessBaseAPI api;
 
-    @PostConstruct
-    public void init() throws IOException {
-        InputStream trainedData = Play.current().classloader().getResourceAsStream("tesseract/tessdata/eng.traineddata");
-        byte[] tessTrainedData = IOUtils.toByteArray(trainedData);
-        File tmpTrainedDataFile = new File("/tmp/tesseract/tessdata/eng.traineddata");
-        FileUtils.forceMkdirParent(tmpTrainedDataFile);
-        FileUtils.writeByteArrayToFile(tmpTrainedDataFile, tessTrainedData);
+    @Inject
+    public AvitoPhoneParser(ApplicationLifecycle applicationLifecycle) {
+        applicationLifecycle.addStopHook(() -> CompletableFuture.runAsync(this::close));
+    }
 
-        api = new tesseract.TessBaseAPI();
-        if (api.Init(new BytePointer("/tmp/tesseract"), new BytePointer("eng")) != 0) {
-            throw new IllegalStateException("Couldn't initDriver tesseract");
+    private void init() {
+        if (api == null) {
+            synchronized (this) {
+                if (api == null) {
+                    try {
+                        InputStream trainedData = Play.current().classloader().getResourceAsStream("tesseract/tessdata/eng.traineddata");
+                        byte[] tessTrainedData = IOUtils.toByteArray(trainedData);
+                        File tmpTrainedDataFile = new File("/tmp/tesseract/tessdata/eng.traineddata");
+                        FileUtils.forceMkdirParent(tmpTrainedDataFile);
+                        FileUtils.writeByteArrayToFile(tmpTrainedDataFile, tessTrainedData);
+
+                        tesseract.TessBaseAPI localApi = new tesseract.TessBaseAPI();
+                        if (localApi.Init(new BytePointer("/tmp/tesseract"), new BytePointer("eng")) != 0) {
+                            throw new IllegalStateException("Couldn't initDriver tesseract");
+                        }
+                        localApi.SetVariable("tessedit_char_whitelist", "0123456789-");
+
+                        api = localApi;
+                    } catch (Exception e) {
+                        logger.error("Failed to init phone parser", e);
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         }
-        api.SetVariable("tessedit_char_whitelist", "0123456789-");
     }
 
     public long parseNumbersFromImage(String dataImagePhoto) {
+        init();
+
         String base64Image = dataImagePhoto.split(",")[1];
 
         long startTime = System.currentTimeMillis();
@@ -63,9 +83,10 @@ public class AvitoPhoneParser implements AutoCloseable {
         return Long.parseLong(numbers.substring(1));
     }
 
-    @Override
-    public void close() throws Exception {
-        api.End();
+    public void close() {
+        if (api != null) {
+            api.End();
+        }
     }
 
 }

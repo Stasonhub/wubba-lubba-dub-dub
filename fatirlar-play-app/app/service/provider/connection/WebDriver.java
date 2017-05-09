@@ -6,22 +6,25 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import javax.inject.Inject;
 import play.api.Play;
+import play.api.inject.ApplicationLifecycle;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.InputStream;
 import java.util.Base64;
+import java.util.concurrent.CompletableFuture;
 
 @Singleton
-public class WebDriver implements AutoCloseable {
+public class WebDriver {
 
     private volatile org.openqa.selenium.WebDriver webDriver;
     private ProxyServer proxyServer;
 
     @Inject
-    public WebDriver(ProxyServer proxyServer) {
+    public WebDriver(ProxyServer proxyServer, ApplicationLifecycle applicationLifecycle) {
         this.proxyServer = proxyServer;
+        applicationLifecycle.addStopHook(() -> CompletableFuture.runAsync(this::close));
     }
 
     public org.openqa.selenium.WebDriver get() {
@@ -31,7 +34,7 @@ public class WebDriver implements AutoCloseable {
 
     private org.openqa.selenium.WebDriver initDriver() {
         if (null == webDriver) {
-            synchronized (WebDriver.class) {
+            synchronized (this) {
                 if (null == webDriver) {
                     this.webDriver = createChrome();
                     return webDriver;
@@ -67,8 +70,7 @@ public class WebDriver implements AutoCloseable {
         }
     }
 
-    @Override
-    public void close() throws Exception {
+    public void close() {
         if (webDriver != null) {
             webDriver.close();
         }

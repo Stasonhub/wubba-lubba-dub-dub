@@ -5,9 +5,10 @@ import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
 import net.lightbody.bmp.proxy.auth.AuthType;
+
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class ProxyServer {
 
     private List<String> whitelistPatterns;
 
+    @Inject
     public ProxyServer(ProxyConfig proxyConfig) {
         browserMobProxy = new BrowserMobProxyServer();
         browserMobProxy.setConnectTimeout(90, TimeUnit.SECONDS);
@@ -37,14 +39,15 @@ public class ProxyServer {
         whitelistPatterns.add("^https?://api\\.ipify\\.org.*");
         whitelistPatterns.add("^http?://kazan.totook.*");
         browserMobProxy.whitelistRequests(whitelistPatterns, 410);
+
+        start();
     }
 
     public List<String> getWhitelistPatterns() {
         return whitelistPatterns;
     }
 
-    @PostConstruct
-    public void start() {
+    private void start() {
         browserMobProxy.start(0);
         seleniumProxy = ClientUtil.createSeleniumProxy(browserMobProxy);
         proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(browserMobProxy.getClientBindAddress(), browserMobProxy.getPort()));

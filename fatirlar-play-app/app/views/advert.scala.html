@@ -1,10 +1,12 @@
 @import model._
+@import util.Utils.getStringPart
+@import util.Utils.getRoomsText
 
 @(advert: Advert, photos: List[Photo])
 
 @main {
-    <title th:text="${'Сдается квартира по адресу ' + advert.address + ' - Fatirlar'}"></title>
-    <meta name="description" th:content="${T(com.airent.template.Utils).getStringPart(advert.description, 50)}"/>
+    <title>@("Сдается квартира по адресу " + advert.address + " - Fatirlar")</title>
+    <meta name="description" content="@getStringPart(advert.description, 50)"/>
 
     <link rel="stylesheet" href="/assets/css/lightgallery.min.css">
     <link rel="stylesheet" href="/assets/css/search.css" media="screen,projection">
@@ -17,16 +19,15 @@
             <div style="position: relative;">
                 <div id="photo-gallery">
                     <div class="gallery-item adverts-gallery"
-                    th:style="${'background-image:  url('+mainPhoto.path+');'}"
-                    th:href="${mainPhoto.path}">
-                        <img th:src="${mainPhoto.path}" style="display: none;"/>
+                    style="background-image: url(@photos.find(_.main).get.path);"
+                    href=@(photos.find(_.main).get.path)>
+                        <img src="@photos.find(_.main).get.path" style="display: none;"/>
                     </div>
-                    <div th:each="otherPhoto : ${otherPhotos}"
-                    th:href="${otherPhoto.path}"
-                    class="gallery-item"
-                    style="display: none;">
-                        <img th:src="${otherPhoto.path}"/>
-                    </div>
+                    @for(otherPhoto <- photos.filterNot(_.main)) {
+                      <div href="@otherPhoto.path" class="gallery-item" style="display: none;">
+                          <img src="@otherPhoto.path"/>
+                      </div>
+                    }
                 </div>
                 <div class="photo-tooltip">
                     <div class="chip">
@@ -47,17 +48,15 @@
                                         <h3>Основное</h3>
                                     </div>
                                     <ul class="main-info">
-                                        <li th:text="${advert.address}"></li>
-                                        <li th:text="${#numbers.formatInteger(advert.price, 0, 'WHITESPACE') + 'Р' + (advert.withPublicServices ? ' + ку' : '') + (advert.withDeposit ? ' + депозит' : '')}"></li>
+                                        <li>@advert.address</li>
+                                        <li>@(advert.price + "P" + (if(advert.withPublicServices) " + к.у." else ""))</li>
                                     </ul>
                                     <ul>
-                                        <li><i class="tiny material-icons">view_quilt</i> <span
-                                        th:text="${advert.rooms +' ' + T(com.airent.template.Utils).getRoomsText(advert.rooms)}"></span>
+                                        <li><i class="tiny material-icons">view_quilt</i> <span>@(advert.rooms + " " + getRoomsText(advert.rooms))</span>
                                         </li>
-                                        <li><i class="tiny material-icons">aspect_ratio</i> <span th:inline="text">[[${advert.sq}]] м<sup>2</sup></span>
+                                        <li><i class="tiny material-icons">aspect_ratio</i> <span>@(advert.sq + " м")<sup>2</sup></span>
                                         </li>
-                                        <li><i class="tiny material-icons">trending_up</i> <span
-                                        th:text="${advert.floor+'/'+advert.maxFloor+' этаж'}"></span></li>
+                                        <li><i class="tiny material-icons">trending_up</i> <span>@(advert.floor+"/"+advert.maxFloor+" этаж")</span></li>
                                     </ul>
                                     <div class="card-action" id="user-info">
                                         <div id="loader-spinner" style="display: none" class="preloader-wrapper small active">
@@ -73,7 +72,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a id="loader-button" class="waves-effect waves-light btn" th:onclick="${'showUser('+advert.id+')'}"><i
+                                        <a id="loader-button" class="waves-effect waves-light btn" onclick=@("showUser("+advert.id+")")><i
                                         class="material-icons left">phone</i>Телефон</a>
                                     </div>
                                 </div>
@@ -84,7 +83,7 @@
                                     <div class="card-title">
                                         <h3>Описание</h3>
                                     </div>
-                                    <p th:text="${advert.description}"></p>
+                                    <p>@advert.description</p>
                                 </div>
                             </div>
 
@@ -96,8 +95,7 @@
                                     <div class="card-title">
                                         <h3>Расположение</h3>
                                     </div>
-                                    <div id="geo-data" th:latitude="${advert.latitude}" th:longitude="${advert.longitude}"
-                                    th:hint="${advert.address}"></div>
+                                    <div id="geo-data" latitude="@advert.latitude" longitude="@advert.longitude" hint="@advert.address"></div>
                                     <div id="adv-detail-map"></div>
                                 </div>
                             </div>
@@ -153,7 +151,7 @@
                 function showUser(id) {
                     document.getElementById('loader-button').style.display = "none";
                     document.getElementById('loader-spinner').style.display = "block";
-                    $.post("/user", {"advertId": id}, function (data, status) {
+                    $.get("/user/"+id, function (data, status) {
                         document.getElementById('user-info').innerHTML = data;
                     });
                 }

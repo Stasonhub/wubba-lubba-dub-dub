@@ -91,7 +91,7 @@ public class PhotoContentService {
         Photo photo = new Photo(
                 0,
                 0,
-                "STORE_PREFIX/"+ File.separator + type + File.separator + photosPath + File.separator + index + ".jpg",
+                "/photos"+ File.separator + type + File.separator + photosPath + File.separator + index + ".jpg",
                 index == 0,
                 currentImageHash
         );

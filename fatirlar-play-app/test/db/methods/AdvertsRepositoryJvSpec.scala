@@ -25,6 +25,7 @@ class AdvertsRepositoryJvSpec extends Specification with BeforeAll {
          count searching adverts $countAdverts
          find created advert by Sq/Price/Coord $findBySqPriceCoords
          bind advert to user $bindAdvertToUser
+         (interop issues) null cases $nullCases
       """
 
   def createAdvert =
@@ -99,6 +100,11 @@ class AdvertsRepositoryJvSpec extends Specification with BeforeAll {
     val createdUser = userRepositoryJv.createUser(defaultUser)
     advertRepositoryJv.bindToUser(createdAdvert.id, createdUser.id)
     createdAdvert must not beNull
+  }
+
+  def nullCases = {
+    val advert = advertRepositoryJv.findById(Integer.MAX_VALUE)
+    advert must beNull
   }
 
   def beforeAll = TestConnection.cleanUpDb

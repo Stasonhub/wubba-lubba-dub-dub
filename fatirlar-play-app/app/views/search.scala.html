@@ -1,7 +1,6 @@
 @import model._
-@import model.rest.SearchRequest
-
 @import model.rest.SearchParameters
+
 @(adverts: List[Advert], mainPhotos: Map[Int, Photo], pagesCount: Int, searchParameters: SearchParameters)
 @main {
     <title>Поиск квартир для аренды в Казани - Fatirlar</title>
@@ -39,9 +38,9 @@
                     <label>Район</label>
                     <div class="input-field col s12" style="margin-top: 0rem;">
                         <select id="district" name="districts" multiple>
-                            <option value="" disabled selected=@searchRequest.getDistricts.isEmpty>Все районы</option>
+                            <option value="" disabled @(if (searchParameters.districts.isEmpty) "selected")>Все районы</option>
                             @for(district <- District.values()) {
-                                <option value=@district.name() selected=@searchRequest.getDistricts.contains(district)>@district.getDesc</option>
+                                <option value=@district.name() @(if (searchParameters.districts.contains(district)) "selected")>@district.getDesc</option>
                             }
                         </select>
                     </div>
@@ -50,28 +49,28 @@
                 <div class="section">
                     <label>Цена, x 1000P</label>
                     <div class="input-field col s12">
-                        <input type="hidden" id="price-range-input-from" name="priceFrom">
-                        <input type="hidden" id="price-range-input-to" name="priceTo">
-                        <div class="sliders" id="price-range-slider" initial-range="@searchRequest.getPriceRange"></div>
+                        <input type="hidden" id="price-range-input-from" name="priceRange.priceFrom" value="@searchParameters.priceRange._1">
+                        <input type="hidden" id="price-range-input-to" name="priceRange.priceTo" value="@searchParameters.priceRange._2">
+                        <div class="sliders" id="price-range-slider" initial-range="@("["+searchParameters.priceRange._1+","+searchParameters.priceRange._2+"]")"></div>
                     </div>
                 </div>
 
                 <div class="section">
                     <label>Комнат</label>
                     <div class="input-field col s12" style="margin-top: 0rem;">
-                        <input name="room1" type="checkbox" id="room1" checked="@searchRequest.isRoom1" />
-                        <label for="room1">1-комн.</label>
+                        <input name="rooms1" type="checkbox" id="rooms1" @(if (searchParameters.rooms1) "checked") value="true">
+                        <label for="rooms1">1-комн.</label>
 
-                        <input name="room2" type="checkbox" id="room2" checked="@searchRequest.isRoom2" />
-                        <label for="room2">2-комн.</label>
+                        <input name="rooms2" type="checkbox" id="rooms2" @(if (searchParameters.rooms2) "checked") value="true">
+                        <label for="rooms2">2-комн.</label>
 
-                        <input name="room3" type="checkbox" id="room3" checked="@searchRequest.isRoom3" />
-                        <label for="room3">3-комн.</label>
+                        <input name="rooms3" type="checkbox" id="rooms3" @(if (searchParameters.rooms3) "checked") value="true">
+                        <label for="rooms3">3-комн.</label>
                     </div>
                 </div>
 
                 <div class="section">
-                    <input type="hidden" id="page-number-input" name="page" value="@searchRequest.getPage">
+                    <input type="hidden" id="page-number-input" name="page" value="@searchParameters.page">
                     <a type="submit" class="waves-effect waves-light btn" id="search-button"><i
                     class="material-icons right">search</i>Найти</a>
                 </div>
@@ -92,17 +91,17 @@
             @if(pagesCount > 1) {
                 <div class="col s12">
                     <ul class="pagination center">
-                        <li class=@(if (searchRequest.getPage > 0) "waves-effect" else "disabled")>
-                            <a onclick=@(if (searchRequest.getPage > 0) "clickOnPageLink("+(searchRequest.getPage-1) + ")" else "")>
+                        <li class=@(if (searchParameters.page > 0) "waves-effect" else "disabled")>
+                            <a onclick=@(if (searchParameters.page > 0) "clickOnPageLink("+(searchParameters.page-1) + ")" else "")>
                             <i class="material-icons">chevron_left</i></a>
                         </li>
                         @for(i <- 0 to pagesCount -1 ){
-                            <li class=@(if (searchRequest.getPage == i) "active" else "waves-effect")>
+                            <li class=@(if (searchParameters.page == i) "active" else "waves-effect")>
                                 <a onclick=@("clickOnPageLink(" + i + ")")>@(i+1)</a>
                             </li>
                         }
-                        <li class=@(if (searchRequest.getPage < pagesCount-1) "waves-effect" else "disabled")>
-                            <a onclick=@(if (searchRequest.getPage < pagesCount-1) "clickOnPageLink("+(searchRequest.getPage+1) + ")" else "")>
+                        <li class=@(if (searchParameters.page < pagesCount-1) "waves-effect" else "disabled")>
+                            <a onclick=@(if (searchParameters.page < pagesCount-1) "clickOnPageLink("+(searchParameters.page+1) + ")" else "")>
                                 <i class="material-icons">chevron_right</i></a>
                         </li>
                     </ul>

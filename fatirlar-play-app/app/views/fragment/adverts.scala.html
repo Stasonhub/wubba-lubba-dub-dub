@@ -2,5 +2,5 @@
 
 @(adverts: List[Advert], mainPhotos: Map[Int, Photo])
 @for(advert <- adverts) {
-   advert(advert, mainPhotos)
+   @fragment.advert(advert, mainPhotos)
 }

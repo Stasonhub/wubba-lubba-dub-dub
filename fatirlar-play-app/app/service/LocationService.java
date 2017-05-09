@@ -12,7 +12,6 @@ import play.api.Play;
 
 import javax.inject.Singleton;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -25,14 +24,19 @@ import java.util.stream.Collectors;
 public class LocationService {
 
     private GeometryJSON gjson = new GeometryJSON();
-    private Map<District, MultiPolygon> districtGeometryMap;
+    private volatile Map<District, MultiPolygon> districtGeometryMap;
 
-    @PostConstruct
-    public void init() {
-        districtGeometryMap = Arrays.stream(District.values()).collect(
-                Collectors.toMap(district -> district, district ->
-                        getMultiPolygon(loadDistrictGeoData(district))
-                ));
+    private void init() {
+        if (districtGeometryMap == null) {
+            synchronized (this) {
+                if (districtGeometryMap == null) {
+                    districtGeometryMap = Arrays.stream(District.values()).collect(
+                            Collectors.toMap(district -> district, district ->
+                                    getMultiPolygon(loadDistrictGeoData(district))
+                            ));
+                }
+            }
+        }
     }
 
 
@@ -55,6 +59,8 @@ public class LocationService {
 
 
     public District getDistrictFromAddress(double latitude, double longitude) {
+        init();
+
         GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
         Coordinate coord = new Coordinate(longitude, latitude);
         Point point = geometryFactory.createPoint(coord);

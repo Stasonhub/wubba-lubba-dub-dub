@@ -18,19 +18,19 @@ class AdvertService @Inject()(advertRepositoryJv: AdvertRepositoryJv) {
   def advertsForMainPage = advertRepositoryJv.getNextAdvertsBeforeTime(System.currentTimeMillis, advertsOnMainPage)
 
   def pagesCount(searchParameters: SearchParameters): Int = {
-    val searchParameters = prepareSearchParameters(searchParameters)
-    advertRepositoryJv.getAdvertsCount(searchParameters._1.asJavaCollection,
-      searchParameters._3._1, searchParameters._3._2,
-      searchParameters._2.map(v => v.asInstanceOf[Integer]).asJava) / advertsPerRequest
+    val ps = prepareSearchParameters(searchParameters)
+    advertRepositoryJv.getAdvertsCount(ps._1.asJavaCollection,
+      ps._3._1, ps._3._2,
+      ps._2.map(v => v.asInstanceOf[Integer]).asJava) / advertsPerRequest
   }
 
   def adverts(searchParameters: SearchParameters) = {
-    val searchParameters = prepareSearchParameters(searchParameters)
+    val ps = prepareSearchParameters(searchParameters)
     advertRepositoryJv.getAdverts(
-      searchParameters._1.asJavaCollection,
-      searchParameters._3._1, searchParameters._3._2,
-      searchParameters._2.map(v => v.asInstanceOf[Integer]).asJava,
-      searchParameters._4.getOrElse(0) * advertsPerRequest,
+      ps._1.asJavaCollection,
+      ps._3._1, ps._3._2,
+      ps._2.map(v => v.asInstanceOf[Integer]).asJava,
+      ps._4 * advertsPerRequest,
       advertsPerRequest
     )
   }

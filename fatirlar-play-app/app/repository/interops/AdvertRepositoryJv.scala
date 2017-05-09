@@ -13,7 +13,7 @@ import doobie.postgres.pgtypes._
 import scala.collection.JavaConverters._
 
 @Singleton
-class AdvertRepositoryJv @Inject() (dbConnection: DbConnection, advertRepository: AdvertRepository) {
+class AdvertRepositoryJv @Inject()(dbConnection: DbConnection, advertRepository: AdvertRepository) {
 
   implicit val districtAtom = pgJavaEnum[District]("districts_enum")
 
@@ -25,9 +25,10 @@ class AdvertRepositoryJv @Inject() (dbConnection: DbConnection, advertRepository
 
   def findById(id: Int): Advert =
     advertRepository.findById(id)
-      .unique
+      .option
       .transact(dbConnection.xa)
       .unsafePerformIO
+      .orNull
 
   def getNextAdvertsBeforeTime(timestamp: Long, limit: Int): util.List[Advert] =
     advertRepository.getNextAdvertsBeforeTime(timestamp, limit)

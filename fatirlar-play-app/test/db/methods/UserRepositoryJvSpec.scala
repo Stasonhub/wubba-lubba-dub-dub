@@ -22,6 +22,7 @@ class UserRepositoryJvSpec extends Specification with BeforeAll {
          find user bound to advert $findUserForAdvert
          find user by starting phone numbers $findUserByStartingNumbers
          arrange rate between users $arrangeRate
+         (interop issues) null cases $nullCases
     """
 
   def createUser =
@@ -77,6 +78,14 @@ class UserRepositoryJvSpec extends Specification with BeforeAll {
 
     userByPhone2.trustRate must beBetween(9L, 11L)
     userByPhone3.trustRate must beBetween(9L, 11L)
+  }
+
+  def nullCases = {
+    val user1 = userRepositoryJv.findByPhone(1111111111L)
+    val user2 = userRepositoryJv.getUserForAdvert(Integer.MAX_VALUE)
+
+    user1 must beNull
+    user2 must beNull
   }
 
   def beforeAll = TestConnection.cleanUpDb

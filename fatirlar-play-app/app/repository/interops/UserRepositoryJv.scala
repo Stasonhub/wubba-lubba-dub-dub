@@ -11,7 +11,7 @@ import repository.{DbConnection, UserRepository}
 import scala.collection.JavaConverters._
 
 @Singleton
-class UserRepositoryJv @Inject() (dbConnection: DbConnection, userRepository: UserRepository) {
+class UserRepositoryJv @Inject()(dbConnection: DbConnection, userRepository: UserRepository) {
 
   def createUser(user: User): User =
     userRepository.createUser(user)
@@ -27,15 +27,17 @@ class UserRepositoryJv @Inject() (dbConnection: DbConnection, userRepository: Us
 
   def findByPhone(phone: Long): User =
     userRepository.findByPhone(phone)
-      .unique
+      .option
       .transact(dbConnection.xa)
       .unsafePerformIO
+      .orNull
 
   def getUserForAdvert(advertId: Int): User =
     userRepository.getUserForAdvert(advertId)
-      .unique
+      .option
       .transact(dbConnection.xa)
       .unsafePerformIO
+      .orNull
 
   /**
     * @param phoneStartingNumbers phone left 6 digits
