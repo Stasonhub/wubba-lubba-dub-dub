@@ -41,7 +41,7 @@ public class PhotoService {
                 .collect(Collectors.toMap(v -> v.advertId(), v -> v));
     }
 
-    public <T> T searchForSame(Map<Long, T> hashesMap, long hash) {
+    public <T> T searchForSimilar(Map<Long, T> hashesMap, long hash) {
         if (hashesMap == null) {
             return null;
         }
@@ -58,13 +58,20 @@ public class PhotoService {
         return imagePHash.getHash(bufferedImage);
     }
 
+    public boolean isTheSame(long val1, long val2) {
+        return imagePHash.isTheSame(val1, val2);
+    }
+
+    public int distance(long val1, long val2) {
+        return imagePHash.distance(val1, val2);
+    }
 
     /*
      * pHash-like image hash.
      * Author: Elliot Shepherd (elliot@jarofworms.com
      * Based On: http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
      */
-    public static class ImagePHash {
+    private static class ImagePHash {
 
         private int DISTANCE_MAX = 3;
 

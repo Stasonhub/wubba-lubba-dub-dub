@@ -135,7 +135,7 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
             openAdvertPage(parsedAdvertHeader.getAdvertUrl());
 
             ParsedAdvert parsedAdvert = new ParsedAdvert();
-
+            parsedAdvert.setOriginId(getId());
             parsedAdvert.setPublicationTimestamp(parsedAdvertHeader.getPublicationTimestamp());
             parsedAdvert.setBedrooms(1);
             parsedAdvert.setBeds(1);
@@ -211,6 +211,11 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
                 .findElement(By.cssSelector(".item-phone-big-number img"))
                 .getAttribute("src");
         return avitoPhoneParser.parseNumbersFromImage(phoneVal);
+    }
+
+    private int getId() {
+        WebElement searchMap = webDriver.get().findElement(By.className("b-search-map"));
+        return Integer.valueOf(searchMap.getAttribute("data-item-id"));
     }
 
     private Integer getPrice() {

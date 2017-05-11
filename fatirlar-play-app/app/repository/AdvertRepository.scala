@@ -17,9 +17,9 @@ class AdvertRepository {
   def createAdvert(advert: Advert): Update0 =
     sql"""
          INSERT INTO advert (publicationDate, district, address, floor, maxFloor, rooms,
-                              sq, price, withPublicServices, conditions, description, bedrooms, beds, latitude, longitude)
+                              sq, price, withPublicServices, conditions, description, bedrooms, beds, latitude, longitude, originType, originId)
                  VALUES (${advert.publicationDate}, ${advert.district}, ${advert.address}, ${advert.floor}, ${advert.maxFloor}, ${advert.rooms}, ${advert.sq},
-                          ${advert.price}, ${advert.withPublicServices}, ${advert.conditions}, ${advert.description}, ${advert.bedrooms}, ${advert.beds}, ${advert.latitude}, ${advert.longitude})
+                          ${advert.price}, ${advert.withPublicServices}, ${advert.conditions}, ${advert.description}, ${advert.bedrooms}, ${advert.beds}, ${advert.latitude}, ${advert.longitude}, ${advert.originType}, ${advert.originId})
        """.update
 
   def findById(id: Int): Query0[Advert] =

@@ -46,17 +46,18 @@ public class PhotoContentService {
 
     private List<Photo> getPhotos(String type, ParsedAdvert parsedAdvert, boolean save) throws IOException {
         List<Photo> photos = new ArrayList<>();
-        String photosPath = String.valueOf(parsedAdvert.getPublicationTimestamp());
         Set<Long> hashes = new HashSet<>();
 
-        String folder = photosStorageConfig.path() + File.separator + type + File.separator + photosPath;
+        String folder = photosStorageConfig.path() + File.separator + type + File.separator + parsedAdvert.getOriginId();
         if (new File(folder).exists()) {
-            logger.error("DUPLICATED PUBLICATION TIMESTAMPS {}. PHOTOS COULD BE LOST.", folder);
+            logger.error("Duplicated advert id on folder {}. Photos could be lost.", folder);
+        } else {
+            new File(folder).mkdirs();
         }
 
         for (int i = 0; i < parsedAdvert.getPhotos().size(); i++) {
             String imageUrl = parsedAdvert.getPhotos().get(i);
-            Photo photo = savePhoto(hashes, type, photosPath, i, imageUrl, save);
+            Photo photo = savePhoto(hashes, type, parsedAdvert.getOriginId(), i, imageUrl, save);
             if (photo != null) {
                 photos.add(photo);
             }
@@ -64,12 +65,12 @@ public class PhotoContentService {
         return photos;
     }
 
+
     /**
      * @return could be null
      */
-    private Photo savePhoto(Set<Long> hashes, String type, String photosPath, int index, String imageUrl, boolean save) throws IOException {
-        String path = photosStorageConfig.path() + File.separator + type + File.separator + photosPath + File.separator + index + ".jpg";
-        new File(path).getParentFile().mkdirs();
+    private Photo savePhoto(Set<Long> hashes, String type, int originId,  int index, String imageUrl, boolean save) throws IOException {
+        String path = photosStorageConfig.path() + File.separator + type + File.separator + originId + File.separator + index + ".jpg";
 
         byte[] image = loadImage(imageUrl);
 
@@ -91,7 +92,7 @@ public class PhotoContentService {
         Photo photo = new Photo(
                 0,
                 0,
-                "/photos"+ File.separator + type + File.separator + photosPath + File.separator + index + ".jpg",
+                "/photos"+ File.separator + type + File.separator + originId + File.separator + index + ".jpg",
                 index == 0,
                 currentImageHash
         );

@@ -24,5 +24,5 @@ class AdvertRepositorySpec extends Specification with AnalysisSpec {
   check(advertRepository.bindToUser(0, 0))
   check(advertRepository.findBySqPriceCoords(0, 0, 0.0, 0.0))
 
-  def defaultAdvert = Advert(0, 123, District.AV, "Address", 3, 5, 2, 42, 12000, false, 0, "desc", 23.24, 25.26, 0, 0)
+  def defaultAdvert = Advert(0, 123, District.AV, "Address", 3, 5, 2, 42, 12000, false, 0, "desc", 23.24, 25.26, 0, 0, "sad", 0)
 }

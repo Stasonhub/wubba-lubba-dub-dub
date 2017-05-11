@@ -23,6 +23,8 @@ public class ParsedAdvert {
     private long phone;
     private int trustRate;
 
+    private int originId;
+
     public long getPublicationTimestamp() {
         return publicationTimestamp;
     }
@@ -167,8 +169,17 @@ public class ParsedAdvert {
         return this;
     }
 
+    public int getOriginId() {
+        return originId;
+    }
+
+    public ParsedAdvert setOriginId(int originId) {
+        this.originId = originId;
+        return this;
+    }
+
     @Override
     public String toString() {
-        return publicationTimestamp + "\\" + address;
+        return address + "\\" + originId;
     }
 }

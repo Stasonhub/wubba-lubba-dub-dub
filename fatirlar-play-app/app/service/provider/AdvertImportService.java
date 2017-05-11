@@ -3,7 +3,6 @@ package service.provider;
 import model.Advert;
 import model.Photo;
 import model.User;
-import repository.*;
 import repository.interops.AdvertImportRepositoryJv;
 import repository.interops.AdvertRepositoryJv;
 import repository.interops.PhotoRepositoryJv;
@@ -236,7 +235,9 @@ public class AdvertImportService {
                 parsedAdvert.getLatitude(),
                 parsedAdvert.getLongitude(),
                 parsedAdvert.getBedrooms(),
-                parsedAdvert.getBeds()
+                parsedAdvert.getBeds(),
+                advertsProvider.getType(),
+                parsedAdvert.getOriginId()
                 ));
 
         if (matchingUser != null) {
@@ -288,7 +289,7 @@ public class AdvertImportService {
                 }));
         Optional<Integer> anyValue = photos.stream()
                 .map(Photo::hash)
-                .map(hash -> photoService.searchForSame(allPhotoHashes, hash))
+                .map(hash -> photoService.searchForSimilar(allPhotoHashes, hash))
                 .filter(val -> val != null)
                 .findAny();
         if (anyValue.isPresent()) {

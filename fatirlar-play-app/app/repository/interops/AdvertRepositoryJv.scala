@@ -19,7 +19,7 @@ class AdvertRepositoryJv @Inject()(dbConnection: DbConnection, advertRepository:
 
   def createAdvert(advert: Advert): Advert =
     advertRepository.createAdvert(advert)
-      .withUniqueGeneratedKeys[Advert]("id", "publicationdate", "district", "address", "floor", "maxfloor", "rooms", "sq", "price", "withpublicservices", "conditions", "description", "latitude", "longitude", "beds", "bedrooms")
+      .withUniqueGeneratedKeys[Advert]("id", "publicationdate", "district", "address", "floor", "maxfloor", "rooms", "sq", "price", "withpublicservices", "conditions", "description", "latitude", "longitude", "beds", "bedrooms", "origintype", "originid")
       .transact(dbConnection.xa)
       .unsafePerformIO
 

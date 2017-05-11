@@ -16,5 +16,7 @@ case class Advert(
                    latitude: Double,
                    longitude: Double,
                    beds: Int,
-                   bedrooms: Int
+                   bedrooms: Int,
+                   originType: String,
+                   originId: Int
                  )
