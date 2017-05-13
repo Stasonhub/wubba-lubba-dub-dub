@@ -9,7 +9,7 @@ class HashDistribution extends Specification {
 
   def is =
     s2"""
-       This is not actual spec, just distribution of hash $hashDistribution
+       This is not actual spec, just distribution of hash hashDistribution
        
         Distribution is: List((0,5000), 
          (4,2), 

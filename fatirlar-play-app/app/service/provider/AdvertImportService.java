@@ -118,11 +118,11 @@ public class AdvertImportService {
                         verified++;
                     }
                 } else {
-                    logger.info("Checking/persisting advert {} for type {}", advert.getPublicationTimestamp(), advertsProvider.getType());
+                    logger.info("Checking/persisting advert {} for type {}", advert, advertsProvider.getType());
                     if (checkAdvert(advert)) {
                         persistAdvert(advertsProvider, advert);
                     } else {
-                        logger.info("Advert {} is not correct, ignored", advert.getPublicationTimestamp(), advertsProvider.getType());
+                        logger.info("Advert {} is not correct, ignored", advert, advertsProvider.getType());
                     }
                 }
             } catch (Exception e) {
@@ -163,7 +163,7 @@ public class AdvertImportService {
     private boolean verifyAdvert(ParsedAdvert parsedAdvert) throws IOException {
         List<Advert> matchingAdverts = advertMapper.findBySqPriceCoords(parsedAdvert.getSq(), parsedAdvert.getPrice(), parsedAdvert.getLatitude(), parsedAdvert.getLongitude());
         if (matchingAdverts.isEmpty()) {
-            logger.warn("Verification. Failed to find advert by sq price lat lon: {}", parsedAdvert);
+            logger.warn("Verification. Failed to find advert by [sq/price/lat/lon]: [{},{},{},{}]", parsedAdvert.getSq(), parsedAdvert.getPrice(), parsedAdvert.getLatitude(), parsedAdvert.getLongitude());
             return false;
         }
 
@@ -282,19 +282,16 @@ public class AdvertImportService {
     }
 
     private Advert findMatchingAdvertByPhotos(ParsedAdvert parsedAdvert, List<Photo> photos) {
-        Map<Long, Integer> allPhotoHashes = photoMapper.getAllPhotos().stream()
-                .collect(Collectors.toMap(Photo::hash, Photo::advertId, (adv1, adv2) -> {
-                    logger.warn("Adverts {} and {} has the same photos", adv1, adv2);
-                    return adv1;
-                }));
-        Optional<Integer> anyValue = photos.stream()
-                .map(Photo::hash)
-                .map(hash -> photoService.searchForSimilar(allPhotoHashes, hash))
-                .filter(val -> val != null)
-                .findAny();
-        if (anyValue.isPresent()) {
-            logger.warn("Decided that incoming value {} is duplication of original {}", parsedAdvert, anyValue.get());
-            return advertMapper.findById(anyValue.get());
+        List<Integer> matchingAdverts = photoService.getMatchingAdverts(photos);
+
+        if (matchingAdverts.size() > 1) {
+            logger.error("For incoming advert {} found more than 1 duplicates {}", parsedAdvert, matchingAdverts);
+            return advertMapper.findById(matchingAdverts.get(0));
+        }
+
+        if (matchingAdverts.size() > 0) {
+            logger.warn("For incoming advert {} found duplicate {}", parsedAdvert, matchingAdverts.get(0));
+            return advertMapper.findById(matchingAdverts.get(0));
         }
         return null;
     }

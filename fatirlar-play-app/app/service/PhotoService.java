@@ -17,8 +17,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.*;
+
 @Singleton
 public class PhotoService {
+
+    private static final int MATCHED_PHOTOS = 3;
 
     @Inject
     private PhotoRepositoryJv photoMapper;
@@ -54,6 +59,31 @@ public class PhotoService {
         return null;
     }
 
+    public List<Integer> getMatchingAdverts(List<Photo> photos) {
+        // [hash, list[advertId]]
+        Map<Long, List<Integer>> hashesWithAdverts = photoMapper.getAllPhotos()
+                .stream()
+                .collect(groupingBy(Photo::hash, mapping(Photo::advertId, toList())));
+
+        List<Long> matchedHashes = photos.stream()
+                .map(Photo::hash)
+                .flatMap(photoHash -> hashesWithAdverts.keySet()
+                        .stream()
+                        .filter(existingHash -> imagePHash.isTheSame(existingHash, photoHash)))
+                .collect(toList());
+
+        // [advertId, count]
+        Map<Integer, Long> matchedAdvertsByCount =
+                matchedHashes.stream()
+                        .flatMap(hash -> hashesWithAdverts.get(hash).stream())
+                        .collect(groupingBy(identity(), counting()));
+
+        return matchedAdvertsByCount.entrySet().stream()
+                .filter(entry -> entry.getValue() >= MATCHED_PHOTOS)
+                .map(Map.Entry::getKey)
+                .collect(toList());
+    }
+
     public long calculateHash(BufferedImage bufferedImage) {
         return imagePHash.getHash(bufferedImage);
     }
@@ -68,12 +98,11 @@ public class PhotoService {
 
     /*
      * pHash-like image hash.
-     * Author: Elliot Shepherd (elliot@jarofworms.com
      * Based On: http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
      */
     private static class ImagePHash {
 
-        private int DISTANCE_MAX = 3;
+        private int DISTANCE_MAX = 5;
 
         private int size = 32;
         private int smallerSize = 8;

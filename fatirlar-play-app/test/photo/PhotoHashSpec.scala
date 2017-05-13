@@ -50,7 +50,7 @@ class PhotoHashSpec extends Specification {
 
   def collision = {
     val collisionsMap =
-      Range(1, 1517)//1517)
+      Range(1, 60)//1517)
         .map(n => s"samples/collision/$n.jpg")
         .map(path => (readPhoto(path), path))
         .map(photoWithPath => (photoService.calculateHash(photoWithPath._1), photoWithPath._2))

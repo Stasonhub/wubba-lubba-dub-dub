@@ -12,7 +12,8 @@ class ConfigurationModule extends Module {
     bind[PhotosStorageConfig].toInstance(configuration.get[PhotosStorageConfig]("photo.storage")(photoStorageConfigLoader)),
     bind[ProxyConfig].toInstance(configuration.get[ProxyConfig]("proxy")(proxyConfigLoader)),
     bind[Int].qualifiedWith("avito.max.items").to(configuration.get[Int]("import.items.max.avito")),
-    bind[Int].qualifiedWith("totook.max.items").to(configuration.get[Int]("import.items.max.totook"))
+    bind[Int].qualifiedWith("totook.max.items").to(configuration.get[Int]("import.items.max.totook")),
+    bind[String].qualifiedWith("app.domain").to(configuration.get[String]("app.domain"))
   )
 
   def dbConnectionConfigLoader = new ConfigLoader[DbConnectionConfig] {

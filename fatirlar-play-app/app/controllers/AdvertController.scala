@@ -23,7 +23,6 @@ class AdvertController @Inject()(advertService: AdvertService,
     override def unbind(key: String, value: District): Map[String, String] = Map(key -> value.toString)
   }
 
-
   def index = Action { request =>
     val adverts = advertService.advertsForMainPage.asScala.toList
     val mainPhotos = photoService.getMainPhotos(adverts.asJava).asScala.map { case (k, v) => (k.toInt, v) }.toMap
@@ -51,7 +50,6 @@ class AdvertController @Inject()(advertService: AdvertService,
         BadRequest("Некорректный запрос")
       },
       searchParameters => {
-        println(searchParameters)
         val adverts = advertService.adverts(searchParameters).asScala.toList
         val mainPhotos = photoService.getMainPhotos(adverts.asJava).asScala.map { case (k, v) => (k.toInt, v) }.toMap
         val pagesCount = advertService.pagesCount(searchParameters)
@@ -69,6 +67,5 @@ class AdvertController @Inject()(advertService: AdvertService,
     val photos = photoService.getPhotos(advert).asScala.toList
     Ok(views.html.advert(advert, photos))
   }
-
 
 }
