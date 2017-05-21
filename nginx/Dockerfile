@@ -1,0 +1,11 @@
+FROM nginx
+
+RUN \
+  echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list && \
+  apt-get update && \
+  apt-get install -y certbot -t jessie-backports
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+# COPY build/resources/main/static /static
+COPY nginx.conf /etc/nginx/conf.d

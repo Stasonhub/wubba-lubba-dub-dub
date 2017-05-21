@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+
+  nginx:
+    build: nginx
+    ports:
+      - 443:443
+    volumes:
+      - ./data/letsencrypt/cert:/etc/letsencrypt
+      - ./data/letsencrypt/challenge:/challenge
+    depends_on:
+      - web-server
+
+  postgres:
+    image: postgres:9.6
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=AQGnthVu73AjBfBF
+
+  web-server:
+    build:
+      context: web-server
+      dockerfile: Dockerfile-local
+    volumes:
+      - web-server:/web-server:cached
+      - ${HOME}/.m2:/root/.m2:cached
+      - ${HOME}/.sbt:/root/.sbt:cached
+      - ${HOME}/.ivy:/root/.ivy:cached
+      - ./data/photos:/photos
+      - ./data/logs:/logs
+    depends_on:
+      - postgres
+    environment:
+      - photo.storage.path = /photos
+      - log.dir = /logs
+      - import.items.max.avito = 60
+      - import.items.max.totook = 60
