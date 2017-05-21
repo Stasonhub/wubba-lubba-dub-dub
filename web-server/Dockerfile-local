@@ -14,9 +14,9 @@ RUN \
   apt-get install -y google-chrome-stable xvfb && \
   rm -rf /var/lib/apt/lists/*
 
-# run in dev mode with the same sbt
-RUN cd web-server
+# run in dev mode
 CMD \
-    export DISPLAY=:99 && \
-    Xvfb -ac :99 -screen 0 1280x1024x16 & \
+    cd /web-server && \
+#    export DISPLAY=:99 && \
+#    Xvfb -ac :99 -screen 0 1280x1024x16 && \
     ./sbt run

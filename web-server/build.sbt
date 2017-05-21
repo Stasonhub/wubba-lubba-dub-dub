@@ -14,9 +14,9 @@ scalaVersion := "2.11.8"
 
 val doobieVersion = "0.4.2-SNAPSHOT"
 
+libraryDependencies += jdbc
+libraryDependencies += evolutions
 libraryDependencies += filters
-
-//libraryDependencies += "org.flywaydb" %% "flyway-play" % "3.0.1" // could fail on scala 2.12
 libraryDependencies += "org.tpolecat" %% "doobie-core-cats" % doobieVersion
 libraryDependencies += "org.tpolecat" %% "doobie-postgres-cats" % doobieVersion
 libraryDependencies += "org.postgresql" % "postgresql" % "9.4.1212"

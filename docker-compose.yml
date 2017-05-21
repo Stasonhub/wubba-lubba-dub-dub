@@ -23,11 +23,12 @@ services:
     build:
       context: web-server
       dockerfile: Dockerfile-local
+    stdin_open: true
     volumes:
-      - web-server:/web-server:cached
-      - ${HOME}/.m2:/root/.m2:cached
-      - ${HOME}/.sbt:/root/.sbt:cached
-      - ${HOME}/.ivy:/root/.ivy:cached
+      - ./web-server:/web-server
+      - ~/.m2:/root/.m2
+      - ~/.sbt:/root/.sbt
+      - ~/.ivy2:/root/.ivy2
       - ./data/photos:/photos
       - ./data/logs:/logs
     depends_on:

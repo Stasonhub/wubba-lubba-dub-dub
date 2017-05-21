@@ -1,7 +1,0 @@
-ALTER TABLE advert
-  ADD COLUMN
-  bedrooms INT NOT NULL;
-
-ALTER TABLE advert
-  ADD COLUMN
-  beds INT NOT NULL;
