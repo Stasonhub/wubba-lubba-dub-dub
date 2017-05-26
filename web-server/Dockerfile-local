@@ -17,6 +17,4 @@ RUN \
 # run in dev mode
 CMD \
     cd /web-server && \
-#    export DISPLAY=:99 && \
-#    Xvfb -ac :99 -screen 0 1280x1024x16 && \
-    ./sbt run
+    ./run-app-local.sh

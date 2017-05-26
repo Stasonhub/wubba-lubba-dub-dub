@@ -1,0 +1,8 @@
+ # override file for production
+
+ web-server:
+    environment:
+      - IMPORT_INITIAL_DELAY=15
+      - IMPORT_INTERVAL=600
+      - IMPORT_ITEMS_MAX_AVITO=2500
+      - IMPORT_ITEMS_MAX_TOTOOK=2500

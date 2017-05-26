@@ -2,13 +2,15 @@ version: '2'
 
 services:
 
-  nginx:
-    build: nginx
+  traefik:
+    build: traefik
     ports:
       - 443:443
+      - 80:80
+      - 8080:8080
     volumes:
-      - ./data/letsencrypt/cert:/etc/letsencrypt
-      - ./data/letsencrypt/challenge:/challenge
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $PWD/data/acme:/etc/acme
     depends_on:
       - web-server
 
@@ -16,25 +18,16 @@ services:
     image: postgres:9.6
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_PASSWORD=AQGnthVu73AjBfBF
 
   web-server:
-    build:
-      context: web-server
-      dockerfile: Dockerfile-local
-    stdin_open: true
+    build: web-server
     volumes:
-      - ./web-server:/web-server
-      - ~/.m2:/root/.m2
-      - ~/.sbt:/root/.sbt
-      - ~/.ivy2:/root/.ivy2
       - ./data/photos:/photos
       - ./data/logs:/logs
     depends_on:
       - postgres
     environment:
-      - photo.storage.path = /photos
-      - log.dir = /logs
-      - import.items.max.avito = 60
-      - import.items.max.totook = 60
+      - PROXY_HOST=91.108.64.169
+      - PROXY_PORT=29842
+      - PROXY_USERNAME=abarie
+      - PROXY_PASSWORD=bX4BP9jM
