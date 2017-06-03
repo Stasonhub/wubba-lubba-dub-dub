@@ -3,14 +3,12 @@ version: '2'
 services:
 
   traefik:
-    build: traefik
+    image: traefik
     ports:
       - 443:443
       - 80:80
-      - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - $PWD/data/acme:/etc/acme
     depends_on:
       - web-server
 

@@ -3,9 +3,12 @@ version: '2'
 
 services:
 
+# for traefik expose admin port and use dev configuration file
   traefik:
-    labels:
-       - traefik.domain=docker.localhost
+    ports:
+      - 8080:8080
+    volumes:
+       - ./traefik.toml:/etc/traefik/traefik.toml
 
 # for postgres bind port locally to debug
   postgres:
@@ -18,9 +21,10 @@ services:
       context: web-server
       dockerfile: Dockerfile-local
     labels:
+      - "traefik.enable=true"
       - "traefik.backend=web"
-      - "traefik.frontend.rule=Host:web.docker.localhost"
       - "traefik.port=9000"
+      - "traefik.frontend.rule=Host:localhost"
     stdin_open: true
     volumes:
       - ./web-server:/web-server

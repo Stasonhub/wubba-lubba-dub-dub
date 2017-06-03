@@ -1,6 +1,14 @@
- # override file for production
+# override file for production
+version: '2'
 
- web-server:
+services:
+
+  traefik:
+    volumes:
+      - traefik.prod.toml:/etc/traefik/traefik.toml
+      - ./data/acme:/encrypt/acme
+
+  web-server:
     environment:
       - IMPORT_INITIAL_DELAY=15
       - IMPORT_INTERVAL=600

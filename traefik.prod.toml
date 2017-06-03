@@ -1,0 +1,28 @@
+logLevel = "WARN"
+defaultEntryPoints = ["http", "https"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "fatirlar.ru"
+watch = true
+exposedbydefault = false
+
+# acme config
+[acme]
+email = "fatirlar.ru@gmail.com"
+storageFile = "/encrypt/acme/acme.json"
+entryPoint = "https"
+onDemand = true
+
+[[acme.domains]]
+  main = "fatirlar.ru"
+  sans = ["www.fatirlar.ru"]
