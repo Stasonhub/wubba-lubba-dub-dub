@@ -20,6 +20,8 @@ RUN \
     unzip -o app.zip && \
     rm app.zip
 
+ENV abc=hello
+
 # run app
 ADD run-app.sh /run-app.sh
 CMD sh /run-app.sh
