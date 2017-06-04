@@ -29,6 +29,7 @@ services:
     volumes:
       - ./web-server:/web-server
       - ~/.m2:/root/.m2
+      - ~/.coursierg:/root/.coursier
       - ~/.sbt:/root/.sbt
       - ~/.ivy2:/root/.ivy2
     environment:

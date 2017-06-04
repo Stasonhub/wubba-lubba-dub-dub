@@ -11,6 +11,7 @@ dependencies:
     - "~/.iv2/cache"
     - "~/.sbt"
     - "~/.m2"
+    - "~/.coursier"
     - "web-server/target/resolution-cache"
     - "web-server/target/streams"
     - "web-server/project/target/resolution-cache"
@@ -37,7 +38,7 @@ deployment:
       - cd traefik && docker build --rm=false -f Dockerfile -t breezy16/traefik .
 
       # login/push images
-      - docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push breezy16/web-server
       - docker push breezy16/traefik
 
