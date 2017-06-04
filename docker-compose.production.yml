@@ -5,7 +5,7 @@ services:
 
   traefik:
     volumes:
-      - ./otraefik.prod.toml:/etc/traefik/traefik.toml
+      - ./traefik.prod.toml:/etc/traefik/traefik.toml
       - ./data/acme:/encrypt/acme
 
   web-server:
