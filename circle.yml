@@ -24,7 +24,7 @@ deployment:
     branch: master
     commands:
       - cd web-server
-      - ./sbt universal:package-binssh circleci@breezy.prod 'docker login -u $DOCKER_USER -p $DOCKER_PASS && docker-compose -f docker-compose.yml -f docker-compose.production.yml up'
+      - ./sbt universal:package-bin
       - docker build --rm=false -f Dockerfile -t breezy16/web-server .
       - cd ../traefik
       - docker build --rm=false -f Dockerfile -t breezy16/traefik .
