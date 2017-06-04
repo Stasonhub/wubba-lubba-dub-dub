@@ -45,4 +45,4 @@ deployment:
       # copy entire compose to server and restart containers
       - scp docker-compose.yml circleci@breezy.prod:/breezy/docker-compose.yml
       - scp docker-compose.production.yml circleci@breezy.prod:/breezy/docker-compose.production.yml
-      - ssh circleci@oyouin.prod 'bash -s $DOCKER_USER $DOCKER_PASS' < deploy.sh
+      - ssh circleci@breezy.prod 'bash -s $DOCKER_USER $DOCKER_PASS' < deploy.sh
