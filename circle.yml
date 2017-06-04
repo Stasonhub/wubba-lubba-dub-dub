@@ -20,7 +20,7 @@ dependencies:
     - docker info
     - docker pull java:openjdk-8
     - docker pull traefik
-    - cd web-server && ./sbt compile
+    - cd web-server && ./sbt update
 
 #test:
 #  override:
