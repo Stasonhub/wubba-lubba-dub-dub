@@ -21,5 +21,5 @@ RUN \
     rm app.zip
 
 # run app
-ADD run_app.sh /run-app.sh
+ADD run-app.sh /run-app.sh
 CMD sh /run-app.sh

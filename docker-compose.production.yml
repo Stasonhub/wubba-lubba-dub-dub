@@ -4,11 +4,12 @@ version: '2'
 services:
 
   traefik:
+    image: breezy16/traefik
     volumes:
-      - ./traefik.prod.toml:/etc/traefik/traefik.toml
       - ./data/acme:/encrypt/acme
 
   web-server:
+    image: breezy16/web-server
     environment:
       - IMPORT_INITIAL_DELAY=15
       - IMPORT_INTERVAL=600

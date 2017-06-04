@@ -18,7 +18,6 @@ services:
       - ./data/postgresql:/var/lib/postgresql/data
 
   web-server:
-    build: web-server
     volumes:
       - ./data/photos:/photos
       - ./data/logs:/logs
