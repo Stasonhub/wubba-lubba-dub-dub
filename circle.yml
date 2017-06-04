@@ -34,7 +34,7 @@ deployment:
     commands:
       # build images
       - cd web-server && ./sbt universal:package-bin && docker build --rm=false -f Dockerfile -t breezy16/web-server .
-      - cd ../traefik && docker build --rm=false -f Dockerfile -t breezy16/traefik .
+      - cd traefik && docker build --rm=false -f Dockerfile -t breezy16/traefik .
 
       # login/push images
       - docker login -u $DOCKER_USER -p $DOCKER_PASS
