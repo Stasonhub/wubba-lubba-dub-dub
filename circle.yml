@@ -24,23 +24,15 @@ deployment:
     branch: master
     commands:
       # build images
-      - >
-         cd web-server
-           && ./sbt universal:package-bin
-           && docker build --rm=false -f Dockerfile -t breezy16/web-server .
-      ->
-         cd ../traefik
-           && docker build --rm=false -f Dockerfile -t breezy16/traefik .
+      - cd web-server && ./sbt universal:package-bin && docker build --rm=false -f Dockerfile -t breezy16/web-server .
+      - cd ../traefik && docker build --rm=false -f Dockerfile -t breezy16/traefik .
 
       # login/push images
       - docker login -u $DOCKER_USER -p $DOCKER_PASS
       - docker push breezy16/web-server
       - docker push breezy16/traefik
-      
+
       # copy entire compose to server and restart containers
       - scp docker-compose.yml circleci@breezy.prod:/breezy/docker-compose.yml
       - scp docker-compose.production.yml circleci@breezy.prod:/breezy/docker-compose.production.yml
-      - >
-          ssh circleci@breezy.prod 'docker login -u $DOCKER_USER -p $DOCKER_PASS
-            && cd /breezy
-            && docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d '
+      - ssh circleci@breezy.prod 'docker login -u $DOCKER_USER -p $DOCKER_PASS && cd /breezy && docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d'
