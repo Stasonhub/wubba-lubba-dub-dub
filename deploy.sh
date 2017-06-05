@@ -7,4 +7,6 @@ sudo -E su
 set -e
 
 docker login -u ${dockerUser} -p ${dockerPassword}
-cd /breezy && docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d
+cd /breezy \
+ && docker-compose -f docker-compose.yml -f docker-compose.production.yml pull \
+ && docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d
