@@ -11,7 +11,7 @@ services:
   web-server:
     image: breezy16/web-server
     labels:
-      - "traefik.frontend.rule=Host:fatirlar.ru"
+      - "traefik.frontend.rule=Host:fatirlar.ru,www.fatirlar.ru"
     environment:
       - IMPORT_INITIAL_DELAY=15
       - IMPORT_INTERVAL=600

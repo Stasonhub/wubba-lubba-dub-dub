@@ -8,7 +8,6 @@ machine:
 
 dependencies:
   cache_directories:
-    - "~/.iv2/cache"
     - "~/.sbt"
     - "~/.m2"
     - "~/.coursier"
@@ -17,9 +16,6 @@ dependencies:
     - "web-server/project/target/resolution-cache"
     - "web-server/project/target/streams"
   override:
-    - docker info
-    - docker pull java:openjdk-8
-    - docker pull traefik
     - cd web-server && ./sbt update
 
 #test:
