@@ -27,7 +27,6 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=web"
       - "traefik.port=9000"
-      - "traefik.frontend.rule=Host:fatirlar.ru"
     environment:
       - PROXY_HOST=91.108.64.169
       - PROXY_PORT=29842

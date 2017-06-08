@@ -21,9 +21,6 @@ services:
       context: web-server
       dockerfile: Dockerfile-local
     labels:
-      - "traefik.enable=true"
-      - "traefik.backend=web"
-      - "traefik.port=9000"
       - "traefik.frontend.rule=Host:localhost"
     stdin_open: true
     volumes:
