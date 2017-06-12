@@ -1,5 +1,6 @@
 package service.provider.totook;
 
+import okhttp3.Response;
 import service.provider.api.AdvertsProvider;
 import service.provider.api.ParsedAdvert;
 import service.provider.api.ParsedAdvertHeader;
@@ -77,13 +78,13 @@ public class TotookAdvertsProvider implements AdvertsProvider {
                     long startTime = System.currentTimeMillis();
 
                     pageNumber++;
-                    Document document = doGet("http://kazan.totook.ru/catalog/?PARENT_SECTION=28&type=1&price_from=0&price_to=100000&period=4&PAGEN_1=" + pageNumber);
+                    Document document = doGet("https://kazan.totook.ru/catalog/?PARENT_SECTION=28&type=1&price_from=0&price_to=100000&period=4&PAGEN_1=" + pageNumber);
                     currentPageHeaders = document.select(".b-catalog__object")
                             .stream()
                             .filter(v -> !v.hasClass("access"))
                             .map(header -> {
                                 ParsedAdvertHeader parsedAdvertHeader = new ParsedAdvertHeader();
-                                parsedAdvertHeader.setAdvertUrl("http://kazan.totook.ru" + header.select("a").attr("href"));
+                                parsedAdvertHeader.setAdvertUrl("https://kazan.totook.ru" + header.select("a").attr("href"));
                                 parsedAdvertHeader.setPublicationTimestamp(totookDateFormatter.getTimestamp(
                                         header.select(".b-catalog__object__date").text()));
                                 return parsedAdvertHeader;
@@ -138,9 +139,11 @@ public class TotookAdvertsProvider implements AdvertsProvider {
         try {
             Request request = new Request.Builder()
                     .url(url)
+                    .header("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
                     .build();
-            String html = okHttpClient.get().newCall(request)
-                    .execute()
+            Response response = okHttpClient.get().newCall(request)
+                    .execute();
+            String html = response
                     .body()
                     .string();
             return Jsoup.parse(html);

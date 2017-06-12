@@ -21,21 +21,17 @@ import javax.inject.Singleton;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static service.provider.common.Util.getNumberInsideOf;
-import static service.provider.common.Util.overwriteLast3Digit;
 
 @Singleton
 public class AvitoAdvertsProvider implements AdvertsProvider {
 
     private Logger logger = LoggerFactory.getLogger(AvitoAdvertsProvider.class);
-
-    private static final AtomicLong counter = new AtomicLong();
 
     private static final String MAIN_PAGE_URL = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok";
     private static final String PAGE_INDEX_SUFFIX = "?p=";
@@ -106,10 +102,9 @@ public class AvitoAdvertsProvider implements AdvertsProvider {
                                 ParsedAdvertHeader parsedAdvertHeader = new ParsedAdvertHeader();
                                 parsedAdvertHeader.setAdvertUrl(
                                         header.findElement(By.className("item-description-title-link")).getAttribute("href"));
-                                parsedAdvertHeader.setPublicationTimestamp(overwriteLast3Digit(
+                                parsedAdvertHeader.setPublicationTimestamp(
                                         avitoDateFormatter.getTimestamp(header.findElement(By.className("date"))
-                                                .getAttribute("innerText")),
-                                        counter.incrementAndGet()));
+                                                .getAttribute("innerText")));
                                 return parsedAdvertHeader;
                             }).collect(Collectors.toList()).iterator();
 
