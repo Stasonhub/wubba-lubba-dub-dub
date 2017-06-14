@@ -5,6 +5,7 @@ services:
 
 # for traefik expose admin port and use dev configuration file
   traefik:
+    image: traefik
     ports:
       - 8080:8080
     volumes:
@@ -34,3 +35,13 @@ services:
       - IMPORT_INTERVAL=1800000
       - IMPORT_ITEMS_MAX_AVITO=60
       - IMPORT_ITEMS_MAX_TOTOOK=60
+
+  # elk
+  elasticsearch:
+    build: elk/elasticsearch
+
+  logstash:
+    build: elk/logstash
+
+  kibana:
+    build: elk/kibana

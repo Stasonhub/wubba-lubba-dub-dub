@@ -17,3 +17,13 @@ services:
       - IMPORT_INTERVAL=600
       - IMPORT_ITEMS_MAX_AVITO=2500
       - IMPORT_ITEMS_MAX_TOTOOK=2500
+
+  # elk
+  elasticsearch:
+    image: breezy16/elasticsearch
+
+  logstash:
+    image: breezy16/logstash
+
+  kibana:
+    image: breezy16/kibana
