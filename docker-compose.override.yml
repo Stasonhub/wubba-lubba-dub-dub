@@ -45,3 +45,6 @@ services:
 
   kibana:
     build: elk/kibana
+    labels:
+      - "traefik.frontend.rule=Host:kibana.localhost"
+      - "traefik.frontend.auth.basic=test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/"

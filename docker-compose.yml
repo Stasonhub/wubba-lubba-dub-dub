@@ -46,9 +46,11 @@ services:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
 
   kibana:
-    ports:
-      - "5601:5601"
     depends_on:
       - elasticsearch
     environment:
-      JAVA_OPTS: "-Xmx1G -Xms1G"
+      JAVA_OPTS: "-Xmx2G -Xms512m"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=kibana"
+      - "traefik.port=5601"

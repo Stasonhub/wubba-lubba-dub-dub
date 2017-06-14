@@ -28,4 +28,4 @@ onDemand = true
 
 [[acme.domains]]
   main = "fatirlar.ru"
-  sans = ["www.fatirlar.ru"]
+  sans = ["www.fatirlar.ru", "kibana.fatirlar.ru"]
