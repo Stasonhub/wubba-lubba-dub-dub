@@ -38,6 +38,7 @@ libraryDependencies += "com.github.dfabulich" % "sitemapgen4j" % "1.0.6"
 libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.5"
 libraryDependencies += "commons-io" % "commons-io" % "2.5"
 libraryDependencies += "org.geotools" % "gt-geojson" % "16.0"
+libraryDependencies += "net.logstash.logback" % "logstash-logback-encoder" % "4.10"
 
 libraryDependencies += specs2 % Test
 libraryDependencies += "org.tpolecat" %% "doobie-specs2-cats" % doobieVersion % Test

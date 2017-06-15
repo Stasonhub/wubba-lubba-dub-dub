@@ -22,6 +22,7 @@ services:
       - ./data/logs:/logs
     depends_on:
       - postgres
+      - logstash
     labels:
       - "traefik.enable=true"
       - "traefik.backend=web"
@@ -37,6 +38,7 @@ services:
 
   elasticsearch:
     environment:
+      MAX_MAP_COUNT: 262144
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
 
   logstash:
@@ -46,10 +48,11 @@ services:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
 
   kibana:
+    environment:
+      MAX_MAP_COUNT: 262144
+      NODE_OPTIONS: "--max-old-space-size=950"
     depends_on:
       - elasticsearch
-    environment:
-      JAVA_OPTS: "-Xmx2G -Xms512m"
     labels:
       - "traefik.enable=true"
       - "traefik.backend=kibana"

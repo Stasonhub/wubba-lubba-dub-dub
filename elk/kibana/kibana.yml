@@ -15,5 +15,3 @@ xpack.monitoring.enabled: false
 xpack.ml.enabled: false
 xpack.graph.enabled: false
 xpack.reporting.enabled: false
-
-logging.verbose: true

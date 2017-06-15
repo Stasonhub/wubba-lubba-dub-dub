@@ -2,19 +2,34 @@
 
   <conversionRule conversionWord="coloredLevel" converterClass="play.api.libs.logback.ColoredLevel" />
 
-  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>/logs/application.log</file>
-    <encoder>
-      <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
-    </encoder>
+  <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <keepAliveDuration>5 minutes</keepAliveDuration>
+    <reconnectionDelay>10 second</reconnectionDelay>
+    <waitStrategyType>sleeping</waitStrategyType>
+    <ringBufferSize>16384</ringBufferSize>
+    <destination>logstash:5000</destination>
+    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+      <providers>
+        <mdc/> <!-- MDC variables on the Thread will be written as JSON fields-->
+        <context/> <!--Outputs entries from logback's context -->
+        <logLevel/>
+        <loggerName/>
+        <threadName/>
+        <message/>
 
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>/logs/archived/application.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-      <timeBasedFileNamingAndTriggeringPolicy
-              class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-        <maxFileSize>10MB</maxFileSize>
-      </timeBasedFileNamingAndTriggeringPolicy>
-    </rollingPolicy>
+        <logstashMarkers/> <!-- Useful so we can add extra information for specific log lines as Markers-->
+        <arguments/> <!--or through StructuredArguments-->
+
+        <stackTrace>
+          <fieldName>stackTrace</fieldName>
+          <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+            <exclude>net\.sf\.cglib\..*</exclude>
+            <maxDepthPerThrowable>30</maxDepthPerThrowable>
+            <rootCauseFirst>true</rootCauseFirst>
+          </throwableConverter>
+        </stackTrace>
+      </providers>
+    </encoder>
   </appender>
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -23,11 +38,11 @@
     </encoder>
   </appender>
 
-  <appender name="ASYNCFILE" class="ch.qos.logback.classic.AsyncAppender">
-    <appender-ref ref="FILE" />
+  <appender name="ASYNC_LOGSTASH" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="LOGSTASH" />
   </appender>
 
-  <appender name="ASYNCSTDOUT" class="ch.qos.logback.classic.AsyncAppender">
+  <appender name="ASYNC_STDOUT" class="ch.qos.logback.classic.AsyncAppender">
     <appender-ref ref="STDOUT" />
   </appender>
 
@@ -41,8 +56,8 @@
   <logger name="com.gargoylesoftware.htmlunit.javascript" level="OFF" />
 
   <root level="INFO">
-    <appender-ref ref="ASYNCFILE" />
-    <appender-ref ref="ASYNCSTDOUT" />
+    <appender-ref ref="ASYNC_STDOUT" />
+    <appender-ref ref="ASYNC_LOGSTASH" />
   </root>
 
 </configuration>

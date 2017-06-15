@@ -32,11 +32,17 @@ deployment:
       # build images
       - cd web-server && ./sbt universal:package-bin && docker build --rm=false -f Dockerfile -t breezy16/web-server .
       - cd traefik && docker build --rm=false -f Dockerfile -t breezy16/traefik .
+      - cd elk/elasticsearch && docker build --rm=false -f Dockerfile -t breezy16/elasticsearch .
+      - cd elk/logstash && docker build --rm=false -f Dockerfile -t breezy16/logstash .
+      - cd elk/kibana && docker build --rm=false -f Dockerfile -t breezy16/kibana .
 
       # login/push images
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push breezy16/web-server
       - docker push breezy16/traefik
+      - docker push breezy16/elasticsearch
+      - docker push breezy16/logstash
+      - docker push breezy16/kibana
 
       # copy entire compose to server and restart containers
       - scp docker-compose.yml circleci@breezy.prod:/breezy/docker-compose.yml
