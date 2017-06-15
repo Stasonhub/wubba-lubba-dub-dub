@@ -29,4 +29,4 @@ services:
     image: breezy16/kibana
     labels:
       - "traefik.frontend.rule=Host:kibana.fatirlar.ru"
-      - "traefik.frontend.auth.basic=kibana:$apr1$hvkx9rgi$fOD1H9hLxr2HNROvLGpHo."
+      - "traefik.frontend.auth.basic=kibana:$apr1$e6auNkNj$JXGXJy5AI5Jr2GiSYtVKo/"
