@@ -1,7 +1,7 @@
 package distance
 
 import org.specs2.Specification
-import service.PhotoService
+import service.{ImagePHash, PhotoService}
 
 import scala.io.Source
 
@@ -52,7 +52,7 @@ class HashDistribution extends Specification {
          (44,2))
       """
 
-  val photoService = new PhotoService
+  val imageHash = new ImagePHash()
 
   def hashDistribution = {
     val hashSet = Source.fromURL(getClass.getResource("hash_second.csv"))
@@ -64,7 +64,7 @@ class HashDistribution extends Specification {
 
     val distribution = repeatedCombinations(hashSet, 2)
       .toList
-      .map(v => photoService.distance(v(0), v(1)))
+      .map(v => imageHash.distance(v(0), v(1)))
       .groupBy(identity)
       .mapValues(_.size)
       .toList

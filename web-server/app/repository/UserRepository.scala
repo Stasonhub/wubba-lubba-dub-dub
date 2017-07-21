@@ -32,11 +32,11 @@ class UserRepository {
       sql"""
            SELECT *
            FROM sys_user
-           WHERE id=(SELECT userId
+           WHERE id in (SELECT userId
                   FROM advert_author
-                  WHERE advertId=$advertId
-                  ORDER BY trustRate DESC
-                  LIMIT 1)
+                  WHERE advertId=$advertId)
+           ORDER BY trustRate DESC
+           LIMIT 1
             """.query[User]
   /**
     * @param phoneStartingNumbers phone left 6 digits

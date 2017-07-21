@@ -12,12 +12,13 @@ object TestConnection {
   val dbConnection = new DbConnection(
     DbConnectionConfig(
       "org.postgresql.Driver",
-      "jdbc:postgresql://localhost:4466/postgres",
+      "jdbc:postgresql://localhost:5442/postgres",
       "postgres",
-      "AQGnthVu73AjBfBF"))
+      ""))
 
   def cleanUpDb = {
     sql"""
+          DELETE FROM importstate;
           DELETE FROM photo;
           DELETE FROM advert_author;
           DELETE FROM advert;

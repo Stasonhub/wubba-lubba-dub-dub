@@ -6,7 +6,6 @@ import cats.implicits._
 import doobie.imports.Fragments.{andOpt, whereAndOpt, in}
 import doobie.imports._
 import doobie.postgres.pgtypes._
-import model.ui.AdvertPrices
 import model.{Advert, District}
 
 @Singleton
@@ -27,6 +26,13 @@ class AdvertRepository {
            SELECT *
            FROM advert
            WHERE id = $id
+            """.query[Advert]
+
+  def findByOriginId(originId: Int): Query0[Advert] =
+    sql"""
+           SELECT *
+           FROM advert
+           WHERE originId = $originId
             """.query[Advert]
 
   def getNextAdvertsBeforeTime(timestamp: Long, limit: Long): Query0[Advert] =
@@ -82,10 +88,6 @@ class AdvertRepository {
         roomsF)
       ).query[Long]
   }
-
-  def getAdvertPrices: AdvertPrices = ???
-
-  def deleteAdvert(id: Long): Unit = ???
 
   def bindToUser(advertId: Int, userId: Int): Update0 =
     sql"""

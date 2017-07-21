@@ -39,6 +39,9 @@ libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.5"
 libraryDependencies += "commons-io" % "commons-io" % "2.5"
 libraryDependencies += "org.geotools" % "gt-geojson" % "16.0"
 libraryDependencies += "net.logstash.logback" % "logstash-logback-encoder" % "4.10"
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.1"
 
-libraryDependencies += specs2 % Test
+libraryDependencies += "org.specs2" %% "specs2-core" % "3.9.1" % "test"
+libraryDependencies += "org.specs2" %% "specs2-mock" % "3.9.1" % "test"
+libraryDependencies += "org.specs2" %% "specs2-matcher-extra" % "3.9.1" % "test"
 libraryDependencies += "org.tpolecat" %% "doobie-specs2-cats" % doobieVersion % Test

@@ -9,8 +9,10 @@ import service.UserService
 class UserController @Inject()(userService: UserService) extends Controller {
 
   def userForAdvert(advertId: Int) = Action { request =>
-    val user = userService.getUserForAdvert(advertId)
-    Ok(views.html.fragment.userInfo(user))
+    val s = userService.getUserForAdvert(advertId)
+      .map(user => Ok(views.html.fragment.userInfo(user)))
+      .getOrElse(NotFound)
+    s
   }
 
 }

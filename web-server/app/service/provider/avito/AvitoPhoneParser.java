@@ -8,27 +8,17 @@ import org.bytedeco.javacpp.tesseract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import play.api.Play;
-import play.api.inject.ApplicationLifecycle;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.io.File;
 import java.io.InputStream;
-import java.util.concurrent.CompletableFuture;
 
 import static org.bytedeco.javacpp.lept.pixDestroy;
 
-@Singleton
-public class AvitoPhoneParser {
+class AvitoPhoneParser {
 
     private Logger logger = LoggerFactory.getLogger(AvitoPhoneParser.class);
 
     private volatile tesseract.TessBaseAPI api;
-
-    @Inject
-    public AvitoPhoneParser(ApplicationLifecycle applicationLifecycle) {
-        applicationLifecycle.addStopHook(() -> CompletableFuture.runAsync(this::close));
-    }
 
     private void init() {
         if (api == null) {

@@ -1,7 +1,6 @@
 package service.provider.avito;
 
 
-import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -9,8 +8,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-@Singleton
-public class AvitoDateFormatter {
+class AvitoDateFormatter {
 
     private ZoneId zoneId = ZoneId.of("UTC+03:00");
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
@@ -25,7 +23,7 @@ public class AvitoDateFormatter {
     String toStrictFormat(String date) {
         LocalDate now = LocalDate.now(zoneId);
 
-        String dateFormatted = date.toLowerCase().replace("\u00A0"," ").trim();
+        String dateFormatted = date.toLowerCase().replace("\u00A0", " ").trim();
         if (dateFormatted.startsWith("сегодня")) {
             int dayOfMonth = now.getDayOfMonth();
             int monthValue = now.getMonthValue();

@@ -3,14 +3,13 @@ package controllers
 import javax.inject.{Inject, Singleton}
 
 import model.District
-import model.rest.{SearchParameters, SearchRequest}
-import play.api.data.Form
-import play.api.mvc.{Action, Controller}
-import service.{AdvertService, PhotoService}
-import play.api.data._
+import model.rest.SearchParameters
 import play.api.data.Forms._
+import play.api.data.{Form, _}
 import play.api.data.format.Formats.parsing
 import play.api.data.format.Formatter
+import play.api.mvc.{Action, Controller}
+import service.{AdvertService, PhotoService}
 
 import scala.collection.JavaConverters._
 
@@ -25,7 +24,7 @@ class AdvertController @Inject()(advertService: AdvertService,
 
   def index = Action { request =>
     val adverts = advertService.advertsForMainPage.asScala.toList
-    val mainPhotos = photoService.getMainPhotos(adverts.asJava).asScala.map { case (k, v) => (k.toInt, v) }.toMap
+    val mainPhotos = photoService.getMainPhotos(adverts.map(_.id))
     Ok(views.html.index(adverts, mainPhotos))
   }
 
@@ -51,7 +50,7 @@ class AdvertController @Inject()(advertService: AdvertService,
       },
       searchParameters => {
         val adverts = advertService.adverts(searchParameters).asScala.toList
-        val mainPhotos = photoService.getMainPhotos(adverts.asJava).asScala.map { case (k, v) => (k.toInt, v) }.toMap
+        val mainPhotos = photoService.getMainPhotos(adverts.map(_.id))
         val pagesCount = advertService.pagesCount(searchParameters)
         Ok(views.html.search(adverts, mainPhotos, pagesCount, searchParameters))
       }
@@ -64,7 +63,7 @@ class AdvertController @Inject()(advertService: AdvertService,
       throw new IllegalArgumentException("Объявление не найдено")
     }
 
-    val photos = photoService.getPhotos(advert).asScala.toList
+    val photos = photoService.getPhotos(advert.id)
     Ok(views.html.advert(advert, photos))
   }
 

@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.InputStream;
 import java.util.Base64;
-import java.util.concurrent.CompletableFuture;
 
 @Singleton
 public class WebDriver {
@@ -24,7 +23,7 @@ public class WebDriver {
     @Inject
     public WebDriver(ProxyServer proxyServer, ApplicationLifecycle applicationLifecycle) {
         this.proxyServer = proxyServer;
-        applicationLifecycle.addStopHook(() -> CompletableFuture.runAsync(this::close));
+       // applicationLifecycle.addStopHook(() -> CompletableFuture.runAsync(this::close));
     }
 
     public org.openqa.selenium.WebDriver get() {
@@ -48,7 +47,7 @@ public class WebDriver {
         try {
             ChromeDriverManager.getInstance().setup();
 
-            InputStream blockImageExt = Play.current().classloader().getResourceAsStream("chrome/extensions/Block-image_v1.1.crx");
+            InputStream blockImageExt =  getClass().getResourceAsStream("extension/Block-image_v1.1.crx");
             String encoded = Base64.getEncoder().encodeToString(IOUtils.toByteArray(blockImageExt));
 
             ChromeOptions chromeOptions = new ChromeOptions();

@@ -1,3 +1,3 @@
 package config
 
-case class PhotosStorageConfig(path: String, testMode: Boolean)
+case class PhotosStorageConfig(path: String)

@@ -8,7 +8,11 @@ import doobie.imports._
 class AdvertImportRepository {
 
   def saveLastImportTime(typeName: String, lastImportDate: Long): Update0 =
-    sql"""UPDATE importState SET lastImportDate = $lastImportDate WHERE typeName = $typeName""".update
+    sql"""
+         INSERT INTO importState
+         VALUES ($typeName, $lastImportDate)
+         ON CONFLICT (typeName) DO UPDATE
+         SET lastImportDate = $lastImportDate""".update
 
   def lastImportTime(typeName: String): Query0[Long] =
     sql"""SELECT COALESCE(

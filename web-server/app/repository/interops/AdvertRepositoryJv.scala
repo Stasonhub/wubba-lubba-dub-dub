@@ -5,7 +5,6 @@ import javax.inject.{Inject, Singleton}
 
 import doobie.imports._
 import fs2.interop.cats._
-import model.ui.AdvertPrices
 import model.{Advert, District}
 import repository.{AdvertRepository, DbConnection}
 import doobie.postgres.pgtypes._
@@ -56,10 +55,6 @@ class AdvertRepositoryJv @Inject()(dbConnection: DbConnection, advertRepository:
       .transact(dbConnection.xa)
       .unsafePerformIO
       .toInt
-
-  def getAdvertPrices: AdvertPrices = ???
-
-  def deleteAdvert(id: Long): Unit = ???
 
   def bindToUser(advertId: Int, userId: Int): Unit =
     advertRepository.bindToUser(advertId, userId)

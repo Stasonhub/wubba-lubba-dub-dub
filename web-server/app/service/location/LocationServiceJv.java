@@ -1,4 +1,4 @@
-package service;
+package service.location;
 
 import model.District;
 import com.vividsolutions.jts.geom.Coordinate;
@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Singleton
-public class LocationService {
+public class LocationServiceJv {
 
     private GeometryJSON gjson = new GeometryJSON();
     private volatile Map<District, MultiPolygon> districtGeometryMap;
@@ -42,7 +42,8 @@ public class LocationService {
 
     private String loadDistrictGeoData(District district) {
         try {
-            InputStream districtGeoData = Play.current().classloader().getResourceAsStream("districts/geodata/" + district.name().toLowerCase() + ".json");
+            //InputStream districtGeoData = Play.current().classloader().getResourceAsStream("districts/geodata/" + district.name().toLowerCase() + ".json");
+            InputStream districtGeoData = getClass().getResourceAsStream("geodata/" + district.name().toLowerCase() + ".json");
             return IOUtils.toString(districtGeoData, "UTF-8");
         } catch (IOException e) {
             throw new RuntimeException(e);

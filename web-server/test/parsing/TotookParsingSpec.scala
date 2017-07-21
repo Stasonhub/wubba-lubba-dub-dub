@@ -10,7 +10,7 @@ class TotookParsingSpec extends Specification {
   def is =
     s2"""
       Totook provider must scan:
-        at least something $scanAtLeastSomething
+        at least something scanAtLeastSomething
       """
 
   def scanAtLeastSomething  = {

@@ -5,7 +5,7 @@ import javax.imageio.ImageIO
 
 import org.apache.commons.io.IOUtils
 import org.specs2.Specification
-import service.PhotoService
+import service.ImagePHash
 
 class PhotoHashSpec extends Specification {
 
@@ -24,16 +24,16 @@ class PhotoHashSpec extends Specification {
         should be stable on big amount of images $collision
       """
 
-  val photoService = new PhotoService
+  val imagePHash = new ImagePHash()
 
   def similarImages(photo1: String, photo2: String) = {
     val similar1 = readPhoto(s"samples/similar/$photo1")
     val similar2 = readPhoto(s"samples/similar/$photo2")
 
-    val similar1Hash = photoService.calculateHash(similar1)
-    val similar2Hash = photoService.calculateHash(similar2)
+    val similar1Hash = imagePHash.getHash(similar1)
+    val similar2Hash = imagePHash.getHash(similar2)
 
-    (photoService.isTheSame(similar1Hash, similar2Hash) must beEqualTo(true))
+    (imagePHash.isTheSame(similar1Hash, similar2Hash) must beEqualTo(true))
       .setMessage(s"Two hashes should be close enough \n ${similar1Hash.toBinaryString} \n ${similar2Hash.toBinaryString}")
   }
 
@@ -41,10 +41,10 @@ class PhotoHashSpec extends Specification {
     val similar1 = readPhoto(s"samples/different/$photo1")
     val similar2 = readPhoto(s"samples/different/$photo2")
 
-    val similar1Hash = photoService.calculateHash(similar1)
-    val similar2Hash = photoService.calculateHash(similar2)
+    val similar1Hash = imagePHash.getHash(similar1)
+    val similar2Hash = imagePHash.getHash(similar2)
 
-    (photoService.isTheSame(similar1Hash, similar2Hash) must beEqualTo(false))
+    (imagePHash.isTheSame(similar1Hash, similar2Hash) must beEqualTo(false))
       .setMessage(s"Two hashes should be different enough \n ${similar1Hash.toBinaryString} \n ${similar2Hash.toBinaryString}")
   }
 
@@ -53,7 +53,7 @@ class PhotoHashSpec extends Specification {
       Range(1, 60)//1517)
         .map(n => s"samples/collision/$n.jpg")
         .map(path => (readPhoto(path), path))
-        .map(photoWithPath => (photoService.calculateHash(photoWithPath._1), photoWithPath._2))
+        .map(photoWithPath => (imagePHash.getHash(photoWithPath._1), photoWithPath._2))
         .groupBy(_._1)
         .filter(p => p._2.size > 1)
     collisionsMap must beEmpty

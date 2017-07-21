@@ -1,5 +1,10 @@
 package util;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+
+import java.util.function.Function;
+
 public class Utils {
 
     public static String getStringPart(String description, int maxLength) {
@@ -26,5 +31,10 @@ public class Utils {
         int mask = 1 << index;
         return (conditions & mask) == mask;
     }
+
+    public static <T> Function<WebDriver, T> cv(ExpectedCondition<T> t) {
+        return t::apply;
+    }
+
 
 }

@@ -1,106 +1,13 @@
 package service;
 
-import model.Advert;
-import model.Photo;
 import org.apache.commons.lang3.StringUtils;
-import repository.interops.PhotoRepositoryJv;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.*;
-
-@Singleton
-public class PhotoService {
-
-    private static final int MATCHED_PHOTOS = 3;
-
-    @Inject
-    private PhotoRepositoryJv photoMapper;
-
-    private ImagePHash imagePHash = new ImagePHash();
-
-    public List<Photo> getPhotos(Advert advert) {
-        return photoMapper.getPhotos(advert.id());
-    }
-
-    public Map<Integer, Photo> getMainPhotos(List<Advert> adverts) {
-        if (adverts.isEmpty()) {
-            return Collections.emptyMap();
-        }
-        return photoMapper.getMainPhotos(adverts
-                .stream()
-                .map(Advert::id)
-                .collect(Collectors.toList()))
-                .stream()
-                .collect(Collectors.toMap(v -> v.advertId(), v -> v));
-    }
-
-    public <T> T searchForSimilar(Map<Long, T> hashesMap, long hash) {
-        if (hashesMap == null) {
-            return null;
-        }
-        Optional<Map.Entry<Long, T>> matchedEntry = hashesMap.entrySet().parallelStream()
-                .filter(entry -> imagePHash.isTheSame(hash, entry.getKey()))
-                .findAny();
-        if (matchedEntry.isPresent()) {
-            return matchedEntry.get().getValue();
-        }
-        return null;
-    }
-
-    public List<Integer> getMatchingAdverts(List<Photo> photos) {
-        // [hash, list[advertId]]
-        Map<Long, List<Integer>> hashesWithAdverts = photoMapper.getAllPhotos()
-                .stream()
-                .collect(groupingBy(Photo::hash, mapping(Photo::advertId, toList())));
-
-        List<Long> matchedHashes = photos.stream()
-                .map(Photo::hash)
-                .flatMap(photoHash -> hashesWithAdverts.keySet()
-                        .stream()
-                        .filter(existingHash -> imagePHash.isTheSame(existingHash, photoHash)))
-                .collect(toList());
-
-        // [advertId, count]
-        Map<Integer, Long> matchedAdvertsByCount =
-                matchedHashes.stream()
-                        .flatMap(hash -> hashesWithAdverts.get(hash).stream())
-                        .collect(groupingBy(identity(), counting()));
-
-        return matchedAdvertsByCount.entrySet().stream()
-                .filter(entry -> entry.getValue() >= MATCHED_PHOTOS)
-                .map(Map.Entry::getKey)
-                .collect(toList());
-    }
-
-    public long calculateHash(BufferedImage bufferedImage) {
-        return imagePHash.getHash(bufferedImage);
-    }
-
-    public boolean isTheSame(long val1, long val2) {
-        return imagePHash.isTheSame(val1, val2);
-    }
-
-    public int distance(long val1, long val2) {
-        return imagePHash.distance(val1, val2);
-    }
-
-    /*
-     * pHash-like image hash.
-     * Based On: http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
-     */
-    private static class ImagePHash {
+public class ImagePHash {
 
         private int DISTANCE_MAX = 5;
 
@@ -273,5 +180,3 @@ public class PhotoService {
         }
 
     }
-
-}

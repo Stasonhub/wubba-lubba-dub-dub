@@ -42,8 +42,7 @@ class ConfigurationModule extends Module {
     def load(rootConfig: Config, path: String): PhotosStorageConfig = {
       val config = rootConfig.getConfig(path)
       PhotosStorageConfig(
-        path = config.getString("path"),
-        testMode = config.getBoolean("test.mode")
+        path = config.getString("path")
       )
     }
   }
