@@ -47,7 +47,7 @@ public class WebDriver {
         try {
             ChromeDriverManager.getInstance().setup();
 
-            InputStream blockImageExt =  getClass().getResourceAsStream("extension/Block-image_v1.1.crx");
+            InputStream blockImageExt =  getClass().getResourceAsStream("/chrome/extensions/Block-image_v1.1.crx");
             String encoded = Base64.getEncoder().encodeToString(IOUtils.toByteArray(blockImageExt));
 
             ChromeOptions chromeOptions = new ChromeOptions();
@@ -59,7 +59,9 @@ public class WebDriver {
             chromeOptions.addArguments("--no-sandbox");
 
             DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setCapability(CapabilityType.PROXY, proxyServer.getSeleniumProxy());
+            if (proxyServer != null) {
+                capabilities.setCapability(CapabilityType.PROXY, proxyServer.getSeleniumProxy());
+            }
             capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
             capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 

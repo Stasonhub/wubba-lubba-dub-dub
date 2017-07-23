@@ -6,11 +6,10 @@ import java.util.stream.Collectors
 import com.typesafe.scalalogging.Logger
 import org.openqa.selenium._
 import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
-import service.provider.AdvertImporter
 import service.provider.api.RawAdvert
 import service.provider.common.Util
 import service.provider.connection.WebDriver
-import util.ScUtils.binarySearchFirstGreaterOrEq
+import util.ScUtils.binarySearchSmallestGreaterThanOrEq
 import util.Utils
 
 import scala.collection.JavaConverters._
@@ -19,8 +18,8 @@ class AvitoParser(webDriver: WebDriver) {
 
   val logger = Logger[AvitoParser]
 
-  private val PAGE_MIN = 1
-  private val PAGE_MAX = 50
+  private val PAGE_MIN = 0
+  private val PAGE_MAX = 49
 
   /**
     * Parses data [fromTs;untilTs)
@@ -29,17 +28,31 @@ class AvitoParser(webDriver: WebDriver) {
     * @param untilTs exclusive
     */
   def parseAdverts(fromTs: Long, untilTs: Long): List[RawAdvert] = {
-    if (fromTs > untilTs) throw new IllegalArgumentException("")
+    if (fromTs > untilTs) throw new IllegalArgumentException(s"From ts is greater than until ts $fromTs/$untilTs")
 
     // define lazy collection of page max timestamps ordered desc by ts
-    val pageMaxTimestamps = (PAGE_MIN to PAGE_MAX).view.map(getFirstAdvertTs)
+    val descOrderPageMaxTimestamps = (PAGE_MIN to PAGE_MAX).view.map(getFirstAdvertTs)
 
-    // binary search the page
-    //  start lessest page
-    //
-    //
-    //
-    binarySearchFirstGreaterOrEq(pageMaxTimestamps, fromTs)
+    /*
+
+    Adverts are ordered by the following rules:
+    page -> timestamp
+
+    [0 -> 160, 158, 140, 130]
+    [1 -> 120, 110, 100, 86]
+    [2 -> 65, 54, 43, 40]
+    [3 -> 30, 29, 23, 18]
+    [4 -> 7, 6, 4, 3]
+
+    We've got [fromTs; untilTs) period
+
+    1. Do the binary search to find page which max ts is smallest ts greater than fromTs.
+    2. Start scanning from first advert on that page and drop until fromTs
+    3. Stop scanning in untilTs reached
+
+     */
+
+    binarySearchSmallestGreaterThanOrEq(descOrderPageMaxTimestamps, fromTs)
       .toList
       .flatMap(page => advertsFromStartPage(page)
         .view
@@ -56,16 +69,22 @@ class AvitoParser(webDriver: WebDriver) {
       .orElse(null))
       .map(PageElements.parseHeaderTimestamp)
     match {
-      case Some(value) => {logger.error(s"FIRST ADVERT IS IS $value");value}
+      case Some(value) => {
+        logger.error(s"FIRST ADVERT TS IS $value")
+        value
+      }
       case _ => throw new IllegalStateException("Couldn't find timestamp of first item on the page " + pageNumber)
     }
   }
 
   /** Get adverts from start page to 0 */
-  private def advertsFromStartPage(startPage: Int): Seq[RawAdvert] =
-    (startPage to 0)
+  private def advertsFromStartPage(startPage: Int): Seq[RawAdvert] = {
+    logger.info(s"Starting adverts scanning from page $startPage")
+
+    (startPage to 0 by -1)
       .view
       .flatMap(getAdvertsForPage)
+  }
 
   private def openPage(pageNumber: Int) = {
     val mainPage = "https://www.avito.ru/kazan/kvartiry/sdam/na_dlitelnyy_srok"

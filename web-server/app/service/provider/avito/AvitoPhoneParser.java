@@ -25,7 +25,7 @@ class AvitoPhoneParser {
             synchronized (this) {
                 if (api == null) {
                     try {
-                        InputStream trainedData = Play.current().classloader().getResourceAsStream("tesseract/tessdata/eng.traineddata");
+                        InputStream trainedData = getClass().getResourceAsStream("/tesseract/tessdata/eng.traineddata");
                         byte[] tessTrainedData = IOUtils.toByteArray(trainedData);
                         File tmpTrainedDataFile = new File("/tmp/tesseract/tessdata/eng.traineddata");
                         FileUtils.forceMkdirParent(tmpTrainedDataFile);
